@@ -1,0 +1,1087 @@
+
+EXERCISE NO:7
+EXERCISE NAME:ANONYMOUS PLSQL AND CURSOR
+*********************************************
+1.PLSQL BLOCK TO UPDATE EXPENSE_AMT:
+===================================
+SQL>declare
+  2  exp_am number;
+  3  begin
+  4  exp_am:=12000;
+  5  update expense set expense_amt = exp_am where person_name = 'Anu';
+  6  dbms_output.put_line('The expense amount of anu has been updated to:'||exp_am);
+  7  commit;
+  8  end;
+  9  /
+The expense amount of anu has been updated to:12000
+
+PL/SQL procedure successfully completed.
+
+SQL> set linesize 200;
+SQL> select * from expense;
+
+EXPENSE_ID  BRANCH_ID EXPENSE_D EXPENSE_TYPE         PERSON_NAM EXPENSE_AMT
+---------- ---------- --------- -------------------- ---------- -----------
+      2000        102 18-MAR-24 Daily wages          Parkavi          10000
+      2001        104 23-JUN-23 Monthly Wages        Selva            11002
+      2002        105 28-JUL-25 Weekly Wages         Gautham          13000
+      2003        101 19-MAY-24 Daily Wages          Anu              12000
+
+****************************************************
+2.INSERT DATA INTO PRODUCT TABLE:
+=================================
+
+SQL> select * from product;
+
+PRODUCT_ID PRODUCT_NAME         BRAND                          MEASUREMENT                    CATEGORY_ID PERSON_ID  PERSON_NAME                                                                        
+---------- -------------------- ------------------------------ ------------------------------ ----------- ---------- --------------------                                                               
+       150 Curd                 Hatsun                         2000.23467                             201 1                                                                                             
+       151 Ice Cream            Vennila                        1250.972                               201 1                                                                                             
+       152 Cabbage              green leaf                     1002.982                               202 1                                                                                             
+       153 Mixture              daisy                          1500                                   203 1                                                                                             
+       154 Mango                Slice                          1800.9                                 204 1                                                                                             
+       155 Dates                Lion                           30.76543                               205 1                                                                                             
+
+6 rows selected.
+
+SQL> select * from category;
+
+CATEGORY_ID CATEGORY_NAME        DESCRIPTION                                                                                                                                                            
+----------- -------------------- --------------------                                                                                                                                                   
+        201 Milk                 Healthy Drink                                                                                                                                                          
+        202 Vegetables           Be Healthy                                                                                                                                                             
+        203 Snacks               As You like it                                                                                                                                                         
+        204 Juice                Pleasant Mind                                                                                                                                                          
+        205 Nuts                 Power Pack                                                                                                                                                             
+SQL> declare
+  2  pr_name product.product_id%type:='156';
+  3  pr_nam product.product_name%type:='Vegetables';
+  4  pr_brand product.brand%type:='FromSupermarket';
+  5  pr_quantity product.measurement%type:='15';
+  6  pr_category product.category_id%type:='204';
+  7  purchaser product.person_id%type:='2';
+  8  purchaser_name product.person_name%type:='Anu';
+  9  begin
+ 10  insert into product values(pr_name,pr_nam,pr_brand,p_quantity,pr_category,purchaser,purchaser_name);
+ 11  dbms_output.put_line('Product added for'||pr_name||'with category id');
+ 12  commit;
+ 13  end;
+ 14  /
+insert into product values(pr_name,pr_nam,pr_brand,p_quantity,pr_category,purchaser,purchaser_name);
+                                                   *
+ERROR at line 10:
+ORA-06550: line 10, column 52: 
+PL/SQL: ORA-00984: column not allowed here 
+ORA-06550: line 10, column 1: 
+PL/SQL: SQL Statement ignored 
+
+
+SQL> declare
+  2  pr_name product.product_id%type:='156';
+  3  pr_nam product.product_name%type:='Vegetables';
+  4  pr_brand product.brand%type:='FromSupermarket';
+  5  pr_quantity product.measurement%type:='15';
+  6  pr_category product.category_id%type:='204';
+  7  purchaser product.person_id%type:='2';
+  8  purchaser_name product.person_name%type:='Anu';
+  9  begin
+ 10  insert into product values(pr_name,pr_nam,pr_brand,pr_quantity,pr_category,purchaser,purchaser_name);
+ 11  dbms_output.put_line('Product added for'||pr_name||'with category id');
+ 12  commit;
+ 13  end;
+ 14  /
+Product added for156with category id                                                                                                                                                                    
+
+PL/SQL procedure successfully completed.
+***************************************************************
+3.CALCULATE AVERAGE AMOUNT:
+============================
+SQL> declare
+  2  total_measurement product.measurement%type:=0;
+  3  begin
+  4  select sum(measurement) into total_measurement from product where category_id=201;
+  5  dbms_output.put_line('Total measurement for category id 201:'||total_measurement);
+  6  commit;
+  7  end;
+  8  /
+Total measurement for category id 201:3251.20667                                                                                                                                                        
+
+PL/SQL procedure successfully completed.
+**************************************************************
+4.%ROWTYPE:
+============
+SQL> declare
+  2  v_person person%rowtype;
+  3  begin
+  4  select * into v_person from person where person_name='Anu';
+  5  dbms_output.put_line('Person name:'||v_person.person_name);
+  6  dbms_output.put_line('Person Id:'||v_person.person_id);
+  7  dbms_output.put_line('Person Mail:'||v_person.mail);
+  8  dbms_output.put_line('Person Street:'||v_person.address_street);
+  9  dbms_output.put_line('Person City:'||v_person.address_city);
+ 10  end;
+ 11  /
+Person name:Anu                                                                                                                                                                                         
+Person Id:2                                                                                                                                                                                             
+Person Mail:anu27@gmail.com                                                                                                                                                                             
+Person Street:T Nagar                                                                                                                                                                                   
+Person City:Chennai                                                                                                                                                                                     
+
+PL/SQL procedure successfully completed.
+****************************************************************
+5.%ROWTYPE IN PERSON TABLE:
+============================
+SQL> declare
+  2  type person_record is record(
+  3  person_name person.person_name%type;
+  4  person_id person.person_id%type;
+  5  person_mail person.mail%type;
+  6  person_street person.address_street%type;
+  7  person_city person.address_city%type;
+  8  );
+  9  v_person person_record;
+ 10  begin
+ 11  select person_name,person_id,person-mail,person_street,person_city into v_person from person where person_name='Anu';
+ 12  dbms_output.put_line('Person Name:'||v_person.person_name);
+ 13  dbms_output.put_line('Person Id:'||v_person.person_id);
+ 14  dbms_output.put_line('Person Mail:'||v_person.person_mail);
+ 15  dbms_output.put_line('Person Street:'||v_person.person_street);
+ 16  dbms_output.put_line('Person City:'||v_person.person_city);
+ 17  end;
+ 18  /
+person_name person.person_name%type;
+                                   *
+ERROR at line 3:
+ORA-06550: line 3, column 36: 
+PLS-00103: Encountered the symbol ";" when expecting one of the following: 
+:= ( ) , not null range default external character 
+The symbol ")" was substituted for ";" to continue. 
+ORA-06550: line 8, column 1: 
+PLS-00103: Encountered the symbol ")" when expecting one of the following: 
+begin function pragma procedure subtype type <an identifier> 
+<a double-quoted delimited-identifier> current cursor delete 
+exists prior 
+
+SQL> declare
+  2  type person_record is record(
+  3  person_name person.person_name%type,
+  4  person_id person.person_id%type,
+  5  person_mail person.mail%type,
+  6  person_street person.address_street%type,
+  7  person_city person.address_city%type);
+  8  v_person person_record;
+  9  begin
+ 10  select person_name,person_id,mail,address_street,address_city into v_person from person where person_name='Anu';
+ 11  dbms_output.put_line('Person Name:'||v_person.person_name);
+ 12  dbms_output.put_line('Person Id:'||v_person.person_id);
+ 13  dbms_output.put_line('Person Mail:'||v_person.person_mail);
+ 14  dbms_output.put_line('Person Street:'||v_person.person_street);
+ 15  dbms_output.put_line('Person City:'||v_person.person_city);
+ 16  end;
+ 17  /
+Person Name:Anu                                                                                                                                                                                         
+Person Id:2                                                                                                                                                                                             
+Person Mail:anu27@gmail.com                                                                                                                                                                             
+Person Street:T Nagar                                                                                                                                                                                   
+Person City:Chennai                                                                                                                                                                                     
+
+PL/SQL procedure successfully completed.
+******************************************************************
+6.REUSABILITY:
+===============
+SQL> declare
+  2  type person_record is record(
+  3  person_name varchar2(20),
+  4  person_mail varchar2(30),
+  5  person_street varchar2(15),
+  6  person_city varchar2(10),
+  7  dob date);
+  8  v_person person_record;
+  9  begin
+ 10  v_person.person_name:='Sri';
+ 11  v_person.person_mail:='sri19@gmail.com';
+ 12  v_person.person_street:='North Street';
+ 13  v_person.person_city:='Chennai';
+ 14  v_person.dob:=To_date('2000-01-13','yyyy-mm-dd');
+ 15  dbms_output.put_line('Person Name:'||v_person.person_name);
+ 16  dbms_output.put_line('Person Mail:'||v_person.person_mail);
+ 17  dbms_output.put_line('Person Street:'||v_person.person_street);
+ 18  dbms_output.put_line('Person City:'||v_person.person_city);
+ 19  dbms_output.put_line('Person DOB:'||v_person.dob);
+ 20  end;
+ 21  /
+Person Name:Sri
+Person Mail:sri19@gmail.com
+Person Street:North Street
+Person City:Chennai
+Person DOB:13-JAN-00
+
+PL/SQL procedure successfully completed.
+***********************************************************
+7.EXPLICIT CURSOR:
+==================
+SQL> declare
+  2  v_person person.person_name%type;
+  3  v_expense expense.expense_amt%type;
+  4  cursor expense_cursor is select p.person_name,e.expense_amt from expense e join product pr on e.person_name = pr.person_name join person p on p.person_id=pr.person_id where p.person_name='Anu';
+  5  begin
+  6  open expense_cursor;
+  7  fetch expense_cursor into v_person,v_expense;
+  8  dbms_output.put_line('Explicit Cursor-Person:'||v_person||'Expense amt:'||v_expense);
+  9  close expense_cursor;
+ 10  end;
+ 11  /
+Explicit Cursor-Person:AnuExpense amt:12000
+
+PL/SQL procedure successfully completed.
+***********************************************************
+8.IMPLICIT CURSOR:
+===================
+SQL> declare
+  2  v_person person.person_name%type;
+  3  v_expense expense.expense_amt%type;
+  4  begin
+  5  select p.person_name,pr.product_name into v_person from person p join product pr on p.person_id = pr.person_id join expense e on e.person_name=pr.person_name where p.person_name='Anu';
+  6  dbms_output.put_line('Implicit Cursor-Person:'||v_person||'Expense amt:'||v_expense);
+  7  end;
+  8  /
+select p.person_name,pr.product_name into v_person from person p join product pr on p.person_id = pr.person_id join expense e on e.person_name=pr.person_name where p.person_name='Anu';
+                                                   *
+ERROR at line 5:
+ORA-06550: line 5, column 52:
+PL/SQL: ORA-00947: not enough values
+ORA-06550: line 5, column 1:
+PL/SQL: SQL Statement ignored
+
+SQL> declare
+  2  v_person person.person_name%type;
+  3  v_expense expense.expense_amt%type;
+  4  begin
+  5  select p.person_name,e.expense_amt into v_person,v_expense from person p join product pr on p.person_id = pr.person_id join expense e on e.person_name=pr.person_name where p.person_name='Anu';
+  6  dbms_output.put_line('Implicit Cursor-Person:'||v_person||'Expense amt:'||v_expense);
+  7
+  8  end;
+  9  /
+Implicit Cursor-Person:AnuExpense amt:12000
+
+PL/SQL procedure successfully completed.
+***********************************************************
+9.WITH FOUND,NOTFOUND:
+=======================
+SQL>  DECLARE
+  2          v_per_name person.person_name%TYPE;
+  3          v_expense expense.expense_amt%TYPE;
+  4          CURSOR person_cursor IS
+  5              SELECT p.person_name, e.expense_amt FROM person p JOIN product pr ON p.person_id = pr.person_id JOIN expense e ON pr.person_name = e.person_name;
+  6      BEGIN
+  7          OPEN person_cursor;
+  8          FETCH person_cursor INTO v_per_name, v_expense;
+  9          IF person_cursor%FOUND THEN
+ 10             DBMS_OUTPUT.PUT_LINE('First row fetched - Person: ' || v_per_name || ', Expense amount: ' || v_expense);
+ 11         ELSE
+ 12             DBMS_OUTPUT.PUT_LINE('No rows found');
+ 13         END IF;
+ 14         FETCH person_cursor INTO v_per_name, v_expense;
+ 15         IF person_cursor%FOUND THEN
+ 16             DBMS_OUTPUT.PUT_LINE('Second row fetched - Perosn: ' || v_per_name || ', Expense Amount: ' ||v_expense);
+ 17         ELSE
+ 18             DBMS_OUTPUT.PUT_LINE('No more rows available');
+ 19         END IF;
+ 20         DBMS_OUTPUT.PUT_LINE('Number of rows fetched so far: ' || perrson_cursor%ROWCOUNT);
+ 21         IF person_cursor%ISOPEN THEN
+ 22             DBMS_OUTPUT.PUT_LINE('Cursor is still open');
+ 23         ELSE
+ 24             DBMS_OUTPUT.PUT_LINE('Cursor is closed');
+ 25         END IF;
+ 26         CLOSE person_cursor;
+ 27     END;
+ 28     /
+       DBMS_OUTPUT.PUT_LINE('Number of rows fetched so far: ' || perrson_cursor%ROWCOUNT);
+                                                                 *
+ERROR at line 20:
+ORA-06550: line 20, column 66:
+PLS-00201: identifier 'PERRSON_CURSOR' must be declared
+ORA-06550: line 20, column 8:
+PL/SQL: Statement ignored
+
+SQL>  DECLARE
+  2          v_per_name person.person_name%TYPE;
+  3          v_expense expense.expense_amt%TYPE;
+  4          CURSOR person_cursor IS
+  5              SELECT p.person_name, e.expense_amt FROM person p JOIN product pr ON p.person_id = pr.person_id JOIN expense e ON pr.person_name = e.person_name;
+  6      BEGIN
+  7          OPEN person_cursor;
+  8          FETCH person_cursor INTO v_per_name, v_expense;
+  9          IF person_cursor%FOUND THEN
+ 10             DBMS_OUTPUT.PUT_LINE('First row fetched - Person: ' || v_per_name || ', Expense amount: ' || v_expense);
+ 11         ELSE
+ 12             DBMS_OUTPUT.PUT_LINE('No rows found');
+ 13         END IF;
+ 14         FETCH person_cursor INTO v_per_name, v_expense;
+ 15         IF person_cursor%FOUND THEN
+ 16             DBMS_OUTPUT.PUT_LINE('Second row fetched - Perosn: ' || v_per_name || ', Expense Amount: ' ||v_expense);
+ 17         ELSE
+ 18             DBMS_OUTPUT.PUT_LINE('No more rows available');
+ 19         END IF;
+ 20         DBMS_OUTPUT.PUT_LINE('Number of rows fetched so far: ' || person_cursor%ROWCOUNT);
+ 21         IF person_cursor%ISOPEN THEN
+ 22             DBMS_OUTPUT.PUT_LINE('Cursor is still open');
+ 23         ELSE
+ 24             DBMS_OUTPUT.PUT_LINE('Cursor is closed');
+ 25         END IF;
+ 26         CLOSE person_cursor;
+ 27     END;
+ 28     /
+
+First row fetched - Person: Anu, Expense amount: 12000
+No more rows available
+Number of rows fetched so far: 1
+Cursor is still open
+
+PL/SQL procedure successfully completed.
+***********************************************************
+10.PL/SQL WITH IF,ELSIF AND ELSE:
+==================================
+SQL>  DECLARE
+  2          v_per_name expense.person_name%TYPE;
+  3          v_amt expense.expense_amt%TYPE;
+  4      BEGIN
+  5          SELECT person_name,expense_amt
+  6          INTO v_per_name, v_amt
+  7          FROM expense
+  8          WHERE person_name = 'Anu';
+  9         IF v_amt < 10000 THEN
+ 10             DBMS_OUTPUT.PUT_LINE(v_per_name || ' has Less Expense.');
+ 11         ELSIF v_amt >= 10000 AND v_amt <= 12000 THEN
+ 12             DBMS_OUTPUT.PUT_LINE(v_per_name || ' has Medium Expense.');
+ 13         ELSE
+ 14             DBMS_OUTPUT.PUT_LINE(v_per_name || ' has High Expense.');
+ 15         END IF;
+ 16     END;
+ 17     /
+Anu has Medium Expense.
+
+PL/SQL procedure successfully completed.
+***************************************************************
+11.BASIC LOOP:
+===============
+SQL>  DECLARE
+  2          v_num NUMBER := 1;
+  3      BEGIN
+  4          LOOP
+  5              DBMS_OUTPUT.PUT_LINE('Number: ' || v_num);
+  6              v_num := v_num + 1;
+  7              EXIT WHEN v_num > 5;
+  8          END LOOP;
+  9      END;
+ 10      /
+Number: 1
+Number: 2
+Number: 3
+Number: 4
+Number: 5
+
+PL/SQL procedure successfully completed.
+****************************************************************
+12.FOR LOOP:
+=============
+SQL> BEGIN
+  2          FOR v_num IN 1..5 LOOP
+  3              DBMS_OUTPUT.PUT_LINE('Number: ' || v_num);
+  4          END LOOP;
+  5      END;
+  6      /
+Number: 1
+Number: 2
+Number: 3
+Number: 4
+Number: 5
+
+PL/SQL procedure successfully completed.
+**************************************************************
+13.PRINT ODD NUMBER FROM 1 TO 10:
+=================================
+SQL> set serveroutput on;
+SQL> BEGIN
+  2         FOR i IN 1..10 BY 2 LOOP
+  3           DBMS_OUTPUT.PUT_LINE('Value of i: ' || i);
+  4         END LOOP;
+  5      END;
+  6      /
+Value of i: 1
+Value of i: 3
+Value of i: 5
+Value of i: 7
+Value of i: 9
+
+PL/SQL procedure successfully completed.
+*****************************************************************
+14.WITHOUT BY CLAUSE:
+========================
+SQL> BEGIN
+  2         FOR i IN 1..10 LOOP
+  3            DBMS_OUTPUT.PUT_LINE('Value of i: ' || i);
+  4            i := i + 3;
+  5         END LOOP;
+  6      END;
+  7      /
+          i := i + 3;
+          *
+ERROR at line 4:
+ORA-06550: line 4, column 11:
+PLS-00363: expression 'I' cannot be used as an assignment target
+ORA-06550: line 4, column 11:
+PL/SQL: Statement ignored
+*******************************************************************
+15.WHILE LOOP:
+==============
+
+
+SQL>DECLARE
+  2          v_num NUMBER := 1;
+  3      BEGIN
+  4          WHILE v_num <= 5 LOOP
+  5              DBMS_OUTPUT.PUT_LINE('Number: ' || v_num);
+  6              v_num := v_num + 1;
+  7          END LOOP;
+  8      END;
+  9      /
+Number: 1
+Number: 2
+Number: 3
+Number: 4
+Number: 5
+
+PL/SQL procedure successfully completed.
+********************************************************
+16.WHILE LOOP WITH WXPLICIT CURSOR:
+=====================================
+SQL>  DECLARE
+  2          CURSOR person_cursor IS
+  3              SELECT person_name FROM person;
+  4      BEGIN
+  5          FOR person_record IN person_cursor LOOP
+  6              DBMS_OUTPUT.PUT_LINE('Person Name: ' || person_record.person_name);
+  7          END LOOP;
+  8      END;
+  9      /
+Person Name: Parkavi
+Person Name: Anu
+Person Name: Rajan
+Person Name: Selva
+Person Name: Gautham
+Person Name: Viji
+Person Name: Prabha
+Person Name: Prabhu
+Person Name: Karthi
+Person Name: Priya
+
+PL/SQL procedure successfully completed.
+*******************************************************
+17.FOR LOOP WITH INDEX CURSOR:
+=================================
+
+SQL> BEGIN
+  2          FOR person_record IN (SELECT person_name FROM customer) LOOP
+  3              DBMS_OUTPUT.PUT_LINE('Person Name: ' || person_record.person_name);
+  4          END LOOP;
+  5      END;
+  6      /
+        FOR person_record IN (SELECT person_name FROM customer) LOOP
+                                                      *
+ERROR at line 2:
+ORA-06550: line 2, column 55:
+PL/SQL: ORA-00942: table or view does not exist
+ORA-06550: line 2, column 31:
+PL/SQL: SQL Statement ignored
+ORA-06550: line 3, column 53:
+PLS-00364: loop index variable 'PERSON_RECORD' use is invalid
+ORA-06550: line 3, column 13:
+PL/SQL: Statement ignored
+
+SQL> BEGIN
+  2          FOR person_record IN (SELECT person_name FROM person) LOOP
+  3              DBMS_OUTPUT.PUT_LINE('Person Name: ' || person_record.person_name);
+  4          END LOOP;
+  5      END;
+  6      /
+Person Name: Parkavi
+Person Name: Anu
+Person Name: Rajan
+Person Name: Selva
+Person Name: Gautham
+Person Name: Viji
+Person Name: Prabha
+Person Name: Prabhu
+Person Name: Karthi
+Person Name: Priya
+
+PL/SQL procedure successfully completed.
+***************************************************************
+18.WITH EXIT AND CONTINUE:
+===========================
+SQL> DECLARE
+  2          v_num NUMBER := 0;
+  3      BEGIN
+  4          FOR v_num IN 1..10 LOOP
+  5              IF v_num = 5 THEN
+  6                  CONTINUE;
+  7              END IF;
+  8              DBMS_OUTPUT.PUT_LINE('Number: ' || v_num);
+  9              IF v_num = 8 THEN
+ 10                 EXIT;
+ 11            END IF;
+ 12         END LOOP;
+ 13     END;
+ 14     /
+Number: 1
+Number: 2
+Number: 3
+Number: 4
+Number: 6
+Number: 7
+Number: 8
+
+PL/SQL procedure successfully completed.
+**********************************************************************
+19.NO DATA EXCEPTION:
+=====================
+SQL>  DECLARE
+  2          v_person person.person_name%TYPE;
+  3      BEGIN
+  4          SELECT person_name INTO v_person FROM person WHERE person_id = 25;
+  5      EXCEPTION
+  6          WHEN NO_DATA_FOUND THEN
+  7              DBMS_OUTPUT.PUT_LINE('Error: No Person found with the provided person id.');
+  8      END;
+  9      /
+Error: No Person found with the provided person id.
+
+PL/SQL procedure successfully completed.
+
+SQL>  DECLARE
+  2          v_person person.person_name%TYPE;
+  3      BEGIN
+  4          SELECT person_name INTO v_person FROM person WHERE person_id = 3;
+  5      EXCEPTION
+  6          WHEN NO_DATA_FOUND THEN
+  7              DBMS_OUTPUT.PUT_LINE('Error: No Person found with the provided person id.');
+  8      END;
+  9      /
+
+PL/SQL procedure successfully completed.
+
+*****************************************************************
+20.TOO MANY ROWS EXCEPTION:
+============================
+SQL>  DECLARE
+  2          v_person person.person_id%TYPE;
+  3      BEGIN
+  4          SELECT product_name INTO v_person FROM product WHERE person_id = 1;
+  5      EXCEPTION
+  6          WHEN TOO_MANY_ROWS THEN
+  7              DBMS_OUTPUT.PUT_LINE('Error: More than one product found for this person_id.');
+  8      END;
+  9      /
+Error: More than one product found for this person_id.
+
+PL/SQL procedure successfully completed.
+**********************************************************************
+21.DIVIDE BY ZERO:
+===================
+SQL> DECLARE
+  2          v_person_id NUMBER := 1;
+  3          v_number_of_persons NUMBER := 0;
+  4          v_average_presence NUMBER;
+  5      BEGIN
+  6          v_average_presence := v_person_id / v_number_of_persons;
+  7          DBMS_OUTPUT.PUT_LINE('Average no. of persons come: ' || v_average_presence);
+  8     EXCEPTION
+  9         WHEN ZERO_DIVIDE THEN
+ 10             DBMS_OUTPUT.PUT_LINE('Error: Division by zero, number of persons is zero.');
+ 11     END;
+ 12     /
+Error: Division by zero, number of persons is zero.
+
+PL/SQL procedure successfully completed.
+**************************************************************************
+22.VALUE ERROR EXCEPTION:
+============================
+SQL> set serveroutput on;
+SQL>  DECLARE
+  2          v_name VARCHAR2(10);
+  3          v_measurement NUMBER;
+  4      BEGIN
+  5          v_name := 'ABC';
+  6          v_measurement := TO_NUMBER(v_measurement);
+  7      EXCEPTION
+  8         WHEN VALUE_ERROR THEN
+  9             DBMS_OUTPUT.PUT_LINE('Error: Invalid value for number.');
+ 10     END;
+ 11     /
+
+PL/SQL procedure successfully completed.
+
+SQL>  DECLARE
+  2          v_name VARCHAR2(10);
+  3          v_measurement NUMBER;
+  4      BEGIN
+  5          v_name := 'ABC';
+  6          v_measurement := 'ABC';
+  7      EXCEPTION
+  8         WHEN VALUE_ERROR THEN
+  9             DBMS_OUTPUT.PUT_LINE('Error: Invalid value for number.');
+ 10     END;
+ 11     /
+Error: Invalid value for number.
+
+PL/SQL procedure successfully completed.
+*******************************************************************************
+23.CATCH ALL EXCEPTIONS:
+========================
+SQL> DECLARE
+  2          v_measurement product.measurement%TYPE;
+  3      BEGIN
+  4          SELECT measurement
+  5          INTO v_measurement
+  6          FROM product
+  7          WHERE product_id =157;
+  8     EXCEPTION
+  9         WHEN NO_DATA_FOUND THEN
+ 10             DBMS_OUTPUT.PUT_LINE('No measurement found with this number.');
+ 11         WHEN OTHERS THEN
+ 12             DBMS_OUTPUT.PUT_LINE('An unexpected error occurred: ' || SQLERRM);
+ 13     END;
+ 14     /
+No measurement found with this number.
+
+PL/SQL procedure successfully completed.
+
+SQL> DECLARE
+  2          v_measurement product.measurement%TYPE;
+  3      BEGIN
+  4          SELECT measurement
+  5          INTO v_measurement
+  6          FROM product
+  7          WHERE product_id =156;
+  8     EXCEPTION
+  9         WHEN NO_DATA_FOUND THEN
+ 10             DBMS_OUTPUT.PUT_LINE('No measurement found with this number.');
+ 11         WHEN OTHERS THEN
+ 12             DBMS_OUTPUT.PUT_LINE('An unexpected error occurred: ' || SQLERRM);
+ 13     END;
+ 14     /
+
+PL/SQL procedure successfully completed.
+*********************************************************************
+24.DATA PRESENT:
+=====================
+SQL> DECLARE
+  2          v_measurement PRODUCT.measurement%TYPE;
+  3      BEGIN
+  4          SELECT measurement
+  5          INTO v_measurement
+  6          FROM product
+  7          WHERE product_id = 153;
+  8     EXCEPTION
+  9         WHEN NO_DATA_FOUND THEN
+ 10             DBMS_OUTPUT.PUT_LINE('No product found with this number.');
+ 11         WHEN OTHERS THEN
+ 12             DBMS_OUTPUT.PUT_LINE('An unexpected error occurred: ' || SQLERRM);
+ 13     END;
+ 14     /
+
+PL/SQL procedure successfully completed.
+***************************************************************
+25.USER DEFINED EXCEPTION:
+===========================
+
+SQL> set serveroutput on;
+SQL>  DECLARE
+  2          e_negative_measurement EXCEPTION;
+  3          v_measurement NUMBER := -500;
+  4      BEGIN
+  5          IF v_measurement < 0 THEN
+  6              RAISE e_negative_measurement;
+  7          END IF;
+  8
+  9     EXCEPTION
+ 10         WHEN e_negative_measurement THEN
+ 11             DBMS_OUTPUT.PUT_LINE('Error: The measurement cannot be negative.');
+ 12     END;
+ 13     /
+Error: The measurement cannot be negative.
+
+PL/SQL procedure successfully completed.
+***********************************************************
+26.DATA IS POSITIVE:
+====================
+
+SQL>  DECLARE
+  2          e_negative_measurement EXCEPTION;
+  3          v_measurement NUMBER := 500;
+  4      BEGIN
+  5          IF v_measurement < 0 THEN
+  6              RAISE e_negative_measurement;
+  7          END IF;
+  8
+  9     EXCEPTION
+ 10         WHEN e_negative_measurement THEN
+ 11             DBMS_OUTPUT.PUT_LINE('Error: The measurement cannot be negative.');
+ 12     END;
+ 13     /
+
+PL/SQL procedure successfully completed.
+***********************************************************
+IF,ELSE USING PROMPTS:
+========================
+SQL> DECLARE
+  2      v_input_name VARCHAR2(50) := '&Enter_Person_Name';
+  3      v_per_name expense.person_name%TYPE;
+  4      v_amt expense.expense_amt%TYPE;
+  5  BEGIN
+  6      SELECT person_name, expense_amt
+  7      INTO v_per_name, v_amt
+  8      FROM expense
+  9      WHERE person_name = v_input_name;
+ 10
+ 11      IF v_amt <= 10000 THEN
+ 12          DBMS_OUTPUT.PUT_LINE(v_per_name || ' has Less Expense.');
+ 13      ELSIF v_amt > 10000 AND v_amt <= 12000 THEN
+ 14          DBMS_OUTPUT.PUT_LINE(v_per_name || ' has Medium Expense.');
+ 15      ELSE
+ 16          DBMS_OUTPUT.PUT_LINE(v_per_name || ' has High Expense.');
+ 17      END IF;
+ 18
+ 19  EXCEPTION
+ 20      WHEN NO_DATA_FOUND THEN
+ 21          DBMS_OUTPUT.PUT_LINE('Person not found');
+ 22  END;
+ 23  /
+Enter value for enter_person_name: Anu
+old   2:     v_input_name VARCHAR2(50) := '&Enter_Person_Name';
+new   2:     v_input_name VARCHAR2(50) := 'Anu';
+Anu has Medium Expense.
+PL/SQL procedure successfully completed.
+
+Enter value for enter_person_name: Gautham
+old   2:     v_input_name VARCHAR2(50) := '&Enter_Person_Name';
+new   2:     v_input_name VARCHAR2(50) := 'Gautham';
+Gautham has High Expense.
+PL/SQL procedure successfully completed.
+
+Enter value for enter_person_name: Parkavi
+old   2:     v_input_name VARCHAR2(50) := '&Enter_Person_Name';
+new   2:     v_input_name VARCHAR2(50) := 'Parkavi';
+Parkavi has Less Expense.
+PL/SQL procedure successfully completed.
+*********************************************************************
+BASIC LOOP:
+=============
+SQL> DECLARE
+  2      v_id expense.expense_id%TYPE;
+  3      v_name expense.person_name%TYPE;
+  4      v_amt expense.expense_amt%TYPE;
+  5      CURSOR exp_cur IS
+  6          SELECT expense_id, person_name, expense_amt
+  7          FROM expense;
+  8  BEGIN
+  9      OPEN exp_cur;
+ 10      LOOP
+ 11          FETCH exp_cur INTO v_id, v_name, v_amt;
+ 12          EXIT WHEN exp_cur%NOTFOUND;
+ 13          DBMS_OUTPUT.PUT_LINE('ID: ' || v_id ||' Name: ' || v_name ||' Amount: ' || v_amt);
+ 14      END LOOP;
+ 15  CLOSE exp_cur;
+ 16  END;
+ 17  /
+ID: 2000 Name: Parkavi Amount: 10000
+ID: 2001 Name: Selva Amount: 11002
+ID: 2002 Name: Gautham Amount: 13000
+ID: 2003 Name: Anu Amount: 12000
+
+PL/SQL procedure successfully completed.
+**********************************************************
+FOR LOOP:
+=========
+SQL> BEGIN
+  2      FOR rec IN (SELECT expense_id, person_name, expense_amt FROM expense)
+  3      LOOP
+  4          DBMS_OUTPUT.PUT_LINE('ID: ' || rec.expense_id ||' Name: ' || rec.person_name ||' Amount: ' || rec.expense_amt);
+  5      END LOOP;
+  6  END;
+  7  /
+ID: 2000 Name: Parkavi Amount: 10000
+ID: 2001 Name: Selva Amount: 11002
+ID: 2002 Name: Gautham Amount: 13000
+ID: 2003 Name: Anu Amount: 12000
+
+PL/SQL procedure successfully completed.
+**************************************************************
+WHILE LOOP:
+===========
+
+SQL> DECLARE
+  2      v_id expense.expense_id%TYPE;
+  3      v_name expense.person_name%TYPE;
+  4      v_amt expense.expense_amt%TYPE;
+  5      CURSOR exp_cur IS
+  6          SELECT expense_id, person_name, expense_amt FROM expense;
+  7  BEGIN
+  8      OPEN exp_cur;
+  9      FETCH exp_cur INTO v_id, v_name, v_amt;
+ 10      WHILE exp_cur%FOUND LOOP
+ 11          DBMS_OUTPUT.PUT_LINE('ID: ' || v_id ||' Name: ' || v_name ||' Amount: ' || v_amt);
+ 12          FETCH exp_cur INTO v_id, v_name, v_amt;
+ 13      END LOOP;
+ 14      CLOSE exp_cur;
+ 15  END;
+ 16  /
+ID: 2000 Name: Parkavi Amount: 10000
+ID: 2001 Name: Selva Amount: 11002
+ID: 2002 Name: Gautham Amount: 13000
+ID: 2003 Name: Anu Amount: 12000
+
+PL/SQL procedure successfully completed.
+************************************************************
+EXIT AND CONTINUE:
+===================
+
+SQL> DECLARE
+  2  BEGIN
+  3      FOR rec IN (SELECT expense_id, person_name, expense_amt FROM expense)
+  4      LOOP
+  5          IF rec.expense_id = 2002 THEN
+  6              CONTINUE;
+  7          END IF;
+  8          DBMS_OUTPUT.PUT_LINE('ID: ' || rec.expense_id ||' Name: ' || rec.person_name ||' Amount: ' || rec.expense_amt);
+  9          IF rec.expense_id = 2004 THEN
+ 10              EXIT;
+ 11          END IF;
+ 12      END LOOP;
+ 13  END;
+ 14  /
+ID: 2000 Name: Parkavi Amount: 10000
+ID: 2001 Name: Selva Amount: 11002
+ID: 2003 Name: Anu Amount: 12000
+
+PL/SQL procedure successfully completed.
+
+
+SQL> SELECT * FROM EXPENSE;
+
+EXPENSE_ID  BRANCH_ID EXPENSE_D EXPENSE_TYPE         PERSON_NAM EXPENSE_AMT
+---------- ---------- --------- -------------------- ---------- -----------
+      2000        102 18-MAR-24 Daily wages          Parkavi          10000
+      2001        104 23-JUN-23 Monthly Wages        Selva            11002
+      2002        105 28-JUL-25 Weekly Wages         Gautham          13000
+      2003        101 19-MAY-24 Daily Wages          Anu              12000
+************************************************************
+SURPRISE QUESTIONS:
+===================
+1.FIBONACCI SERIES:
+====================
+SQL> declare
+  2  n number:=&num;
+  3  a number:=0;
+  4  b number:=1;
+  5  c number;
+  6  begin
+  7  dbms_output.put_line(a);
+  8  dbms_output.put_line(b);
+  9  for i in 1..n loop
+ 10  c:=a+b;
+ 11  dbms_output.put_line(c);
+ 12  a:=b;
+ 13  b:=c;
+ 14  end loop;
+ 15  end;
+ 16  /
+Enter value for num: 10
+old   2: n number:=&num;
+new   2: n number:=10;
+0                                                                                                                                                                                                       
+1                                                                                                                                                                                                       
+1                                                                                                                                                                                                       
+2                                                                                                                                                                                                       
+3                                                                                                                                                                                                       
+5                                                                                                                                                                                                       
+8                                                                                                                                                                                                       
+13                                                                                                                                                                                                      
+21                                                                                                                                                                                                      
+34                                                                                                                                                                                                      
+55                                                                                                                                                                                                      
+89                                                                                                                                                                                                      
+
+PL/SQL procedure successfully completed.
+******************************************************
+2.PRINT EVEN OR ODD,ARMSTRONG OR NOT,PRIME OR NOT,POSITIVE OR NEGATIVE:
+=======================================================================
+SQL> DECLARE
+  2      num NUMBER := &Enter_Number;
+  3      i NUMBER;
+  4      flag NUMBER := 0;
+  5      temp NUMBER;
+  6      rem NUMBER;
+  7      sum1 NUMBER := 0;
+  8  BEGIN
+  9  IF num > 0 THEN
+ 10      DBMS_OUTPUT.PUT_LINE(num || ' is Positive');
+ 11  ELSIF num < 0 THEN
+ 12      DBMS_OUTPUT.PUT_LINE(num || ' is Negative');
+ 13  ELSE
+ 14      DBMS_OUTPUT.PUT_LINE('Number is Zero');
+ 15  END IF;
+ 16  IF MOD(num,2) = 0 THEN
+ 17      DBMS_OUTPUT.PUT_LINE(num || ' is Even');
+ 18  ELSE
+ 19      DBMS_OUTPUT.PUT_LINE(num || ' is Odd');
+ 20  END IF;
+ 21  FOR i IN 2..num-1 LOOP
+ 22      IF MOD(num,i) = 0 THEN
+ 23          flag := 1;
+ 24          EXIT;
+ 25      END IF;
+ 26  END LOOP;
+ 27  IF num <= 1 THEN
+ 28      DBMS_OUTPUT.PUT_LINE(num || ' is Not Prime');
+ 29  ELSIF flag = 0 THEN
+ 30      DBMS_OUTPUT.PUT_LINE(num || ' is Prime');
+ 31  ELSE
+ 32      DBMS_OUTPUT.PUT_LINE(num || ' is Not Prime');
+ 33  END IF;
+ 34  temp := num;
+ 35  WHILE temp > 0 LOOP
+ 36      rem := MOD(temp,10);
+ 37      sum1 := sum1 + rem*rem*rem;
+ 38      temp := TRUNC(temp/10);
+ 39  END LOOP;
+ 40  IF sum1 = num THEN
+ 41      DBMS_OUTPUT.PUT_LINE(num || ' is Armstrong');
+ 42  ELSE
+ 43      DBMS_OUTPUT.PUT_LINE(num || ' is Not Armstrong');
+ 44  END IF;
+ 45
+ 46  END;
+ 47  /
+Enter value for enter_number: 153
+old   2:     num NUMBER := &Enter_Number;
+new   2:     num NUMBER := 153;
+153 is Positive
+153 is Odd
+153 is Not Prime
+153 is Armstrong
+
+PL/SQL procedure successfully completed.
+
+ 47  /
+Enter value for enter_number: 122
+old   2:     num NUMBER := &Enter_Number;
+new   2:     num NUMBER := 122;
+122 is Positive
+122 is Even
+122 is Not Prime
+122 is Not Armstrong
+
+PL/SQL procedure successfully completed.
+***********************************************************
+3.Declare cursor to retrieve employee whose name starts with ‘a’ and display the values of  cursor attributes:
+==============================================================================================================
+SQL> DECLARE
+  2      CURSOR per_cur IS
+  3          SELECT person_id, person_name, address_city
+  4          FROM person
+  5          WHERE person_name LIKE 'A%';
+  6
+  7      v_id person.person_id%TYPE;
+  8      v_name person.person_name%TYPE;
+  9      v_city person.address_city%TYPE;
+ 10
+ 11  BEGIN
+ 12      OPEN per_cur;
+ 13
+ 14      LOOP
+ 15          FETCH per_cur INTO v_id, v_name, v_city;
+ 16          EXIT WHEN per_cur%NOTFOUND;
+ 17
+ 18          DBMS_OUTPUT.PUT_LINE('ID: ' || v_id ||
+ 19                               ' Name: ' || v_name ||
+ 20                               ' CITY: ' || v_city);
+ 21
+ 22          DBMS_OUTPUT.PUT_LINE('Cursor %ROWCOUNT: ' || per_cur%ROWCOUNT);
+ 23          DBMS_OUTPUT.PUT_LINE('Cursor %FOUND: ' || CASE WHEN per_cur%FOUND THEN 'TRUE' ELSE 'FALSE' END);
+ 24      END LOOP;
+ 25
+ 26      DBMS_OUTPUT.PUT_LINE('Cursor %ISOPEN: ' || CASE WHEN per_cur%ISOPEN THEN 'TRUE' ELSE 'FALSE' END);
+ 27
+ 28      CLOSE per_cur;
+ 29
+ 30      DBMS_OUTPUT.PUT_LINE('Cursor closed');
+ 31
+ 32  END;
+ 33  /
+ID: 2 Name: Anu CITY: Chennai
+Cursor %ROWCOUNT: 1
+Cursor %FOUND: TRUE
+Cursor %ISOPEN: TRUE
+Cursor closed
+
+PL/SQL procedure successfully completed.
+*****************************************************************
+4.: Declare cursor to count number of employees residing in ‘sivakasi’ and earning salary higher than average salary of their departments wit necessary exception handling.
+
+SQL> DECLARE
+  2      CURSOR emp_cur IS
+  3          SELECT emp_id, emp_name, salary, dept_id
+  4          FROM employee e
+  5          WHERE city = 'Sivakasi'
+  6          AND salary > (
+  7              SELECT AVG(salary)
+  8              FROM employee
+  9              WHERE dept_id = e.dept_id
+ 10          );
+ 11
+ 12      v_id employee.emp_id%TYPE;
+ 13      v_name employee.emp_name%TYPE;
+ 14      v_salary employee.salary%TYPE;
+ 15      v_dept employee.dept_id%TYPE;
+ 16
+ 17      emp_count NUMBER := 0;
+ 18
+ 19  BEGIN
+ 20      OPEN emp_cur;
+ 21
+ 22      LOOP
+ 23          FETCH emp_cur INTO v_id, v_name, v_salary, v_dept;
+ 24          EXIT WHEN emp_cur%NOTFOUND;
+ 25
+ 26          emp_count := emp_count + 1;
+ 27      END LOOP;
+ 28
+ 29      DBMS_OUTPUT.PUT_LINE('Number of employees in Sivakasi with salary greater than department average: ' || emp_count);
+ 30
+ 31      CLOSE emp_cur;
+ 32
+ 33  EXCEPTION
+ 34      WHEN NO_DATA_FOUND THEN
+ 35          DBMS_OUTPUT.PUT_LINE('No employee found');
+ 36
+ 37      WHEN OTHERS THEN
+ 38          DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+ 39  END;
+ 40  /
+Number of employees vvin Sivakasi with salary greater than department average: 3
+
+PL/SQL procedure successfully completed.
+
+SQL> SET LINESIZE 200;
+SQL> SELECT * FROM EMPLOYEE;
+
+    EMP_ID EMP_NAME                                               SALARY    DEPT_ID CITY
+---------- -------------------------------------------------- ---------- ---------- --------------------------------------------------
+       101 Arun                                                    25000         10 Sivakasi
+       102 Ajay                                                    30000         10 Sivakasi
+       103 Bala                                                    20000         20 Madurai
+       104 Anu                                                     35000         20 Sivakasi
+       105 Kumar                                                   15000         10 Chennai
+********************************************************************************************
