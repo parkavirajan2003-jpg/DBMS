@@ -1,0 +1,436 @@
+EX5=====>NESTED QUERIES :
+NAME:A.PARKAVI
+***********************************************************************************************************************************************************************
+SQL> select max(total_purchase_amt) from purchase;
+
+MAX(TOTAL_PURCHASE_A
+--------------------
+9000
+
+SQL> select * from purchase where total_purchase_amt = (select max(total_purchase_amt) from purchase);
+
+PURCHASE_ID PURCHASE_  PERSON_ID      BR_ID TOTAL_PURCHASE_AMT
+----------- --------- ---------- ---------- --------------------
+         14 10-APR-24          1        103 9000
+
+SQL> select avg(total_purchase_amt) from purchase;
+
+AVG(TOTAL_PURCHASE_AMT)
+-----------------------
+                  10625
+
+SQL> select purchase_id,branch_id,total_purchase_amt from purchase where total_purchase_amt > (select avg(total_purchase_amt) from purchase);
+select purchase_id,branch_id,total_purchase_amt from purchase where total_purchase_amt > (select avg(total_purchase_amt) from purchase)
+                   *
+ERROR at line 1:
+ORA-00904: "BRANCH_ID": invalid identifier
+
+
+SQL> select purchase_id,total_purchase_amt from purchase where total_purchase_amt > (select avg(total_purchase_amt) from purchase);
+
+PURCHASE_ID TOTAL_PURCHASE_AMT
+----------- --------------------
+         12 20000
+
+SQL> select branch_name from branch where branch_id >= 102;
+select branch_name from branch where branch_id >= 102
+                                     *
+ERROR at line 1:
+ORA-00904: "BRANCH_ID": invalid identifier
+
+
+SQL> select branch_name from branch where br_id >= 102;
+
+BRANCH_NAME
+--------------------
+Thiruthangal
+Madurai
+Sivakasi
+Madurai
+
+SQL> select branch_id,branch_name from branch where branch_id in (select branch_id from branch where br_id >= 102);
+select branch_id,branch_name from branch where branch_id in (select branch_id from branch where br_id >= 102)
+                                               *
+ERROR at line 1:
+ORA-00904: "BRANCH_ID": invalid identifier
+
+SQL> select br_id,branch_name from branch where br_id in (select br_id from branch where br_id >= 102);
+
+     BR_ID BRANCH_NAME
+---------- --------------------
+       102 Thiruthangal
+       103 Madurai
+       104 Sivakasi
+       105 Madurai
+
+SQL> select address_city from person where person_name = 'Parkavi';
+
+ADDRESS_CITY
+---------------
+Sivakasi
+
+SQL> select person_name,address_city from person where address_city in (select address_city from person where person_name = 'Parkavi');
+
+PERSON_NAME          ADDRESS_CITY
+-------------------- ---------------
+Parkavi              Sivakasi
+Selva                Sivakasi
+
+SQL> select person_name,address_city from person where address_city not in (select address_city from person where person_name = 'Parkavi');
+
+PERSON_NAME          ADDRESS_CITY
+-------------------- ---------------
+Rajan                Madurai
+Gautham              Madurai
+Anu                  Chennai
+
+SQL> select supplier_license from supplier where supplier_license > 1230;
+
+SUPPLIER_LICENSE
+--------------------
+1234
+1330
+
+SQL> select person_id,company_name,supplier_license from supplier where supplier_license < any(select supplier_license from supplier where supplier_license > 1230);
+
+ PERSON_ID COMPANY_NAME    SUPPLIER_LICENSE
+---------- --------------- --------------------
+         1 britania        1234
+         3 Daisy           1230
+         4 BRU             1100
+         5 Gold Cup        1212
+
+SQL> select person_id,company_name,supplier_license from supplier where supplier_license > any(select supplier_license from supplier where supplier_license > 1230);
+
+ PERSON_ID COMPANY_NAME    SUPPLIER_LICENSE
+---------- --------------- --------------------
+         2 Hatsun          1330
+
+SQL> select person_id,company_name,supplier_license from supplier where supplier_license = any(select supplier_license from supplier where supplier_license > 1230);
+
+ PERSON_ID COMPANY_NAME    SUPPLIER_LICENSE
+---------- --------------- --------------------
+         1 britania        1234
+         2 Hatsun          1330
+
+SQL> select measurement from product where measurement = 1000;
+
+no rows selected
+
+SQL> set linesize 200;
+SQL> select * from product;
+
+PRODUCT_ID PRODUCT_NAME         BRAND                          MEASUREMENT                    CATEGORY_ID PERSON_ID
+---------- -------------------- ------------------------------ ------------------------------ ----------- ----------
+       150 Curd                 Hatsun                         2000.23467                             201 1
+       151 Ice Cream            Vennila                        1250.972                               201 1
+       152 Cabbage              green leaf                     1002.982                               202 1
+       153 Mixture              daisy                          1500                                   203 1
+       154 Mango                Slice                          1800.9                                 204 1
+       155 Dates                Lion                           30.76543                               205 1
+
+6 rows selected.
+
+SQL> select measurement from product where measurement = 1500;
+
+MEASUREMENT
+------------------------------
+1500
+
+SQL> select product_name,measurement from product where measurement < all(select measurement from product where measurement = 1500);
+
+PRODUCT_NAME         MEASUREMENT
+-------------------- ------------------------------
+Ice Cream            1250.972
+Cabbage              1002.982
+
+SQL> select product_name,measurement from product where measurement > all(select measurement from product where measurement = 1500);
+
+PRODUCT_NAME         MEASUREMENT
+-------------------- ------------------------------
+Mango                1800.9
+Curd                 2000.23467
+Dates                30.76543
+
+SQL> select product_name,measurement from product where measurement = all(select measurement from product where measurement = 1500);
+
+PRODUCT_NAME         MEASUREMENT
+-------------------- ------------------------------
+Mixture              1500
+
+SQL> select s2.stock_id from stock s2 where s2.measurement = s2.stock_id;
+
+  STOCK_ID
+----------
+      1000
+
+SQL> select s1.stock_id,s1.expense-type,s1.measurement from stock s1 where s1.stock_id < (select s2.stock_id from stock s2 where s2.measurement = s2.stock_id);
+select s1.stock_id,s1.expense-type,s1.measurement from stock s1 where s1.stock_id < (select s2.stock_id from stock s2 where s2.measurement = s2.stock_id)
+                              *
+ERROR at line 1:
+ORA-00904: "TYPE": invalid identifier
+
+
+SQL> select s1.stock_id,s1.measurement from stock s1 where s1.stock_id < (select s2.stock_id from stock s2 where s2.measurement = s2.stock_id);
+
+no rows selected
+
+SQL> select s1.stock_id,s1.measurement from stock s1 where s1.stock_id > (select s2.stock_id from stock s2 where s2.measurement = s2.stock_id);
+
+  STOCK_ID MEASUREMENT
+---------- ------------------------------
+      1001 1000
+      1002 1000
+
+SQL> select s1.stock_id,s1.measurement from stock s1 where s1.stock_id = (select s2.stock_id from stock s2 where s2.measurement = s2.stock_id);
+
+  STOCK_ID MEASUREMENT
+---------- ------------------------------
+      1000 1000
+
+SQL> select address_city from person p group by address_city;
+
+ADDRESS_CITY
+---------------
+Sivakasi
+Chennai
+Madurai
+
+SQL> select address_city,count(*) as num_persons from (select address_city from person p group by address_city);
+select address_city,count(*) as num_persons from (select address_city from person p group by address_city)
+       *
+ERROR at line 1:
+ORA-00937: not a single-group group function
+
+
+SQL> select address_city,count(*) as num_persons from (select address_city from person p )group by address_city;
+
+ADDRESS_CITY    NUM_PERSONS
+--------------- -----------
+Sivakasi                  2
+Chennai                   1
+Madurai                   2
+
+SQL> (select avg(person_id) from person p2 where p2.address_city = p1.address_city) as avg_city from person p1;
+(select avg(person_id) from person p2 where p2.address_city = p1.address_city) as avg_city from person p1
+                                                                               *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended
+
+
+SQL> select p1.person_name,p1.address_city,p1.person_id (select avg(person_id) from person p2 where p2.address_city = p1.address_city) as avg_city from person p1;
+select p1.person_name,p1.address_city,p1.person_id (select avg(person_id) from person p2 where p2.address_city = p1.address_city) as avg_city from person p1
+                                                    *
+ERROR at line 1:
+ORA-00936: missing expression
+
+SQL> select p1.person_name, p1.address_city, p1.person_id, (select avg(person_id) from person p2 where p2.address_city = p1.address_city) as avg_city from person p1;
+
+PERSON_NAME          ADDRESS_CITY     PERSON_ID   AVG_CITY                      
+-------------------- --------------- ---------- ----------                      
+Parkavi              Sivakasi                 1        2.5                      
+Selva                Sivakasi                 4        2.5                      
+Anu                  Chennai                  2          2                      
+Rajan                Madurai                  3          4                      
+Gautham              Madurai                  5          4                      
+
+SQL> select avg(measurement) from product;
+
+AVG(MEASUREMENT)                                                                
+----------------                                                                
+      1264.30902                                                                
+
+SQL> select product_name,avg(measurement) as avg-measurement from product group by product_name having avg(measurement) > (select avg(measurement) from product);
+select product_name,avg(measurement) as avg-measurement from product group by product_name having avg(measurement) > (select avg(measurement) from product)
+                                           *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> select product_name,avg(measurement) as avg_measurement from product group by product_name having avg(measurement) > (select avg(measurement) from product);
+
+PRODUCT_NAME         AVG_MEASUREMENT                                            
+-------------------- ---------------                                            
+Curd                      2000.23467                                            
+Mixture                         1500                                            
+Mango                         1800.9                                            
+
+SQL> select product_id,product_name,brand from product p where exists(select 1 from product p2 where p1.product_name = p2.product_name);
+select product_id,product_name,brand from product p where exists(select 1 from product p2 where p1.product_name = p2.product_name)
+                                                                                                *
+ERROR at line 1:
+ORA-00904: "P1"."PRODUCT_NAME": invalid identifier 
+
+
+SQL> select product_id,product_name,brand from product p1 where exists(select 1 from product p2 where p1.product_name = p2.product_name);
+
+PRODUCT_ID PRODUCT_NAME         BRAND                                           
+---------- -------------------- ------------------------------                  
+       150 Curd                 Hatsun                                          
+       151 Ice Cream            Vennila                                         
+       152 Cabbage              green leaf                                      
+       153 Mixture              daisy                                           
+       154 Mango                Slice                                           
+       155 Dates                Lion                                            
+
+6 rows selected.
+
+SQL> select p1.person_name,p1.address_city from person p1 where exists(select 1 fom person p2 where p1.address_city = p2.address_city and p1.person_name !=p2.person_name);
+select p1.person_name,p1.address_city from person p1 where exists(select 1 fom person p2 where p1.address_city = p2.address_city and p1.person_name !=p2.person_name)
+                                                                               *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> select p1.person_name,p1.address_city from person p1 where exists(select 1 from person p2 where p1.address_city = p2.address_city and p1.person_name !=p2.person_name);
+
+PERSON_NAME          ADDRESS_CITY                                               
+-------------------- ---------------                                            
+Selva                Sivakasi                                                   
+Gautham              Madurai                                                    
+Parkavi              Sivakasi                                                   
+Rajan                Madurai                                                    
+
+SQL> select p1.person_name,p1.address_city from person p1 where not exists(select 1 from person p2 where p1.address_city = p2.address_city and p1.person_name !=p2.person_name);
+
+PERSON_NAME          ADDRESS_CITY                                               
+-------------------- ---------------                                            
+Anu                  Chennai                                                    
+
+SQL> select avg(total_purchase_amt) as avg_amt from purchase;
+
+   AVG_AMT                                                                      
+----------                                                                      
+     10625                                                                      
+
+SQL> with avgamt as(select avg(total_purchase_amt) as avg_amt from purchase) select purchase_date,branch_id,total_purchase_amt from purchase where total_purchase_amt > ( select avg_amt from avgamt);
+with avgamt as(select avg(total_purchase_amt) as avg_amt from purchase) select purchase_date,branch_id,total_purchase_amt from purchase where total_purchase_amt > ( select avg_amt from avgamt)
+                                                                                             *
+ERROR at line 1:
+ORA-00904: "BRANCH_ID": invalid identifier 
+
+
+SQL> set linesize 200;
+SQL> select * from purchase;
+
+PURCHASE_ID PURCHASE_  PERSON_ID      BR_ID TOTAL_PURCHASE_AMT                                                                                                                                          
+----------- --------- ---------- ---------- --------------------                                                                                                                                        
+         11 11-OCT-25          2        104 10000                                                                                                                                                       
+         12 13-JAN-24          5        102 20000                                                                                                                                                       
+         13 01-MAR-25          4        101 3500                                                                                                                                                        
+         14 10-APR-24          1        103 9000                                                                                                                                                        
+
+SQL> with avgamt as(select avg(total_purchase_amt) as avg_amt from purchase) select purchase_date,purchase_id,total_purchase_amt from purchase where total_purchase_amt > ( select avg_amt from avgamt);
+
+PURCHASE_ PURCHASE_ID TOTAL_PURCHASE_AMT                                                                                                                                                                
+--------- ----------- --------------------                                                                                                                                                              
+13-JAN-24          12 20000                                                                                                                                                                             
+SQL> select avg(measurement) as avg_measurement from product;
+
+AVG_MEASUREMENT                                                                                                                                                                                         
+---------------                                                                                                                                                                                         
+     1264.30902                                                                                                                                                                                         
+
+SQL> select product_name,count(*) ad prouct_count from product group by product_name;
+select product_name,count(*) ad prouct_count from product group by product_name
+                                *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> select product_name,count(*) as prouct_count from product group by product_name;
+
+PRODUCT_NAME         PROUCT_COUNT                                                                                                                                                                       
+-------------------- ------------                                                                                                                                                                       
+Curd                            1                                                                                                                                                                       
+Ice Cream                       1                                                                                                                                                                       
+Cabbage                         1                                                                                                                                                                       
+Mixture                         1                                                                                                                                                                       
+Mango                           1                                                                                                                                                                       
+Dates                           1                                                                                                                                                                       
+
+6 rows selected.
+
+SQL> with avgmeasurement as ( select avg(measurement) as avg_measurement) from product),productCount as (select product_name,count(*) as prouct_count from product group by product_name) select p1.product_name,p1.measurement,p2.brand,p2.product_count from product p1 join productCount on p1.product_name=p2.product_name where p1.measurement > (select avg_measurement from avgmeasurement) and p2.product_count =1;
+with avgmeasurement as ( select avg(measurement) as avg_measurement) from product),productCount as (select product_name,count(*) as prouct_count from product group by product_name) select p1.product_name,p1.measurement,p2.brand,p2.product_count from product p1 join productCount on p1.product_name=p2.product_name where p1.measurement > (select avg_measurement from avgmeasurement) and p2.product_count =1
+                                                                   *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected 
+
+SQL> with avgmeasurement as (select avg(measurement) as avg_measurement from product), productCount as (select product_name, count(*) as product_count from product group by product_name) select p1.product_name, p1.measurement, p1.brand, p2.product_count from product p1 join productCount p2 on p1.product_name = p2.product_name where p1.measurement > (select avg_measurement from avgmeasurement) and p2.product_count = 1;
+
+PRODUCT_NAME         MEASUREMENT                    BRAND                          PRODUCT_COUNT                                                                                                        
+-------------------- ------------------------------ ------------------------------ -------------                                                                                                        
+Curd                 2000.23467                     Hatsun                                     1                                                                                                        
+Mixture              1500                           daisy                                      1                                                                                                        
+Mango                1800.9                         Slice                                      1                                                                                                        
+
+SQL> select brand from product_where product_name = 'Mango' as produt_name from product where category_id = 201;
+select brand from product_where product_name = 'Mango' as produt_name from product where category_id = 201
+                                             *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended 
+
+SQL> select brand from product where product_name='Mango';
+
+BRAND                                                                                                                                                                                                   
+------------------------------                                                                                                                                                                          
+Slice                                                                                                                                                                                                   
+
+SQL> select product_name (select brand from product where product_name = 'Mango') as produt_name from product where category_id = 201;
+select product_name (select brand from product where product_name = 'Mango') as produt_name from product where category_id = 201
+                     *
+ERROR at line 1:
+ORA-00936: missing expression 
+
+
+SQL> select product_name,(select brand from product where product_name = 'Mango') as produt_name from product where category_id = 201;
+
+PRODUCT_NAME         PRODUT_NAME                                                                                                                                                                        
+-------------------- ------------------------------                                                                                                                                                     
+Curd                 Slice                                                                                                                                                                              
+Ice Cream            Slice                                                                                                                                                                              
+
+SQL> select brand from product where prouct_name = 'Curd';
+select brand from product where prouct_name = 'Curd'
+                                *
+ERROR at line 1:
+ORA-00904: "PROUCT_NAME": invalid identifier 
+
+
+SQL> select brand from product where product_name = 'Curd';
+
+BRAND                                                                                                                                                                                                   
+------------------------------                                                                                                                                                                          
+Hatsun                                                                                                                                                                                                  
+
+SQL> select product_name,(select brand from product where product_name = 'Curd') as product_list from product where category_id = 201;
+
+PRODUCT_NAME         PRODUCT_LIST                                                                                                                                                                       
+-------------------- ------------------------------                                                                                                                                                     
+Curd                 Hatsun                                                                                                                                                                             
+Ice Cream            Hatsun                                                                                                                                                                             
+
+SQL> select avg(measurement) from product;
+
+AVG(MEASUREMENT)                                                                                                                                                                                        
+----------------                                                                                                                                                                                        
+      1264.30902                                                                                                                                                                                        
+
+SQL> select product_name,measurement from product where measurement > (select avg(measurement) from product);
+
+PRODUCT_NAME         MEASUREMENT                                                                                                                                                                        
+-------------------- ------------------------------                                                                                                                                                     
+Curd                 2000.23467                                                                                                                                                                         
+Mixture              1500                                                                                                                                                                               
+Mango                1800.9                                                                                                                                                                             
+
+SQL> select s1.person_id,s1.type,s1.company_name from supplier s1 where (s1.type,s1.person_id) in (select s2.type,s2.person_id from supplier s2 where s1.type=s2.type);
+
+ PERSON_ID TYPE                 COMPANY_NAME                                                                                                                                                            
+---------- -------------------- ---------------                                                                                                                                                         
+         1 Weekly               britania                                                                                                                                                                
+         2 Daily                Hatsun                                                                                                                                                                  
+         3 Weekly               Daisy                                                                                                                                                                   
+         4 Monthly              BRU                                                                                                                                                                     
+         5 Monthly              Gold Cup                                                                                                                                                                
