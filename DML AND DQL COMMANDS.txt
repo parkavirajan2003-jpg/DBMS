@@ -1,0 +1,3234 @@
+EX3======>DML AND DQL COMMANDS
+NAME:A.PARKAVI
+****************************************************************************************************************************************************
+SQL> insert all into branch values(101,'Sivakasi','Near Sivan Temple')into branch values(102,'Thiruthangal','Near Senthil Bakery')into branch values(103,'Madurai','Kalavasal')into branch values(104,'Sivakasi','Near Market')into branch values(105,'Madurai','AnnaNagar')select * from dual;
+
+5 rows created.
+
+SQL> select * from branch;
+
+ BRANCH_ID BRANCH_NAME          BRANCH_LOCATION                                 
+---------- -------------------- --------------------                            
+       101 Sivakasi             Near Sivan Temple                               
+       102 Thiruthangal         Near Senthil Bakery                             
+       103 Madurai              Kalavasal                                       
+       104 Sivakasi             Near Market                                     
+       105 Madurai              AnnaNagar                                       
+
+SQL> insert into person values(1,'Parkavi','kavi@gmail.com','South Street','Sivakasi',626130);
+
+1 row created.
+
+SQL> select * from person;
+
+ PERSON_ID PERSON_NAME          MAIL            ADDRESS_STREET                  
+---------- -------------------- --------------- --------------------            
+ADDRESS_CITY    ADDRESS_PIN                                                     
+--------------- -----------                                                     
+         1 Parkavi              kavi@gmail.com  South Street                    
+Sivakasi             626130                                                     
+                                                                                
+SQL> insert into supplier values(1,'britania',1234,'Weekly');
+
+1 row created.
+
+SQL> select * from supplier;
+
+ PERSON_ID COMPANY_NAME    SUPPLIER_LICENSE     TYPE                            
+---------- --------------- -------------------- --------------------            
+         1 britania        1234                 Weekly                          
+
+SQL> insert all into person values(2,'Anu','anu27@gmail.com','T Nagar','Chennai')into person values(3,'Rajan','raj3@gmail.com','NGO COLONY','Madurai')into person values(4,'Selva','selva@gmail.com','car Street','Sivakasi')into person values(5,'Gautham','gautham@gmail.com','North street','Madurai')select * from dual;
+insert all into person values(2,'Anu','anu27@gmail.com','T Nagar','Chennai')into person values(3,'Rajan','raj3@gmail.com','NGO COLONY','Madurai')into person values(4,'Selva','selva@gmail.com','car Street','Sivakasi')into person values(5,'Gautham','gautham@gmail.com','North street','Madurai')select * from dual
+                *
+ERROR at line 1:
+ORA-00947: not enough values 
+
+
+SQL> insert all into person values(2,'Anu','anu27@gmail.com','T Nagar','Chennai',626123)into person values(3,'Rajan','raj3@gmail.com','NGO COLONY','Madurai',626100)into person values(4,'Selva','selva@gmail.com','car Street','Sivakasi',626115)into person values(5,'Gautham','gautham@gmail.com','North street','Madurai',626124)select * from dual;
+insert all into person values(2,'Anu','anu27@gmail.com','T Nagar','Chennai',626123)into person values(3,'Rajan','raj3@gmail.com','NGO COLONY','Madurai',626100)into person values(4,'Selva','selva@gmail.com','car Street','Sivakasi',626115)into person values(5,'Gautham','gautham@gmail.com','North street','Madurai',626124)select * from dual
+                                                                                                                                                                        ERROR at line 1:
+ORA-12899: value too large for column "SYSTEM"."PERSON"."MAIL" (actual: 17, 
+maximum: 15) 
+
+SQL> insert all into person values(2,'Anu','anu27@gmail.com','T Nagar','Chennai',626123)into person values(3,'Rajan','raj3@gmail','NGO COLONY','Madurai',626100)into person values(4,'Selva','selva@mail','car Street','Sivakasi',626115)into person values(5,'Gautham','gautham@mail','North street','Madurai',626124)select * from dual;
+
+4 rows created.
+
+SQL> select * from person;
+
+ PERSON_ID PERSON_NAME          MAIL            ADDRESS_STREET                  
+---------- -------------------- --------------- --------------------            
+ADDRESS_CITY    ADDRESS_PIN                                                     
+--------------- -----------                                                     
+         1 Parkavi              kavi@gmail.com  South Street                    
+Sivakasi             626130                                                     
+                                                                                
+         2 Anu                  anu27@gmail.com T Nagar                         
+Chennai              626123                                                     
+                                                                                
+         3 Rajan                raj3@gmail      NGO COLONY                      
+Madurai              626100                                                     
+                                                                                
+
+ PERSON_ID PERSON_NAME          MAIL            ADDRESS_STREET                  
+---------- -------------------- --------------- --------------------            
+ADDRESS_CITY    ADDRESS_PIN                                                     
+--------------- -----------                                                     
+         4 Selva                selva@mail      car Street                      
+Sivakasi             626115                                                     
+                                                                                
+         5 Gautham              gautham@mail    North street                    
+Madurai              626124                                                     
+                                                                                
+
+SQL> spool off;
+SQL> insert into category values(201,'Milk','Healthy Drink');
+
+1 row created.
+
+SQL> insert all into category values(202,'Vegetables','Be Healthy')into category values(203,'Snacks','As You like it')into category values(204,'Juice','Pleasant Mind')into category values(205,'Nuts','Power Pack')select * from dual;
+
+4 rows created.
+
+SQL> select * from category;
+
+CATEGORY_ID CATEGORY_NAME        DESCRIPTION                                    
+----------- -------------------- --------------------                           
+        201 Milk                 Healthy Drink                                  
+        202 Vegetables           Be Healthy                                     
+        203 Snacks               As You like it                                 
+        204 Juice                Pleasant Mind                                  
+        205 Nuts                 Power Pack                                     
+
+SQL> insert all into product values(150,'Curd','Hatsun','500ml',201)into product values(151,'Ice Cream','Vennila','100grams',201)into product values(152,'Cabbage','green leaf','1kg','202)into product values(153,'Mixture','daisy','500grams',203)into product values(154,'Mango','Slice','500ml',204)into product values(155,'Dates','Lion','1.5kg',205)select * from dual;
+ERROR:
+ORA-01756: quoted string not properly terminated 
+
+
+SQL> insert all into product values(150,'Curd','Hatsun','500ml',201)into product values(151,'Ice Cream','Vennila','100grams',201)into product values(152,'Cabbage','green leaf','1kg',202)into product values(153,'Mixture','daisy','500grams',203)into product values(154,'Mango','Slice','500ml',204)into product values(155,'Dates','Lion','1.5kg',205)select * from dual;
+insert all into product values(150,'Curd','Hatsun','500ml',201)into product values(151,'Ice Cream','Vennila','100grams',201)into product values(152,'Cabbage','green leaf','1kg',202)into product values(153,'Mixture','daisy','500grams',203)into product values(154,'Mango','Slice','500ml',204)into product values(155,'Dates','Lion','1.5kg',205)select * from dual
+                                          *
+ERROR at line 1:
+ORA-01722: invalid number 
+
+
+SQL> desc product;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ PRODUCT_ID                                NOT NULL NUMBER(38)
+ PRODUCT_NAME                                       VARCHAR2(20)
+ BRAND                                              NUMBER
+ MEASUREMENT                                        NUMBER(38)
+ CATEGORY_ID                                        NUMBER
+
+SQL> insert all into product values(150,'Curd','Hatsun',500ml,201)into product values(151,'Ice Cream','Vennila',100g,201)into product values(152,'Cabbage','green leaf',1kg,202)into product values(153,'Mixture','daisy',500g,203)into product values(154,'Mango','Slice',500ml,204)into product values(155,'Dates','Lion',1.5kg,205)select * from dual;
+insert all into product values(150,'Curd','Hatsun',500ml,201)into product values(151,'Ice Cream','Vennila',100g,201)into product values(152,'Cabbage','green leaf',1kg,202)into product values(153,'Mixture','daisy',500g,203)into product values(154,'Mango','Slice',500ml,204)into product values(155,'Dates','Lion',1.5kg,205)select * from dual
+                                                      *
+ERROR at line 1:
+ORA-00917: missing comma 
+
+
+SQL> alter table product measurement varchar(30);
+alter table product measurement varchar(30)
+                    *
+ERROR at line 1:
+ORA-01735: invalid ALTER TABLE option 
+
+
+SQL> alter table product modify measurement varchar(30);
+
+Table altered.
+
+SQL> desc product;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ PRODUCT_ID                                NOT NULL NUMBER(38)
+ PRODUCT_NAME                                       VARCHAR2(20)
+ BRAND                                              NUMBER
+ MEASUREMENT                                        VARCHAR2(30)
+ CATEGORY_ID                                        NUMBER
+
+SQL> insert all into product values(150,'Curd','Hatsun','500ml',201)into product values(151,'Ice Cream','Vennila','100g',201)into product values(152,'Cabbage','green leaf','1kg',202)into product values(153,'Mixture','daisy','500g',203)into product values(154,'Mango','Slice','500ml',204)into product values(155,'Dates','Lion','1.5kg',205)select * from dual;
+insert all into product values(150,'Curd','Hatsun','500ml',201)into product values(151,'Ice Cream','Vennila','100g',201)into product values(152,'Cabbage','green leaf','1kg',202)into product values(153,'Mixture','daisy','500g',203)into product values(154,'Mango','Slice','500ml',204)into product values(155,'Dates','Lion','1.5kg',205)select * from dual
+                                          *
+ERROR at line 1:
+ORA-01722: invalid number 
+
+
+SQL> alter table product modify brand varchar(30);
+
+Table altered.
+
+SQL> desc product;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ PRODUCT_ID                                NOT NULL NUMBER(38)
+ PRODUCT_NAME                                       VARCHAR2(20)
+ BRAND                                              VARCHAR2(30)
+ MEASUREMENT                                        VARCHAR2(30)
+ CATEGORY_ID                                        NUMBER
+
+SQL> insert all into product values(150,'Curd','Hatsun','500ml',201)into product values(151,'Ice Cream','Vennila','100g',201)into product values(152,'Cabbage','green leaf','1kg',202)into product values(153,'Mixture','daisy','500g',203)into product values(154,'Mango','Slice','500ml',204)into product values(155,'Dates','Lion','1.5kg',205)select * from dual;
+
+6 rows created.
+
+SQL> select * from product;
+
+PRODUCT_ID PRODUCT_NAME         BRAND                                           
+---------- -------------------- ------------------------------                  
+MEASUREMENT                    CATEGORY_ID                                      
+------------------------------ -----------                                      
+       150 Curd                 Hatsun                                          
+500ml                                  201                                      
+                                                                                
+       151 Ice Cream            Vennila                                         
+100g                                   201                                      
+                                                                                
+       152 Cabbage              green leaf                                      
+1kg                                    202                                      
+                                                                                
+
+PRODUCT_ID PRODUCT_NAME         BRAND                                           
+---------- -------------------- ------------------------------                  
+MEASUREMENT                    CATEGORY_ID                                      
+------------------------------ -----------                                      
+       153 Mixture              daisy                                           
+500g                                   203                                      
+                                                                                
+       154 Mango                Slice                                           
+500ml                                  204                                      
+                                                                                
+       155 Dates                Lion                                            
+1.5kg                                  205                                      
+                                                                                
+
+6 rows selected.
+
+SQL> insert into stock values(1000,150,101,'10l',11-01-2026);
+insert into stock values(1000,150,101,'10l',11-01-2026)
+                                                 *
+ERROR at line 1:
+ORA-00932: inconsistent datatypes: expected DATE got NUMBER 
+
+
+SQL> desc stock;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ STOCK_ID                                  NOT NULL NUMBER
+ PRODUCT_ID                                         NUMBER
+ BRANCH_ID                                          NUMBER
+ AVAILABLE_QTY                             NOT NULL NUMBER(38)
+ LAST_UPDATED_DATE                                  DATE
+
+SQL> alter table stock modify available_qty varchar(20);
+
+Table altered.
+
+SQL> desc stock;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ STOCK_ID                                  NOT NULL NUMBER
+ PRODUCT_ID                                         NUMBER
+ BRANCH_ID                                          NUMBER
+ AVAILABLE_QTY                             NOT NULL VARCHAR2(20)
+ LAST_UPDATED_DATE                                  DATE
+
+SQL> insert into stock values(1000,150,101,'10l',11-01-2026);
+insert into stock values(1000,150,101,'10l',11-01-2026)
+                                                 *
+ERROR at line 1:
+ORA-00932: inconsistent datatypes: expected DATE got NUMBER 
+
+SQL> insert into stock values(1000,150,101,'10l','03-01-2026');
+insert into stock values(1000,150,101,'10l','03-01-2026')
+                                            *
+ERROR at line 1:
+ORA-01843: not a valid month 
+
+
+SQL> select current_date from dual;
+
+CURRENT_D                                                                       
+---------                                                                       
+06-FEB-26                                                                       
+
+SQL> insert into stock values(1000,150,101,'10l','03-jan-2026');
+
+1 row created.
+
+SQL> insert into stock values(1000,150,101,'10l',03-jan-2026);
+insert into stock values(1000,150,101,'10l',03-jan-2026)
+                                               *
+ERROR at line 1:
+ORA-00984: column not allowed here 
+
+
+SQL> insert into stock values(1000,150,101,'10l','03-jan-2026');
+insert into stock values(1000,150,101,'10l','03-jan-2026')
+*
+ERROR at line 1:
+ORA-00001: unique constraint (SYSTEM.SYS_C008324) violated 
+
+
+SQL> insert into stock values(1001,151,102,'500g','03-nov-2025');
+
+1 row created.
+
+SQL> insert into stock values(1002,152,103,'1kg',09-apr-2025);
+insert into stock values(1002,152,103,'1kg',09-apr-2025)
+                                               *
+ERROR at line 1:
+ORA-00984: column not allowed here 
+
+
+SQL> insert into stock values(1002,152,103,'1kg','09-apr-2025');
+
+1 row created.
+
+SQL> select * from stock;
+
+  STOCK_ID PRODUCT_ID  BRANCH_ID AVAILABLE_QTY        LAST_UPDA                 
+---------- ---------- ---------- -------------------- ---------                 
+      1000        150        101 10l                  03-JAN-26                 
+      1001        151        102 500g                 03-NOV-25                 
+      1002        152        103 1kg                  09-APR-25                 
+
+SQL> insert into purchase values(10,'12-feb-2024',1,102,2500);
+
+1 row created.
+
+SQL> select * from purchase;
+
+PURCHASE_ID PURCHASE_  PERSON_ID  BRANCH_ID TOTAL_PURCHASE_AMT                  
+----------- --------- ---------- ---------- --------------------                
+         10 12-FEB-24          1        102 2500                                
+
+SQL> spool off;
+SQL> desc supplier;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ PERSON_ID                                          NUMBER
+ COMPANY_NAME                                       VARCHAR2(15)
+ SUPPLIER_LICENSE                                   VARCHAR2(20)
+ TYPE                                               VARCHAR2(20)
+
+SQL> select * from supplier;
+
+ PERSON_ID COMPANY_NAME    SUPPLIER_LICENSE     TYPE                            
+---------- --------------- -------------------- --------------------            
+         1 britania        1234                 Weekly                          
+
+SQL> select * from person;
+
+ PERSON_ID PERSON_NAME          MAIL            ADDRESS_STREET                  
+---------- -------------------- --------------- --------------------            
+ADDRESS_CITY    ADDRESS_PIN                                                     
+--------------- -----------                                                     
+         1 Parkavi              kavi@gmail.com  South Street                    
+Sivakasi             626130                                                     
+                                                                                
+         2 Anu                  anu27@gmail.com T Nagar                         
+Chennai              626123                                                     
+                                                                                
+         3 Rajan                raj3@gmail      NGO COLONY                      
+Madurai              626100                                                     
+                                                                                
+
+ PERSON_ID PERSON_NAME          MAIL            ADDRESS_STREET                  
+---------- -------------------- --------------- --------------------            
+ADDRESS_CITY    ADDRESS_PIN                                                     
+--------------- -----------                                                     
+         4 Selva                selva@mail      car Street                      
+Sivakasi             626115                                                     
+                                                                                
+         5 Gautham              gautham@mail    North street                    
+Madurai              626124                                                     
+                                                                                
+
+SQL> insert all into supplier values(2,'Hatsun',1330,'Daily')into supplier values(3,'Daisy',1230,'Weekly')into supplier values(4,'BRU',1100,'Monthly')into supplier values(5,'Gold Cup',1212,'Monthly')select * from supplier;
+
+4 rows created.
+
+SQL> select * from supplier;
+
+ PERSON_ID COMPANY_NAME    SUPPLIER_LICENSE     TYPE                            
+---------- --------------- -------------------- --------------------            
+         1 britania        1234                 Weekly                          
+         2 Hatsun          1330                 Daily                           
+         3 Daisy           1230                 Weekly                          
+         4 BRU             1100                 Monthly                         
+         5 Gold Cup        1212                 Monthly                         
+
+SQL> select * from purchase;
+
+no rows selected
+
+SQL> insert all into purchase values(11,'11-oct-2025',2,104,'Rs.10000')into purchase values(12,'13-jan-2024',5,102,'Rs.20000')into purchase values(13,'01-mar-2025',4,'Rs.3500')into purchase values(14,'10-apr-2024',1,103,'Rs.9000')select * from dual;
+insert all into purchase values(11,'11-oct-2025',2,104,'Rs.10000')into purchase values(12,'13-jan-2024',5,102,'Rs.20000')into purchase values(13,'01-mar-2025',4,'Rs.3500')into purchase values(14,'10-apr-2024',1,103,'Rs.9000')select * from dual
+                                                                                                                              *
+ERROR at line 1:
+ORA-00947: not enough values 
+
+
+SQL> insert all into purchase values(11,'11-oct-2025',2,104,10000)into purchase values(12,'13-jan-2024',5,102,20000)into purchase values(13,'01-mar-2025',4,3500)into purchase values(14,'10-apr-2024',1,103,'9000)select * from dual;
+ERROR:
+ORA-01756: quoted string not properly terminated 
+
+
+SQL> insert all into purchase values(11,'11-oct-2025',2,104,10000)into purchase values(12,'13-jan-2024',5,102,20000)into purchase values(13,'01-mar-2025',4,3500)into purchase values(14,'10-apr-2024',1,103,9000)select * from dual;
+insert all into purchase values(11,'11-oct-2025',2,104,10000)into purchase values(12,'13-jan-2024',5,102,20000)into purchase values(13,'01-mar-2025',4,3500)into purchase values(14,'10-apr-2024',1,103,9000)select * from dual
+                                                                                                                    *
+ERROR at line 1:
+ORA-00947: not enough values 
+
+
+SQL> desc purchase;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ PURCHASE_ID                               NOT NULL NUMBER
+ PURCHASE_DATE                                      DATE
+ PERSON_ID                                          NUMBER
+ BRANCH_ID                                          NUMBER
+ TOTAL_PURCHASE_AMT                                 VARCHAR2(20)
+
+SQL> insert all into purchase values(11,'11-oct-2025',2,104,'10000')into purchase values(12,'13-jan-2024',5,102,'20000')into purchase values(13,'01-mar-2025',4,'3500')into purchase values(14,'10-apr-2024',1,103,'9000')select * from dual;
+insert all into purchase values(11,'11-oct-2025',2,104,'10000')into purchase values(12,'13-jan-2024',5,102,'20000')into purchase values(13,'01-mar-2025',4,'3500')into purchase values(14,'10-apr-2024',1,103,'9000')select * from dual
+                                                                                                                        *
+ERROR at line 1:
+ORA-00947: not enough values 
+
+
+SQL> insert all into purchase values(11,'11-oct-2025',2,104,'10000')into purchase values(12,'13-jan-2024',5,102,'20000')into purchase values(13,'01-mar-2025',4,101,'3500')into purchase values(14,'10-apr-2024',1,103,'9000')select * from dual;
+
+4 rows created.
+
+SQL> select * from purchase;
+
+PURCHASE_ID PURCHASE_  PERSON_ID  BRANCH_ID TOTAL_PURCHASE_AMT                  
+----------- --------- ---------- ---------- --------------------                
+         11 11-OCT-25          2        104 10000                               
+         12 13-JAN-24          5        102 20000                               
+         13 01-MAR-25          4        101 3500                                
+         14 10-APR-24          1        103 9000                                
+
+SQL> insert all into login values(1500,1,'Kavi','kavi@27')into login values(1501,2,'Gautham','gautham13')into login values(1502,3,'Anu','anu14')into login values(1503,2,'Rajan','raj03')into login values(1504,4,'Selva,'selva23')select * from dual;
+ERROR:
+ORA-01756: quoted string not properly terminated 
+
+
+SQL> insert all into login values(1500,1,'Kavi','kavi@27')into login values(1501,2,'Gautham','gautham13')into login values(1502,3,'Anu','anu14')into login values(1503,2,'Rajan','raj03')into login values(1504,4,'Selva','selva23')select * from dual;
+insert all into login values(1500,1,'Kavi','kavi@27')into login values(1501,2,'Gautham','gautham13')into login values(1502,3,'Anu','anu14')into login values(1503,2,'Rajan','raj03')into login values(1504,4,'Selva','selva23')select * from dual
+                                           *
+ERROR at line 1:
+ORA-01722: invalid number 
+
+
+SQL> desc login;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ LOGIN_ID                                  NOT NULL NUMBER
+ USERNAME                                           VARCHAR2(20)
+ PASSWORD                                           VARCHAR2(20)
+ PERSON_ID                                          NUMBER
+
+SQL> insert all into login values(1500,'Kavi','kavi@27',1)into login values(1501,'Gautham','gautham13',2)into login values(1502,'Anu','anu14',3)into login values(1503,'Rajan','raj03',2)into login values(1504,'Selva','selva23',4)select * from dual;
+
+5 rows created.
+
+SQL> select * from login;
+
+  LOGIN_ID USERNAME             PASSWORD              PERSON_ID                 
+---------- -------------------- -------------------- ----------                 
+      1500 Kavi                 kavi@27                       1                 
+      1501 Gautham              gautham13                     2                 
+      1502 Anu                  anu14                         3                 
+      1503 Rajan                raj03                         2                 
+      1504 Selva                selva23                       4                 
+
+SQL> desc expense;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EXPENSE_ID                                NOT NULL NUMBER
+ BRANCH_ID                                          NUMBER
+ EXPENSE_DATE                                       DATE
+ EXPENSE_TYPE                                       VARCHAR2(20)
+ EXPENSE_AMT                                        VARCHAR2(10)
+
+SQL> insert all into expense values(2000,102,'18-mar-2024','Daily wages','Rs.8900')into expense values(2001,104,'23-jun-2023','Monthly Wages','Rs.10000')into expense values(2002,105,'28-jul-2025','Weekly Wages','Rs.20000')into expense values(2003,101,'19-may-2024','Daily Wages','Rs.19000')select * from dual;
+
+4 rows created.
+
+SQL> select * from expense;
+
+EXPENSE_ID  BRANCH_ID EXPENSE_D EXPENSE_TYPE         EXPENSE_AM                 
+---------- ---------- --------- -------------------- ----------                 
+      2000        102 18-MAR-24 Daily wages          Rs.8900                    
+      2001        104 23-JUN-23 Monthly Wages        Rs.10000                   
+      2002        105 28-JUL-25 Weekly Wages         Rs.20000                   
+      2003        101 19-MAY-24 Daily Wages          Rs.19000                   
+
+SQL> insert all into person_contact values(1,9442666382)into prson_contact values(2,9360967508)into person_contact values(3,9443543682)into person_contact values(4,9500682548)into person_contact values(5,6369628652)select * from dual;
+insert all into person_contact values(1,9442666382)into prson_contact values(2,9360967508)into person_contact values(3,9443543682)into person_contact values(4,9500682548)into person_contact values(5,6369628652)select * from dual
+                                                        *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> desc person_contact;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ PERSON_ID                                          NUMBER
+ CONTACT                                            NUMBER
+
+SQL> alter table person_contact modify contact number(30);
+
+Table altered.
+
+SQL> desc person_contact;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ PERSON_ID                                          NUMBER
+ CONTACT                                            NUMBER(30)
+
+SQL> insert all into person_contact values(1,9442666382)into person_contact values(2,9360967508)into person_contact values(3,9443543682)into person_contact values(4,9500682548)into person_contact values(5,6369628652)select * from dual;
+
+5 rows created.
+
+SQL> select * from person_contact;
+
+ PERSON_ID    CONTACT                                                           
+---------- ----------                                                           
+         1 9442666382                                                           
+         2 9360967508                                                           
+         3 9443543682                                                           
+         4 9500682548                                                           
+         5 6369628652                                                           
+
+SQL> desc product_supplier;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ PRODUCT_ID                                         NUMBER
+ PERSON_ID                                          NUMBER
+
+SQL> select * from product;
+
+PRODUCT_ID PRODUCT_NAME         BRAND                                           
+---------- -------------------- ------------------------------                  
+MEASUREMENT                    CATEGORY_ID                                      
+------------------------------ -----------                                      
+       150 Curd                 Hatsun                                          
+500ml                                  201                                      
+                                                                                
+       151 Ice Cream            Vennila                                         
+100g                                   201                                      
+                                                                                
+       152 Cabbage              green leaf                                      
+1kg                                    202                                      
+                                                                                
+
+PRODUCT_ID PRODUCT_NAME         BRAND                                           
+---------- -------------------- ------------------------------                  
+MEASUREMENT                    CATEGORY_ID                                      
+------------------------------ -----------                                      
+       153 Mixture              daisy                                           
+500g                                   203                                      
+                                                                                
+       154 Mango                Slice                                           
+500ml                                  204                                      
+                                                                                
+       155 Dates                Lion                                            
+1.5kg                                  205                                      
+                                                                                
+
+6 rows selected.
+
+SQL> select * from person;
+
+ PERSON_ID PERSON_NAME          MAIL            ADDRESS_STREET                  
+---------- -------------------- --------------- --------------------            
+ADDRESS_CITY    ADDRESS_PIN                                                     
+--------------- -----------                                                     
+         1 Parkavi              kavi@gmail.com  South Street                    
+Sivakasi             626130                                                     
+                                                                                
+         2 Anu                  anu27@gmail.com T Nagar                         
+Chennai              626123                                                     
+                                                                                
+         3 Rajan                raj3@gmail      NGO COLONY                      
+Madurai              626100                                                     
+                                                                                
+
+ PERSON_ID PERSON_NAME          MAIL            ADDRESS_STREET                  
+---------- -------------------- --------------- --------------------            
+ADDRESS_CITY    ADDRESS_PIN                                                     
+--------------- -----------                                                     
+         4 Selva                selva@mail      car Street                      
+Sivakasi             626115                                                     
+                                                                                
+         5 Gautham              gautham@mail    North street                    
+Madurai              626124                                                     
+                                                                                
+
+SQL> insert all into product_supplier values(150,1)into product_supplier values(151,3)ino product_supplier values(152,2)into product_supplier values(154,4)into product_supplier values(151,2)select * from dual'
+  2  ;
+ERROR:
+ORA-01756: quoted string not properly terminated 
+
+
+SQL> insert all into product_supplier values(150,1)into product_supplier values(151,3)ino product_supplier values(152,2)into product_supplier values(154,4)into product_supplier values(151,2)select * from dual;
+insert all into product_supplier values(150,1)into product_supplier values(151,3)ino product_supplier values(152,2)into product_supplier values(154,4)into product_supplier values(151,2)select * from dual
+                                                                                 *
+ERROR at line 1:
+ORA-00928: missing SELECT keyword 
+
+
+SQL> insert all into product_supplier values(150,1)into product_supplier values(151,3)into product_supplier values(152,2)into product_supplier values(154,4)into product_supplier values(151,2)select * from dual;
+
+5 rows created.
+
+SQL> select * from product_supplier;
+
+PRODUCT_ID  PERSON_ID                                                           
+---------- ----------                                                           
+       150          1                                                           
+       151          3                                                           
+       152          2                                                           
+       154          4                                                           
+       151          2                                                           
+
+SQL> desc product_purchase;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ PURCHASE_ID                                        NUMBER
+ PRODUCT_ID                                         NUMBER
+ QUANITY                                            VARCHAR2(20)
+ PURCHASE_PRICE                            NOT NULL VARCHAR2(10)
+ EXPIRY_DATE                                        DATE
+
+SQL> insert into product_purchase values(11,150,'20litre');
+insert into product_purchase values(11,150,'20litre')
+            *
+ERROR at line 1:
+ORA-00947: not enough values 
+
+
+SQL> insert all into product_purchase values(11,150,'20litre','Rs.2500','11-feb-2024')into product_purchase values(12,153,'10litre','Rs.2000','02-jul-2024')select * from dual;
+
+2 rows created.
+
+SQL> select * from product_purchase;
+
+PURCHASE_ID PRODUCT_ID QUANITY              PURCHASE_P EXPIRY_DA                
+----------- ---------- -------------------- ---------- ---------                
+         11        150 20litre              Rs.2500    11-FEB-24                
+         12        153 10litre              Rs.2000    02-JUL-24                
+
+SQL> insert into purchase_payment values(500,1050,'Cash','20-jan-2025');
+
+1 row created.
+
+SQL> select * from purchase_payment;
+
+PURCHASE_PAYMENT_ID AMOUNT_PAID          PAYMENT_MODE                           
+------------------- -------------------- ------------------------------         
+PURCHASE_                                                                       
+---------                                                                       
+                500 1050                 Cash                                   
+20-JAN-25                                                                       
+                                                                                
+
+SQL> desc purchase_payment;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ PURCHASE_PAYMENT_ID                       NOT NULL NUMBER
+ AMOUNT_PAID                                        VARCHAR2(20)
+ PAYMENT_MODE                                       VARCHAR2(30)
+ PURCHASE_DATE                                      DATE
+
+SQL> insert all into purchase_payment values(501,20202,'Card','11-feb-2026')into purchase_payment values(502,3003,'Paytm','12-jul-2024')into purchase_payment values(503,25000,'UPI','20-jan-2025')select * from dual;
+
+3 rows created.
+
+SQL> select * from purchase_payment;
+
+PURCHASE_PAYMENT_ID AMOUNT_PAID          PAYMENT_MODE                           
+------------------- -------------------- ------------------------------         
+PURCHASE_                                                                       
+---------                                                                       
+                500 1050                 Cash                                   
+20-JAN-25                                                                       
+                                                                                
+                501 20202                Card                                   
+11-FEB-26                                                                       
+                                                                                
+                502 3003                 Paytm                                  
+12-JUL-24                                                                       
+                                                                                
+
+PURCHASE_PAYMENT_ID AMOUNT_PAID          PAYMENT_MODE                           
+------------------- -------------------- ------------------------------         
+PURCHASE_                                                                       
+---------                                                                       
+                503 25000                UPI                                    
+20-JAN-25                                                                       
+                                                                                
+
+SQL> spool off;
+SQL> delete from product_purchase;
+
+2 rows deleted.
+
+SQL> select * from product_purchase;
+
+no rows selected
+
+SQL> insert all into product_purchase values(11,150,'20litre','Rs.2500','11-feb-2024')into product_purchase values(12,153,'10litre','Rs.2000','02-jul-2024')select * from dual;
+
+2 rows created.
+
+SQL> desc product_purchase;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ PURCHASE_ID                                        NUMBER
+ PRODUCT_ID                                         NUMBER
+ QUANITY                                            VARCHAR2(20)
+ PURCHASE_PRICE                            NOT NULL VARCHAR2(10)
+ EXPIRY_DATE                                        DATE
+
+SQL> select * from product_purchase;
+
+PURCHASE_ID PRODUCT_ID QUANITY              PURCHASE_P EXPIRY_DA                
+----------- ---------- -------------------- ---------- ---------                
+         11        150 20litre              Rs.2500    11-FEB-24                
+         12        153 10litre              Rs.2000    02-JUL-24                
+
+SQL> delete from product_purchase;
+
+2 rows deleted.
+
+SQL> select * from product_purchase;
+
+no rows selected
+
+SQL> insert all into product_purchase values(11,150,'20litre','Rs.2500','11-feb-2024')into product_purchase values(12,153,'10litre','Rs.2000','02-jul-2024')select * from dual;
+
+2 rows created.
+
+SQL> select * from branch;
+
+ BRANCH_ID BRANCH_NAME          BRANCH_LOCATION                                 
+---------- -------------------- --------------------                            
+       101 Sivakasi             Near Sivan Temple                               
+       102 Thiruthangal         Near Senthil Bakery                             
+       103 Madurai              Kalavasal                                       
+       104 Sivakasi             Near Market                                     
+       105 Madurai              AnnaNagar                                       
+
+SQL> delete from branch where branch_id=101;
+delete from branch where branch_id=101
+*
+ERROR at line 1:
+ORA-02292: integrity constraint (SYSTEM.SYS_C008333) violated - child record 
+found 
+
+
+SQL> delete from person_contact where person_id=1;
+
+1 row deleted.
+
+SQL> select * person_contact;
+select * person_contact
+         *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> select * from person_contact;
+
+ PERSON_ID    CONTACT                                                           
+---------- ----------                                                           
+         2 9360967508                                                           
+         3 9443543682                                                           
+         4 9500682548                                                           
+         5 6369628652                                                           
+
+SQL> selct * from prouct;
+SP2-0734: unknown command beginning "selct * fr..." - rest of line ignored.
+SQL> selct * from product;
+SP2-0734: unknown command beginning "selct * fr..." - rest of line ignored.
+
+
+SQL> select * from product;
+
+PRODUCT_ID PRODUCT_NAME         BRAND                                           
+---------- -------------------- ------------------------------                  
+MEASUREMENT                    CATEGORY_ID                                      
+------------------------------ -----------                                      
+       150 Curd                 Hatsun                                          
+500ml                                  201                                      
+                                                                                
+       151 Ice Cream            Vennila                                         
+100g                                   201                                      
+                                                                                
+       152 Cabbage              green leaf                                      
+1kg                                    202                                      
+                                                                                
+
+PRODUCT_ID PRODUCT_NAME         BRAND                                           
+---------- -------------------- ------------------------------                  
+MEASUREMENT                    CATEGORY_ID                                      
+------------------------------ -----------                                      
+       153 Mixture              daisy                                           
+500g                                   203                                      
+                                                                                
+       154 Mango                Slice                                           
+500ml                                  204                                      
+                                                                                
+       155 Dates                Lion                                            
+1.5kg                                  205                                      
+                                                                                
+
+6 rows selected.
+
+SQL> delete from product where product_id=150;
+delete from product where product_id=150
+*
+ERROR at line 1:
+ORA-02292: integrity constraint (SYSTEM.SYS_C008341) violated - child record 
+found 
+
+
+SQL> delete from product_purchase where product_id=153;
+
+1 row deleted.
+
+SQL> select * from product_purchase;
+
+PURCHASE_ID PRODUCT_ID QUANITY              PURCHASE_P EXPIRY_DA                
+----------- ---------- -------------------- ---------- ---------                
+         11        150 20litre              Rs.2500    11-FEB-24                
+
+SQL> insert all into product_purchase values(11,150,'20litre','Rs.2500','11-feb-2024')into product_purchase values(12,153,'10litre','Rs.2000','02-jul-2024')select * from dual;
+
+2 rows created.
+
+SQL> select * from product_purchase;
+
+PURCHASE_ID PRODUCT_ID QUANITY              PURCHASE_P EXPIRY_DA                
+----------- ---------- -------------------- ---------- ---------                
+         11        150 20litre              Rs.2500    11-FEB-24                
+         11        150 20litre              Rs.2500    11-FEB-24                
+         12        153 10litre              Rs.2000    02-JUL-24                
+
+SQL> delete from product_purchase where product_id=150;
+
+2 rows deleted.
+
+SQL> select * from product_purchase;
+
+PURCHASE_ID PRODUCT_ID QUANITY              PURCHASE_P EXPIRY_DA                
+----------- ---------- -------------------- ---------- ---------                
+         12        153 10litre              Rs.2000    02-JUL-24                
+
+SQL> rollback;
+
+Rollback complete.
+
+SQL> select * from product_purchase;
+
+no rows selected
+
+SQL> insert all into product_purchase values(11,150,'20litre','Rs.2500','11-feb-2024')into product_purchase values(12,153,'10litre','Rs.2000','02-jul-2024')select * from dual;
+
+2 rows created.
+
+SQL> select * from product_purchase;
+
+PURCHASE_ID PRODUCT_ID QUANITY              PURCHASE_P EXPIRY_DA                
+----------- ---------- -------------------- ---------- ---------                
+         11        150 20litre              Rs.2500    11-FEB-24                
+         12        153 10litre              Rs.2000    02-JUL-24                
+
+SQL> select * from product_purchase;
+
+PURCHASE_ID PRODUCT_ID QUANITY              PURCHASE_P EXPIRY_DA                
+----------- ---------- -------------------- ---------- ---------                
+         11        150 20litre              Rs.2500    11-FEB-24                
+         12        153 10litre              Rs.2000    02-JUL-24                
+
+SQL> rollback;
+
+Rollback complete.
+
+SQL> select * from product_purchase;
+
+no rows selected
+
+SQL> insert all into product_purchase values(11,150,'20litre','Rs.2500','11-feb-2024')into product_purchase values(12,153,'10litre','Rs.2000','02-jul-2024')select * from dual;
+
+2 rows created.
+
+SQL> select * from product_purchase;
+
+PURCHASE_ID PRODUCT_ID QUANITY              PURCHASE_P EXPIRY_DA                
+----------- ---------- -------------------- ---------- ---------                
+         11        150 20litre              Rs.2500    11-FEB-24                
+         12        153 10litre              Rs.2000    02-JUL-24                
+
+SQL> select * from expense;
+
+EXPENSE_ID  BRANCH_ID EXPENSE_D EXPENSE_TYPE         EXPENSE_AM                 
+---------- ---------- --------- -------------------- ----------                 
+      2000        102 18-MAR-24 Daily wages          Rs.8900                    
+      2001        104 23-JUN-23 Monthly Wages        Rs.10000                   
+      2002        105 28-JUL-25 Weekly Wages         Rs.20000                   
+      2003        101 19-MAY-24 Daily Wages          Rs.19000                   
+
+SQL> delete from expense where expense_type like 'M%';
+
+1 row deleted.
+
+SQL> select * from expense;
+
+EXPENSE_ID  BRANCH_ID EXPENSE_D EXPENSE_TYPE         EXPENSE_AM                 
+---------- ---------- --------- -------------------- ----------                 
+      2000        102 18-MAR-24 Daily wages          Rs.8900                    
+      2002        105 28-JUL-25 Weekly Wages         Rs.20000                   
+      2003        101 19-MAY-24 Daily Wages          Rs.19000                   
+
+SQL> delete from expense where expense_type like '__i%';
+
+2 rows deleted.
+
+SQL> select * from login;
+
+  LOGIN_ID USERNAME             PASSWORD              PERSON_ID                 
+---------- -------------------- -------------------- ----------                 
+      1500 Kavi                 kavi@27                       1                 
+      1501 Gautham              gautham13                     2                 
+      1502 Anu                  anu14                         3                 
+      1503 Rajan                raj03                         2                 
+      1504 Selva                selva23                       4                 
+
+SQL> delete from login where username='Kavi';
+
+1 row deleted.
+
+SQL> select * from login;
+
+  LOGIN_ID USERNAME             PASSWORD              PERSON_ID                 
+---------- -------------------- -------------------- ----------                 
+      1501 Gautham              gautham13                     2                 
+      1502 Anu                  anu14                         3                 
+      1503 Rajan                raj03                         2                 
+      1504 Selva                selva23                       4                 
+
+SQL> delete from login where username like 'Anu,Rajan';
+
+0 rows deleted.
+SQL> select * from expense;
+
+EXPENSE_ID  BRANCH_ID EXPENSE_D EXPENSE_TYPE         EXPENSE_AM                 
+---------- ---------- --------- -------------------- ----------                 
+      2000        102 18-MAR-24 Daily wages          Rs.8900                    
+      2001        104 23-JUN-23 Monthly Wages        Rs.10000                   
+      2002        105 28-JUL-25 Weekly Wages         Rs.20000                   
+      2003        101 19-MAY-24 Daily Wages          Rs.19000                   
+SQL> delete from expense where expense_type='Daily wages'and expense_id=2000;
+
+1 row deleted.
+
+SQL> select * from expense;
+
+EXPENSE_ID  BRANCH_ID EXPENSE_D EXPENSE_TYPE         EXPENSE_AM                 
+---------- ---------- --------- -------------------- ----------                 
+      2001        104 23-JUN-23 Monthly Wages        Rs.10000                   
+      2002        105 28-JUL-25 Weekly Wages         Rs.20000                   
+      2003        101 19-MAY-24 Daily Wages          Rs.19000                   
+SQL> select * from product;
+
+PRODUCT_ID PRODUCT_NAME         BRAND                                           
+---------- -------------------- ------------------------------                  
+MEASUREMENT                    CATEGORY_ID                                      
+------------------------------ -----------                                      
+       150 Curd                 Hatsun                                          
+500ml                                  201                                      
+                                                                                
+       151 Ice Cream            Vennila                                         
+100g                                   201                                      
+                                                                                
+       152 Cabbage              green leaf                                      
+1kg                                    202                                      
+                                                                                
+
+PRODUCT_ID PRODUCT_NAME         BRAND                                           
+---------- -------------------- ------------------------------                  
+MEASUREMENT                    CATEGORY_ID                                      
+------------------------------ -----------                                      
+       153 Mixture              daisy                                           
+500g                                   203                                      
+                                                                                
+       154 Mango                Slice                                           
+500ml                                  204                                      
+                                                                                
+       155 Dates                Lion                                            
+1.5kg                                  205                                      
+                                                                                
+6 rows selected.
+SQL> select * from person;
+
+ PERSON_ID PERSON_NAME          MAIL            ADDRESS_STREET                  
+---------- -------------------- --------------- --------------------            
+ADDRESS_CITY    ADDRESS_PIN                                                     
+--------------- -----------                                                     
+         1 Parkavi              kavi@gmail.com  South Street                    
+Sivakasi             626130                                                     
+                                                                                
+         2 Anu                  anu27@gmail.com T Nagar                         
+Chennai              626123                                                     
+                                                                                
+         3 Rajan                raj3@gmail      NGO COLONY                      
+Madurai              626100                                                     
+                                                                                
+
+ PERSON_ID PERSON_NAME          MAIL            ADDRESS_STREET                  
+---------- -------------------- --------------- --------------------            
+ADDRESS_CITY    ADDRESS_PIN                                                     
+--------------- -----------                                                     
+         4 Selva                selva@mail      car Street                      
+Sivakasi             626115                                                     
+                                                                                
+         5 Gautham              gautham@mail    North street                    
+Madurai              626124                                                     
+                                                                                
+SQL> select * from supplier;
+
+ PERSON_ID COMPANY_NAME    SUPPLIER_LICENSE     TYPE                            
+---------- --------------- -------------------- --------------------            
+         1 britania        1234                 Weekly                          
+         2 Hatsun          1330                 Daily                           
+         3 Daisy           1230                 Weekly                          
+         4 BRU             1100                 Monthly                         
+         5 Gold Cup        1212                 Monthly                         
+
+SQL> select * from person_contact;
+
+no rows selected
+
+SQL> select * from purchase;
+
+PURCHASE_ID PURCHASE_  PERSON_ID  BRANCH_ID TOTAL_PURCHASE_AMT                  
+----------- --------- ---------- ---------- --------------------                
+         11 11-OCT-25          2        104 10000                               
+         12 13-JAN-24          5        102 20000                               
+         13 01-MAR-25          4        101 3500                                
+         14 10-APR-24          1        103 9000                                
+
+SQL> select * from branch;
+
+ BRANCH_ID BRANCH_NAME          BRANCH_LOCATION                                 
+---------- -------------------- --------------------                            
+       101 Sivakasi             Near Sivan Temple                               
+       102 Thiruthangal         Near Senthil Bakery                             
+       103 Madurai              Kalavasal                                       
+       104 Sivakasi             Near Market                                     
+       105 Madurai              AnnaNagar                                       
+
+SQL> select * from login;
+
+  LOGIN_ID USERNAME             PASSWORD              PERSON_ID                 
+---------- -------------------- -------------------- ----------                 
+      1500 Kavi                 kavi@27                       1                 
+      1501 Gautham              gautham13                     2                 
+      1502 Anu                  anu14                         3                 
+      1503 Rajan                raj03                         2                 
+      1504 Selva                selva23                       4                 
+SQL> update product set measurement =1000;
+
+6 rows updated.
+
+SQL> select * from product;
+
+PRODUCT_ID PRODUCT_NAME         BRAND                                           
+---------- -------------------- ------------------------------                  
+MEASUREMENT                    CATEGORY_ID                                      
+------------------------------ -----------                                      
+       150 Curd                 Hatsun                                          
+1000                                   201                                      
+                                                                                
+       151 Ice Cream            Vennila                                         
+1000                                   201                                      
+                                                                                
+       152 Cabbage              green leaf                                      
+1000                                   202                                      
+                                                                                
+
+PRODUCT_ID PRODUCT_NAME         BRAND                                           
+---------- -------------------- ------------------------------                  
+MEASUREMENT                    CATEGORY_ID                                      
+------------------------------ -----------                                      
+       153 Mixture              daisy                                           
+1000                                   203                                      
+                                                                                
+       154 Mango                Slice                                           
+1000                                   204                                      
+                                                                                
+       155 Dates                Lion                                            
+1000                                   205                                      
+                                                                                
+
+6 rows selected.
+
+SQL> update branch set branch_location='south street' where branch_id>103;
+
+2 rows updated.
+
+SQL> select * from branch;
+
+ BRANCH_ID BRANCH_NAME          BRANCH_LOCATION                                 
+---------- -------------------- --------------------                            
+       101 Sivakasi             Near Sivan Temple                               
+       102 Thiruthangal         Near Senthil Bakery                             
+       103 Madurai              Kalavasal                                       
+       104 Sivakasi             south street                                    
+       105 Madurai              south street                                    
+
+SQL> select * from product;
+
+PRODUCT_ID PRODUCT_NAME         BRAND                                           
+---------- -------------------- ------------------------------                  
+MEASUREMENT                    CATEGORY_ID                                      
+------------------------------ -----------                                      
+       150 Curd                 Hatsun                                          
+1000                                   201                                      
+                                                                                
+       151 Ice Cream            Vennila                                         
+1000                                   201                                      
+                                                                                
+       152 Cabbage              green leaf                                      
+1000                                   202                                      
+                                                                                
+
+PRODUCT_ID PRODUCT_NAME         BRAND                                           
+---------- -------------------- ------------------------------                  
+MEASUREMENT                    CATEGORY_ID                                      
+------------------------------ -----------                                      
+       153 Mixture              daisy                                           
+1000                                   203                                      
+                                                                                
+       154 Mango                Slice                                           
+1000                                   204                                      
+                                                                                
+       155 Dates                Lion                                            
+1000                                   205                                      
+                                                                                
+
+6 rows selected.
+
+SQL> select * from product_supplier;
+
+no rows selected
+SQL>  insert all into product values(150,'Curd','Hatsun','500ml',201)into product values(151,'Ice Cream','Vennila','100g',201)into product values(152,'Cabbage','green leaf','1kg',202)into product values(153,'Mixture','daisy','500g',203)into product values(154,'Mango','Slice','500ml',204)into product values(155,'Dates','Lion','1.5kg',205)select * from dual;
+ 
+SQL> 6 rows created.
+SQL> select * from product;
+
+PRODUCT_ID PRODUCT_NAME         BRAND                                           
+---------- -------------------- ------------------------------                  
+MEASUREMENT                    CATEGORY_ID                                      
+------------------------------ -----------                                      
+       150 Curd                 Hatsun                                          
+500ml                                  201                                      
+                                                                                
+       151 Ice Cream            Vennila                                         
+100g                                   201                                      
+                                                                                
+       152 Cabbage              green leaf                                      
+1kg                                    202                                      
+                                                                                
+
+PRODUCT_ID PRODUCT_NAME         BRAND                                           
+---------- -------------------- ------------------------------                  
+MEASUREMENT                    CATEGORY_ID                                      
+------------------------------ -----------                                      
+       153 Mixture              daisy                                           
+500g                                   203                                      
+                                                                                
+       154 Mango                Slice                                           
+500ml                                  204                                      
+                                                                                
+       155 Dates                Lion                                            
+1.5kg                                  205                                      
+                                                                                
+
+6 rows selected.
+SQL> merge into product p using stock s on (p.product_id=s.product_id)when matched then update set p.measurement=p.measurement +1000 when not matched then insert values(s.product_id,1000);
+merge into product p using stock s on (p.product_id=s.product_id)when matched then update set p.measurement=p.measurement +1000 when not matched then insert values(s.product_id,1000)
+           *
+ERROR at line 1:
+ORA-00947: not enough values
+
+
+
+SQL> MERGE INTO product p USING stock s ON (p.product_id = s.product_id)WHEN MATCHED THEN  UPDATE SET p.measurement = p.measurement + 1000 WHEN NOT MATCHED THEN  INSERT (product_id, measurement)  VALUES (s.product_id, 1000);
+
+3 rows merged.
+
+SQL> select * from product;
+
+PRODUCT_ID PRODUCT_NAME         BRAND
+---------- -------------------- ------------------------------
+MEASUREMENT                    CATEGORY_ID PERSON_ID
+------------------------------ ----------- ----------
+       150 Curd                 Hatsun
+2000.23467                             201 1
+
+       151 Ice Cream            Vennila
+1250.972                               201 1
+
+       152 Cabbage              green leaf
+1002.982                               202 1
+
+
+PRODUCT_ID PRODUCT_NAME         BRAND
+---------- -------------------- ------------------------------
+MEASUREMENT                    CATEGORY_ID PERSON_ID
+------------------------------ ----------- ----------
+       153 Mixture              daisy
+1500                                   203 1
+
+       154 Mango                Slice
+1800.9                                 204 1
+
+       155 Dates                Lion
+30.76543                               205 1
+
+
+6 rows selected.
+
+SQL> select * from stock;
+
+  STOCK_ID PRODUCT_ID  BRANCH_ID AVAILABLE_QTY        LAST_UPDA
+---------- ---------- ---------- -------------------- ---------
+MEASUREMENT
+------------------------------
+      1002        152        103 1kg                  09-APR-25
+1000
+
+      1001        151        102 500g                 03-NOV-25
+1000
+
+      1000        150        101 10l                  03-JAN-26
+1000
+
+
+SQL> select branch_id,branch_name from branch;
+
+ BRANCH_ID BRANCH_NAME                                                          
+---------- --------------------                                                 
+       101 Sivakasi                                                             
+       102 Thiruthangal                                                         
+       103 Madurai                                                              
+       104 Sivakasi                                                             
+       105 Madurai                                                              
+
+SQL> select * from branch;
+
+ BRANCH_ID BRANCH_NAME          BRANCH_LOCATION                                 
+---------- -------------------- --------------------                            
+       101 Sivakasi             Near Sivan Temple                               
+       102 Thiruthangal         Near Senthil Bakery                             
+       103 Madurai              Kalavasal                                       
+       104 Sivakasi             Near Market                                     
+       105 Madurai              AnnaNagar                                       
+
+SQL> select stock_id,available_qty from stock;
+
+no rows selected
+
+SQL>  insert into stock values(1002,152,103,'1kg','09-apr-2025');
+
+1 row created.
+
+SQL> insert into stock values(1001,151,102,'500g','03-nov-2025');
+
+1 row created.
+
+SQL> insert into stock values(1000,150,101,'10l','03-jan-2026');
+
+1 row created.
+
+SQL> select * from stock;
+
+  STOCK_ID PRODUCT_ID  BRANCH_ID AVAILABLE_QTY        LAST_UPDA                 
+---------- ---------- ---------- -------------------- ---------                 
+      1002        152        103 1kg                  09-APR-25                 
+      1001        151        102 500g                 03-NOV-25                 
+      1000        150        101 10l                  03-JAN-26                 
+
+SQL> select stock_id,available_qty from stock;
+
+  STOCK_ID AVAILABLE_QTY                                                        
+---------- --------------------                                                 
+      1002 1kg                                                                  
+      1001 500g                                                                 
+      1000 10l                                                                  
+
+SQL> select stock_id from stock;
+
+  STOCK_ID                                                                      
+----------                                                                      
+      1000                                                                      
+      1001                                                                      
+      1002                                                                      
+
+SQL> select branch_id from branch;
+
+ BRANCH_ID                                                                      
+----------                                                                      
+       101                                                                      
+       102                                                                      
+       103                                                                      
+       104                                                                      
+       105                                                                      
+
+SQL> select distinct branch_name from branch;
+
+BRANCH_NAME                                                                     
+--------------------                                                            
+Sivakasi                                                                        
+Thiruthangal                                                                    
+Madurai                                                                         
+
+SQL> select branch_name madurai from branch;
+
+MADURAI                                                                         
+--------------------                                                            
+Sivakasi                                                                        
+Thiruthangal                                                                    
+Madurai                                                                         
+Sivakasi                                                                        
+Madurai                                                                         
+
+SQL> select branch_name br_name from branch;
+
+BR_NAME                                                                         
+--------------------                                                            
+Sivakasi                                                                        
+Thiruthangal                                                                    
+Madurai                                                                         
+Sivakasi                                                                        
+Madurai                                                                         
+
+SQL> select branch_location as branch_address from branch;
+
+BRANCH_ADDRESS                                                                  
+--------------------                                                            
+Near Sivan Temple                                                               
+Near Senthil Bakery                                                             
+Kalavasal                                                                       
+Near Market                                                                     
+AnnaNagar                                                                       
+
+SQL> select stock_id,branch_id,available_qty from stock;
+
+  STOCK_ID  BRANCH_ID AVAILABLE_QTY                                             
+---------- ---------- --------------------                                      
+      1002        103 1kg                                                       
+      1001        102 500g                                                      
+      1000        101 10l                                                       
+
+SQL> select * from purchase;
+
+PURCHASE_ID PURCHASE_  PERSON_ID  BRANCH_ID TOTAL_PURCHASE_AMT                  
+----------- --------- ---------- ---------- --------------------                
+         11 11-OCT-25          2        104 10000                               
+         12 13-JAN-24          5        102 20000                               
+         13 01-MAR-25          4        101 3500                                
+         14 10-APR-24          1        103 9000                                
+SQL> select purchase_id,purchase_date,total_purchase_amt+1000 from branch;
+select purchase_id,purchase_date,total_purchase_amt+1000 from branch
+                                 *
+ERROR at line 1:
+ORA-00904: "TOTAL_PURCHASE_AMT": invalid identifier 
+
+
+SQL> select purchase_id,purchase_date,total_purchase_amt+1000 from purchase;
+
+PURCHASE_ID PURCHASE_ TOTAL_PURCHASE_AMT+1000                                   
+----------- --------- -----------------------                                   
+         11 11-OCT-25                   11000                                   
+         12 13-JAN-24                   21000                                   
+         13 01-MAR-25                    4500                                   
+         14 10-APR-24                   10000                                   
+SQL> select branch_id,available_qty,stock_id-3 from stock;
+
+ BRANCH_ID AVAILABLE_QTY        STOCK_ID-3                                      
+---------- -------------------- ----------                                      
+       103 1kg                         999                                      
+       102 500g                        998                                      
+       101 10l                         997                                      
+
+SQL> select product_id,available_qty,stock_id*2 as doubled stock from stock;
+select product_id,available_qty,stock_id*2 as doubled stock from stock
+                                                      *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> select product_id,available_qty,stock_id*2 as doubledstock from stock;
+
+PRODUCT_ID AVAILABLE_QTY        DOUBLEDSTOCK                                    
+---------- -------------------- ------------                                    
+       152 1kg                          2004                                    
+       151 500g                         2002                                    
+       150 10l                          2000                                    
+
+SQL> select purchase_id,purchase_date,purchase_amt/2 as halfamt from purchase;
+select purchase_id,purchase_date,purchase_amt/2 as halfamt from purchase
+                                 *
+ERROR at line 1:
+ORA-00904: "PURCHASE_AMT": invalid identifier 
+
+
+SQL> select * from purchase;
+
+PURCHASE_ID PURCHASE_  PERSON_ID  BRANCH_ID TOTAL_PURCHASE_AMT                  
+----------- --------- ---------- ---------- --------------------                
+         11 11-OCT-25          2        104 10000                               
+         12 13-JAN-24          5        102 20000                               
+         13 01-MAR-25          4        101 3500                                
+         14 10-APR-24          1        103 9000                                
+
+SQL> select purchase_id,purchase_date,total_purchase_amt/2 as halfamt from purchase;
+
+PURCHASE_ID PURCHASE_    HALFAMT                                                
+----------- --------- ----------                                                
+         11 11-OCT-25       5000                                                
+         12 13-JAN-24      10000                                                
+         13 01-MAR-25       1750                                                
+         14 10-APR-24       4500                                                
+
+SQL> select branch_id||'created'||'lacated at'||branch_name||'near'||branch_location from branch;
+
+BRANCH_ID||'CREATED'||'LACATEDAT'||BRANCH_NAME||'NEAR'||BRANCH_LOCATION         
+--------------------------------------------------------------------------------
+101createdlacated atSivakasinearNear Sivan Temple                               
+102createdlacated atThiruthangalnearNear Senthil Bakery                         
+103createdlacated atMadurainearKalavasal                                        
+104createdlacated atSivakasinearNear Market                                     
+105createdlacated atMadurainearAnnaNagar                                        
+
+SQL> select * from branch where branch_name='madurai';
+
+no rows selected
+
+SQL> select * from branch where branch_name='Madurai';
+
+ BRANCH_ID BRANCH_NAME          BRANCH_LOCATION                                 
+---------- -------------------- --------------------                            
+       103 Madurai              Kalavasal                                       
+       105 Madurai              AnnaNagar                                       
+
+SQL> select * from category;
+
+CATEGORY_ID CATEGORY_NAME        DESCRIPTION
+----------- -------------------- --------------------
+        201 Milk                 Healthy Drink
+        202 Vegetables           Be Healthy
+        203 Snacks               As You like it
+        204 Juice                Pleasant Mind
+        205 Nuts                 Power Pack
+
+SQL> delete from category where category_name like 'Milk';
+delete from category where category_name like 'Milk'
+*
+ERROR at line 1:
+ORA-02292: integrity constraint (SYSTEM.SYS_C008321) violated - child record
+found
+
+
+SQL> insert into category values(206,'Fruits','Strong life');
+
+1 row created.
+
+SQL> select * from category;
+
+CATEGORY_ID CATEGORY_NAME        DESCRIPTION
+----------- -------------------- --------------------
+        201 Milk                 Healthy Drink
+        202 Vegetables           Be Healthy
+        203 Snacks               As You like it
+        204 Juice                Pleasant Mind
+        205 Nuts                 Power Pack
+        206 Fruits               Strong life
+
+6 rows selected.
+
+SQL> delete from category where category_name like 'Fruits';
+
+1 row deleted.
+
+SQL> desc stock;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ STOCK_ID                                  NOT NULL NUMBER
+ PRODUCT_ID                                         NUMBER
+ BRANCH_ID                                          NUMBER
+ AVAILABLE_QTY                             NOT NULL VARCHAR2(20)
+ LAST_UPDATED_DATE                                  DATE
+
+SQL> desc product;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ PRODUCT_ID                                NOT NULL NUMBER(38)
+ PRODUCT_NAME                                       VARCHAR2(20)
+ BRAND                                              VARCHAR2(30)
+ MEASUREMENT                                        VARCHAR2(30)
+ CATEGORY_ID                                        NUMBER
+
+SQL> alter table stock add measurement varchar2(30);
+
+Table altered.
+
+SQL> select * from stock;
+
+  STOCK_ID PRODUCT_ID  BRANCH_ID AVAILABLE_QTY        LAST_UPDA                 
+---------- ---------- ---------- -------------------- ---------                 
+MEASUREMENT                                                                     
+------------------------------                                                  
+      1002        152        103 1kg                  09-APR-25                 
+                                                                                
+                                                                                
+      1001        151        102 500g                 03-NOV-25                 
+                                                                                
+                                                                                
+      1000        150        101 10l                  03-JAN-26                 
+                                                                                
+SQL> update stock set measurement=1000;
+
+3 rows updated.
+
+SQL> merge into stock s using product p on (s.product_id=p.product_id)when matched then update set s.measurement=p.measurement when not matched then insert (product_id,measurement)values(p.product_id,p.measurement);
+merge into stock s using product p on (s.product_id=p.product_id)when matched then update set s.measurement=p.measurement when not matched then insert (product_id,measurement)values(p.product_id,p.measurement)
+*
+ERROR at line 1:
+ORA-01400: cannot insert NULL into ("SYSTEM"."STOCK"."STOCK_ID") 
+
+
+SQL> select * from product;
+
+PRODUCT_ID PRODUCT_NAME         BRAND                                           
+---------- -------------------- ------------------------------                  
+MEASUREMENT                    CATEGORY_ID                                      
+------------------------------ -----------                                      
+       150 Curd                 Hatsun                                          
+500ml                                  201                                      
+                                                                                
+       151 Ice Cream            Vennila                                         
+100g                                   201                                      
+                                                                                
+       152 Cabbage              green leaf                                      
+1kg                                    202                                      
+                                                                                
+
+PRODUCT_ID PRODUCT_NAME         BRAND                                           
+---------- -------------------- ------------------------------                  
+MEASUREMENT                    CATEGORY_ID                                      
+------------------------------ -----------                                      
+       153 Mixture              daisy                                           
+500g                                   203                                      
+                                                                                
+       154 Mango                Slice                                           
+500ml                                  204                                      
+                                                                                
+       155 Dates                Lion                                            
+1.5kg                                  205                                      
+                                                                                
+
+6 rows selected.
+
+                                                          
+SQL> alter table product add person_id varchar(10);
+
+Table altered.
+
+SQL> update product set person_id=1;
+
+6 rows updated.
+
+SQL> select * from product;
+
+PRODUCT_ID PRODUCT_NAME         BRAND                                           
+---------- -------------------- ------------------------------                  
+MEASUREMENT                    CATEGORY_ID PERSON_ID                            
+------------------------------ ----------- ----------                           
+       150 Curd                 Hatsun                                          
+500ml                                  201 1                                    
+                                                                                
+       151 Ice Cream            Vennila                                         
+100g                                   201 1                                    
+                                                                                
+       152 Cabbage              green leaf                                      
+1kg                                    202 1                                    
+                                                                                
+
+PRODUCT_ID PRODUCT_NAME         BRAND                                           
+---------- -------------------- ------------------------------                  
+MEASUREMENT                    CATEGORY_ID PERSON_ID                            
+------------------------------ ----------- ----------                           
+       153 Mixture              daisy                                           
+500g                                   203 1                                    
+                                                                                
+       154 Mango                Slice                                           
+500ml                                  204 1                                    
+                                                                                
+       155 Dates                Lion                                            
+1.5kg                                  205 1                                    
+                                                                                
+
+6 rows selected.
+
+SQL> select * from stock;
+
+  STOCK_ID PRODUCT_ID  BRANCH_ID AVAILABLE_QTY        LAST_UPDA                 
+---------- ---------- ---------- -------------------- ---------                 
+MEASUREMENT                                                                     
+------------------------------                                                  
+      1002        152        103 1kg                  09-APR-25                 
+1000                                                                            
+                                                                                
+      1001        151        102 500g                 03-NOV-25                 
+1000                                                                            
+                                                                                
+      1000        150        101 10l                  03-JAN-26                 
+1000                                                                            
+                                                                                
+
+SQL> select * from product;
+
+PRODUCT_ID PRODUCT_NAME         BRAND                                           
+---------- -------------------- ------------------------------                  
+MEASUREMENT                    CATEGORY_ID PERSON_ID                            
+------------------------------ ----------- ----------                           
+       150 Curd                 Hatsun                                          
+500ml                                  201 1                                    
+                                                                                
+       151 Ice Cream            Vennila                                         
+100g                                   201 1                                    
+                                                                                
+       152 Cabbage              green leaf                                      
+1kg                                    202 1                                    
+                                                                                
+
+PRODUCT_ID PRODUCT_NAME         BRAND                                           
+---------- -------------------- ------------------------------                  
+MEASUREMENT                    CATEGORY_ID PERSON_ID                            
+------------------------------ ----------- ----------                           
+       153 Mixture              daisy                                           
+500g                                   203 1                                    
+                                                                                
+       154 Mango                Slice                                           
+500ml                                  204 1                                    
+                                                                                
+       155 Dates                Lion                                            
+1.5kg                                  205 1                                    
+                                                                                
+
+6 rows selected.
+
+SQL> spool off;
+SQL> select * from branch where branch_id>102;
+
+ BRANCH_ID BRANCH_NAME          BRANCH_LOCATION                                 
+---------- -------------------- --------------------                            
+       103 Madurai              Kalavasal                                       
+       104 Sivakasi             Near Market                                     
+       105 Madurai              AnnaNagar                                       
+
+SQL> select * from branch where branch_id>=102;
+
+ BRANCH_ID BRANCH_NAME          BRANCH_LOCATION                                 
+---------- -------------------- --------------------                            
+       102 Thiruthangal         Near Senthil Bakery                             
+       103 Madurai              Kalavasal                                       
+       104 Sivakasi             Near Market                                     
+       105 Madurai              AnnaNagar                                       
+
+SQL> select * from branch where branch_id<102;
+
+ BRANCH_ID BRANCH_NAME          BRANCH_LOCATION                                 
+---------- -------------------- --------------------                            
+       101 Sivakasi             Near Sivan Temple                               
+
+SQL> select * from branch where branch_id<=102;
+
+ BRANCH_ID BRANCH_NAME          BRANCH_LOCATION                                 
+---------- -------------------- --------------------                            
+       101 Sivakasi             Near Sivan Temple                               
+       102 Thiruthangal         Near Senthil Bakery                             
+
+SQL> select * from branch where branch_id<>102;
+
+ BRANCH_ID BRANCH_NAME          BRANCH_LOCATION                                 
+---------- -------------------- --------------------                            
+       101 Sivakasi             Near Sivan Temple                               
+       103 Madurai              Kalavasal                                       
+       104 Sivakasi             Near Market                                     
+       105 Madurai              AnnaNagar                                       
+
+SQL> select * from stock where stock_id between 1000 and 1002;
+
+  STOCK_ID PRODUCT_ID  BRANCH_ID AVAILABLE_QTY        LAST_UPDA                 
+---------- ---------- ---------- -------------------- ---------                 
+MEASUREMENT                                                                     
+------------------------------                                                  
+      1000        150        101 10l                  03-JAN-26                 
+1000                                                                            
+                                                                                
+      1001        151        102 500g                 03-NOV-25                 
+1000                                                                            
+                                                                                
+      1002        152        103 1kg                  09-APR-25                 
+1000                                                                            
+                                                                                
+
+SQL> select * from stock where stock_id not between 1000 and 1002;
+
+no rows selected
+
+SQL> select * from branch where branch_id>=101 or branch_id<=104;
+
+ BRANCH_ID BRANCH_NAME          BRANCH_LOCATION                                 
+---------- -------------------- --------------------                            
+       101 Sivakasi             Near Sivan Temple                               
+       102 Thiruthangal         Near Senthil Bakery                             
+       103 Madurai              Kalavasal                                       
+       104 Sivakasi             Near Market                                     
+       105 Madurai              AnnaNagar                                       
+
+SQL> select * from product where brand is null;
+
+no rows selected
+
+SQL> select * from product;
+
+PRODUCT_ID PRODUCT_NAME         BRAND                                           
+---------- -------------------- ------------------------------                  
+MEASUREMENT                    CATEGORY_ID PERSON_ID                            
+------------------------------ ----------- ----------                           
+       150 Curd                 Hatsun                                          
+500ml                                  201 1                                    
+                                                                                
+       151 Ice Cream            Vennila                                         
+100g                                   201 1                                    
+                                                                                
+       152 Cabbage              green leaf                                      
+1kg                                    202 1                                    
+                                                                                
+
+PRODUCT_ID PRODUCT_NAME         BRAND                                           
+---------- -------------------- ------------------------------                  
+MEASUREMENT                    CATEGORY_ID PERSON_ID                            
+------------------------------ ----------- ----------                           
+       153 Mixture              daisy                                           
+500g                                   203 1                                    
+                                                                                
+       154 Mango                Slice                                           
+500ml                                  204 1                                    
+                                                                                
+       155 Dates                Lion                                            
+1.5kg                                  205 1                                    
+                                                                                
+
+6 rows selected.
+
+SQL> insert into product values(156,'Biscuits','',2pack,204,1);
+insert into product values(156,'Biscuits','',2pack,204,1)
+                                              *
+ERROR at line 1:
+ORA-00917: missing comma 
+
+
+SQL> insert into product values(156,'Biscuits','','2pack',204,1);
+
+1 row created.
+
+SQL> select * from product;
+
+PRODUCT_ID PRODUCT_NAME         BRAND                                           
+---------- -------------------- ------------------------------                  
+MEASUREMENT                    CATEGORY_ID PERSON_ID                            
+------------------------------ ----------- ----------                           
+       150 Curd                 Hatsun                                          
+500ml                                  201 1                                    
+                                                                                
+       151 Ice Cream            Vennila                                         
+100g                                   201 1                                    
+                                                                                
+       152 Cabbage              green leaf                                      
+1kg                                    202 1                                    
+                                                                                
+
+PRODUCT_ID PRODUCT_NAME         BRAND                                           
+---------- -------------------- ------------------------------                  
+MEASUREMENT                    CATEGORY_ID PERSON_ID                            
+------------------------------ ----------- ----------                           
+       153 Mixture              daisy                                           
+500g                                   203 1                                    
+                                                                                
+       154 Mango                Slice                                           
+500ml                                  204 1                                    
+                                                                                
+       155 Dates                Lion                                            
+1.5kg                                  205 1                                    
+                                                                                
+
+PRODUCT_ID PRODUCT_NAME         BRAND                                           
+---------- -------------------- ------------------------------                  
+MEASUREMENT                    CATEGORY_ID PERSON_ID                            
+------------------------------ ----------- ----------                           
+       156 Biscuits                                                             
+2pack                                  204 1                                    
+                                                                                
+
+7 rows selected.
+
+SQL> select * from product where brand is null;
+
+PRODUCT_ID PRODUCT_NAME         BRAND                                           
+---------- -------------------- ------------------------------                  
+MEASUREMENT                    CATEGORY_ID PERSON_ID                            
+------------------------------ ----------- ----------                           
+       156 Biscuits                                                             
+2pack                                  204 1                                    
+                                                                                
+
+SQL> select * from product where brand is not null;
+
+PRODUCT_ID PRODUCT_NAME         BRAND                                           
+---------- -------------------- ------------------------------                  
+MEASUREMENT                    CATEGORY_ID PERSON_ID                            
+------------------------------ ----------- ----------                           
+       150 Curd                 Hatsun                                          
+500ml                                  201 1                                    
+                                                                                
+       151 Ice Cream            Vennila                                         
+100g                                   201 1                                    
+                                                                                
+       152 Cabbage              green leaf                                      
+1kg                                    202 1                                    
+                                                                                
+
+PRODUCT_ID PRODUCT_NAME         BRAND                                           
+---------- -------------------- ------------------------------                  
+MEASUREMENT                    CATEGORY_ID PERSON_ID                            
+------------------------------ ----------- ----------                           
+       153 Mixture              daisy                                           
+500g                                   203 1                                    
+                                                                                
+       154 Mango                Slice                                           
+500ml                                  204 1                                    
+                                                                                
+       155 Dates                Lion                                            
+1.5kg                                  205 1                                    
+                                                                                
+
+6 rows selected.
+
+SQL> select * from branch order by branch_id asc;
+
+ BRANCH_ID BRANCH_NAME          BRANCH_LOCATION                                 
+---------- -------------------- --------------------                            
+       101 Sivakasi             Near Sivan Temple                               
+       102 Thiruthangal         Near Senthil Bakery                             
+       103 Madurai              Kalavasal                                       
+       104 Sivakasi             Near Market                                     
+       105 Madurai              AnnaNagar                                       
+
+SQL> select * from branch order by branch_id desc;
+
+ BRANCH_ID BRANCH_NAME          BRANCH_LOCATION                                 
+---------- -------------------- --------------------                            
+       105 Madurai              AnnaNagar                                       
+       104 Sivakasi             Near Market                                     
+       103 Madurai              Kalavasal                                       
+       102 Thiruthangal         Near Senthil Bakery                             
+       101 Sivakasi             Near Sivan Temple                               
+
+SQL> select * from stock order by branch_id,stock_id desc;
+
+  STOCK_ID PRODUCT_ID  BRANCH_ID AVAILABLE_QTY        LAST_UPDA                 
+---------- ---------- ---------- -------------------- ---------                 
+MEASUREMENT                                                                     
+------------------------------                                                  
+      1000        150        101 10l                  03-JAN-26                 
+1000                                                                            
+                                                                                
+      1001        151        102 500g                 03-NOV-25                 
+1000                                                                            
+                                                                                
+      1002        152        103 1kg                  09-APR-25                 
+1000                                                                            
+                                                                                
+
+SQL> select * from stock order by stock_id,product_id desc;
+
+  STOCK_ID PRODUCT_ID  BRANCH_ID AVAILABLE_QTY        LAST_UPDA                 
+---------- ---------- ---------- -------------------- ---------                 
+MEASUREMENT                                                                     
+------------------------------                                                  
+      1000        150        101 10l                  03-JAN-26                 
+1000                                                                            
+                                                                                
+      1001        151        102 500g                 03-NOV-25                 
+1000                                                                            
+                                                                                
+      1002        152        103 1kg                  09-APR-25                 
+1000                                                                            
+                                                                                
+
+SQL> select * from stock order by stock_id,product_id;
+
+  STOCK_ID PRODUCT_ID  BRANCH_ID AVAILABLE_QTY        LAST_UPDA                 
+---------- ---------- ---------- -------------------- ---------                 
+MEASUREMENT                                                                     
+------------------------------                                                  
+      1000        150        101 10l                  03-JAN-26                 
+1000                                                                            
+                                                                                
+      1001        151        102 500g                 03-NOV-25                 
+1000                                                                            
+                                                                                
+      1002        152        103 1kg                  09-APR-25                 
+1000                                                                            
+                                                                                
+
+SQL> select * from stock order by stock_id,product_id desc;
+
+  STOCK_ID PRODUCT_ID  BRANCH_ID AVAILABLE_QTY        LAST_UPDA                 
+---------- ---------- ---------- -------------------- ---------                 
+MEASUREMENT                                                                     
+------------------------------                                                  
+      1000        150        101 10l                  03-JAN-26                 
+1000                                                                            
+                                                                                
+      1001        151        102 500g                 03-NOV-25                 
+1000                                                                            
+                                                                                
+      1002        152        103 1kg                  09-APR-25                 
+1000                                                                            
+                                                                                
+SQL> select * from person where address_city in ('Sivakasi','Virudhunagar');
+
+ PERSON_ID PERSON_NAME          MAIL            ADDRESS_STREET                  
+---------- -------------------- --------------- --------------------            
+ADDRESS_CITY    ADDRESS_PIN                                                     
+--------------- -----------                                                     
+         1 Parkavi              kavi@gmail.com  South Street                    
+Sivakasi             626130                                                     
+                                                                                
+         4 Selva                selva@mail      car Street                      
+Sivakasi             626115                                                     
+                                                                                
+
+SQL> select * from person where address_city not in ('Sivakasi','Virudhunagar');
+
+ PERSON_ID PERSON_NAME          MAIL            ADDRESS_STREET                  
+---------- -------------------- --------------- --------------------            
+ADDRESS_CITY    ADDRESS_PIN                                                     
+--------------- -----------                                                     
+         2 Anu                  anu27@gmail.com T Nagar                         
+Chennai              626123                                                     
+                                                                                
+         3 Rajan                raj3@gmail      NGO COLONY                      
+Madurai              626100                                                     
+                                                                                
+         5 Gautham              gautham@mail    North street                    
+Madurai              626124                                                     
+                                                                                
+
+SQL> select * from branch where branch_name like '%a%';
+
+ BRANCH_ID BRANCH_NAME          BRANCH_LOCATION                                 
+---------- -------------------- --------------------                            
+       101 Sivakasi             Near Sivan Temple                               
+       102 Thiruthangal         Near Senthil Bakery                             
+       103 Madurai              Kalavasal                                       
+       104 Sivakasi             Near Market                                     
+       105 Madurai              AnnaNagar                                       
+
+SQL> select * from branch where branch_name like '_i%';
+
+ BRANCH_ID BRANCH_NAME          BRANCH_LOCATION                                 
+---------- -------------------- --------------------                            
+       101 Sivakasi             Near Sivan Temple                               
+       104 Sivakasi             Near Market                                     
+
+SQL> select * from branch where branch_name like 'V%';
+
+no rows selected
+
+SQL> select * from branch where branch_name like '_v%';
+
+no rows selected
+
+SQL> select * from branch where branch_name like '%V%';
+
+no rows selected
+
+SQL> select * from branch where branch_name like '%v%';
+
+ BRANCH_ID BRANCH_NAME          BRANCH_LOCATION                                 
+---------- -------------------- --------------------                            
+       101 Sivakasi             Near Sivan Temple                               
+       104 Sivakasi             Near Market                                     
+
+SQL> select * from branch where branch_name like 'T%';
+
+ BRANCH_ID BRANCH_NAME          BRANCH_LOCATION                                 
+---------- -------------------- --------------------                            
+       102 Thiruthangal         Near Senthil Bakery                             
+
+SQL> select * from product where brand='Amul' and product_name='Curd';
+
+no rows selected
+
+SQL> select * from product;
+
+PRODUCT_ID PRODUCT_NAME         BRAND                                           
+---------- -------------------- ------------------------------                  
+MEASUREMENT                    CATEGORY_ID PERSON_ID                            
+------------------------------ ----------- ----------                           
+       150 Curd                 Hatsun                                          
+500ml                                  201 1                                    
+                                                                                
+       151 Ice Cream            Vennila                                         
+100g                                   201 1                                    
+                                                                                
+       152 Cabbage              green leaf                                      
+1kg                                    202 1                                    
+                                                                                
+
+PRODUCT_ID PRODUCT_NAME         BRAND                                           
+---------- -------------------- ------------------------------                  
+MEASUREMENT                    CATEGORY_ID PERSON_ID                            
+------------------------------ ----------- ----------                           
+       153 Mixture              daisy                                           
+500g                                   203 1                                    
+                                                                                
+       154 Mango                Slice                                           
+500ml                                  204 1                                    
+                                                                                
+       155 Dates                Lion                                            
+1.5kg                                  205 1                                    
+                                                                                
+
+6 rows selected.
+
+SQL> select * from product where brand='Cabbage' and product_name='Curd';
+
+no rows selected
+
+SQL> select * from product where product_name='Cabbage' and product_name='Curd';
+
+no rows selected
+
+SQL> select * from product where product_name='Cabbage' and brand='green leaf';
+
+PRODUCT_ID PRODUCT_NAME         BRAND                                           
+---------- -------------------- ------------------------------                  
+MEASUREMENT                    CATEGORY_ID PERSON_ID                            
+------------------------------ ----------- ----------                           
+       152 Cabbage              green leaf                                      
+1kg                                    202 1                                    
+                                                                                
+
+SQL> select * from person where address_city='Sivakasi' or address_city='Virudhunagar';
+
+ PERSON_ID PERSON_NAME          MAIL            ADDRESS_STREET                  
+---------- -------------------- --------------- --------------------            
+ADDRESS_CITY    ADDRESS_PIN                                                     
+--------------- -----------                                                     
+         1 Parkavi              kavi@gmail.com  South Street                    
+Sivakasi             626130                                                     
+                                                                                
+         4 Selva                selva@mail      car Street                      
+Sivakasi             626115                                                     
+                                                                                
+SQL> select upper(branch_name);
+select upper(branch_name)
+                        *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> select upper(branch_name) from branch;
+
+UPPER(BRANCH_NAME)                                                              
+--------------------                                                            
+SIVAKASI                                                                        
+THIRUTHANGAL                                                                    
+MADURAI                                                                         
+SIVAKASI                                                                        
+MADURAI                                                                         
+
+SQL> select lower(branch_name) from branch;
+
+LOWER(BRANCH_NAME)                                                              
+--------------------                                                            
+sivakasi                                                                        
+thiruthangal                                                                    
+madurai                                                                         
+sivakasi                                                                        
+madurai                                                                         
+
+SQL> select initcap(branch_name) from branch;
+
+INITCAP(BRANCH_NAME)                                                            
+--------------------                                                            
+Sivakasi                                                                        
+Thiruthangal                                                                    
+Madurai                                                                         
+Sivakasi                                                                        
+Madurai                                                                         
+
+SQL> select initcap('HELLO CUSTOMERS')from dual;
+
+INITCAP('HELLOC                                                                 
+---------------                                                                 
+Hello Customers                                                                 
+
+SQL> select concat('Rs.',total_purchase_amt)from purchase;
+
+CONCAT('RS.',TOTAL_PURC                                                         
+-----------------------                                                         
+Rs.10000                                                                        
+Rs.20000                                                                        
+Rs.3500                                                                         
+Rs.9000                                                                         
+
+SQL> select concat('Hi Customer',person_name)from person;
+
+CONCAT('HICUSTOMER',PERSON_NAME                                                 
+-------------------------------                                                 
+Hi CustomerParkavi                                                              
+Hi CustomerAnu                                                                  
+Hi CustomerRajan                                                                
+Hi CustomerSelva                                                                
+Hi CustomerGautham                                                              
+
+SQL> select concat(concat('Hi Dear')person_name)from person;
+select concat(concat('Hi Dear')person_name)from person
+              *
+ERROR at line 1:
+ORA-00909: invalid number of arguments 
+
+
+SQL> select concat(concat('Hi,'Dear')person_name)from person;
+ERROR:
+ORA-01756: quoted string not properly terminated 
+
+
+SQL> select concat(concat('Hi,'Dear'))person_name)from person;
+ERROR:
+ORA-01756: quoted string not properly terminated 
+
+
+SQL> select concat(concat('Hi','Dear'))person_name)from person;
+select concat(concat('Hi','Dear'))person_name)from person
+       *
+ERROR at line 1:
+ORA-00909: invalid number of arguments 
+
+SQL> select concat(concat('Hi','Dear'),person_name) from person;
+
+CONCAT(CONCAT('HI','DEAR')                                                      
+--------------------------                                                      
+HiDearParkavi                                                                   
+HiDearAnu                                                                       
+HiDearRajan                                                                     
+HiDearSelva                                                                     
+HiDearGautham                                                                   
+
+SQL> select substr(product_name,1,3) from product;
+
+SUBSTR(PRODU                                                                    
+------------                                                                    
+Cur                                                                             
+Ice                                                                             
+Cab                                                                             
+Mix                                                                             
+Man                                                                             
+Dat                                                                             
+
+6 rows selected.
+
+SQL> select length(branch_name) from branch;
+
+LENGTH(BRANCH_NAME)                                                             
+-------------------                                                             
+                  8                                                             
+                 12                                                             
+                  7                                                             
+                  8                                                             
+                  7                                                             
+
+SQL> select instr(product_name,'c') from product;
+
+INSTR(PRODUCT_NAME,'C')                                                         
+-----------------------                                                         
+                      0                                                         
+                      2                                                         
+                      0                                                         
+                      0                                                         
+                      0                                                         
+                      0                                                         
+
+6 rows selected.
+
+SQL> select lpad(product_name,20,*) as pad_productname from product;
+select lpad(product_name,20,*) as pad_productname from product
+                            *
+ERROR at line 1:
+ORA-00936: missing expression 
+
+
+SQL> select lpad(product_name,20,'*') as pad_productname from product;
+
+PAD_PRODUCTNAME                                                                 
+--------------------------------------------------------------------------------
+****************Curd                                                            
+***********Ice Cream                                                            
+*************Cabbage                                                            
+*************Mixture                                                            
+***************Mango                                                            
+***************Dates                                                            
+
+6 rows selected.
+
+SQL> select rpad(product_name,20,'*') as rpad_productname from product;
+
+RPAD_PRODUCTNAME                                                                
+--------------------------------------------------------------------------------
+Curd****************                                                            
+Ice Cream***********                                                            
+Cabbage*************                                                            
+Mixture*************                                                            
+Mango***************                                                            
+Dates***************                                                            
+
+6 rows selected.
+
+SQL> select trim(branch_name) from branch;
+
+TRIM(BRANCH_NAME)                                                               
+--------------------                                                            
+Sivakasi                                                                        
+Thiruthangal                                                                    
+Madurai                                                                         
+Sivakasi                                                                        
+Madurai                                                                         
+
+SQL> select trim('   Database   ') from branch;
+
+TRIM('DA                                                                        
+--------                                                                        
+Database                                                                        
+Database                                                                        
+Database                                                                        
+Database                                                                        
+Database                                                                        
+
+SQL> select rtrim('   Database   ') from branch;
+
+RTRIM('DATA                                                                     
+-----------                                                                     
+   Database                                                                     
+   Database                                                                     
+   Database                                                                     
+   Database                                                                     
+   Database                                                                     
+
+SQL> select ltrim('   Database   ') from branch;
+
+LTRIM('DATA                                                                     
+-----------                                                                     
+Database                                                                        
+Database                                                                        
+Database                                                                        
+Database                                                                        
+Database                                                                        
+
+SQL> spool off;
+SQL> select replace(product_name 'p','k')from product;
+select replace(product_name 'p','k')from product
+                            *
+ERROR at line 1:
+ORA-00907: missing right parenthesis 
+
+
+SQL> select replace(product_name,'p','k')from product;
+
+REPLACE(PRODUCT_NAME                                                            
+--------------------                                                            
+Curd                                                                            
+Ice Cream                                                                       
+Cabbage                                                                         
+Mixture                                                                         
+Mango                                                                           
+Dates                                                                           
+
+6 rows selected.
+
+SQL> select ascii(product_name) from product;
+
+ASCII(PRODUCT_NAME)                                                             
+-------------------                                                             
+                 67                                                             
+                 73                                                             
+                 67                                                             
+                 77                                                             
+                 77                                                             
+                 68                                                             
+
+6 rows selected.
+
+SQL> select round(measurement,2) from product;
+select round(measurement,2) from product
+             *
+ERROR at line 1:
+ORA-01722: invalid number 
+
+
+SQL> select * from product;
+
+PRODUCT_ID PRODUCT_NAME         BRAND                                           
+---------- -------------------- ------------------------------                  
+MEASUREMENT                    CATEGORY_ID PERSON_ID                            
+------------------------------ ----------- ----------                           
+       150 Curd                 Hatsun                                          
+500ml                                  201 1                                    
+                                                                                
+       151 Ice Cream            Vennila                                         
+100g                                   201 1                                    
+                                                                                
+       152 Cabbage              green leaf                                      
+1kg                                    202 1                                    
+                                                                                
+
+PRODUCT_ID PRODUCT_NAME         BRAND                                           
+---------- -------------------- ------------------------------                  
+MEASUREMENT                    CATEGORY_ID PERSON_ID                            
+------------------------------ ----------- ----------                           
+       153 Mixture              daisy                                           
+500g                                   203 1                                    
+                                                                                
+       154 Mango                Slice                                           
+500ml                                  204 1                                    
+                                                                                
+       155 Dates                Lion                                            
+1.5kg                                  205 1                                    
+                                                                                
+
+6 rows selected.
+
+SQL> update product set measurement 1000.23467 where product_id=150;
+update product set measurement 1000.23467 where product_id=150
+                               *
+ERROR at line 1:
+ORA-00927: missing equal sign 
+
+
+SQL> update product set measurement= 1000.23467 where product_id=150;
+
+1 row updated.
+
+SQL> update product set measurement=250.972 where product_id=151;
+
+1 row updated.
+
+SQL> update product set measurement=250.972 where product_id=152;
+
+1 row updated.
+
+SQL> update product set measurement=2.982 where product_id=152;
+
+1 row updated.
+
+SQL> update product set measurement=1500.00 where product_id=153;
+
+1 row updated.
+
+SQL> update product set measurement=1800.900 where product_id=154;
+
+1 row updated.
+
+SQL> update product set measurement=30.76543 where product_id=155;
+
+1 row updated.
+
+SQL> select * from product;
+
+PRODUCT_ID PRODUCT_NAME         BRAND                                           
+---------- -------------------- ------------------------------                  
+MEASUREMENT                    CATEGORY_ID PERSON_ID                            
+------------------------------ ----------- ----------                           
+       150 Curd                 Hatsun                                          
+1000.23467                             201 1                                    
+                                                                                
+       151 Ice Cream            Vennila                                         
+250.972                                201 1                                    
+                                                                                
+       152 Cabbage              green leaf                                      
+2.982                                  202 1                                    
+                                                                                
+
+PRODUCT_ID PRODUCT_NAME         BRAND                                           
+---------- -------------------- ------------------------------                  
+MEASUREMENT                    CATEGORY_ID PERSON_ID                            
+------------------------------ ----------- ----------                           
+       153 Mixture              daisy                                           
+1500                                   203 1                                    
+                                                                                
+       154 Mango                Slice                                           
+1800.9                                 204 1                                    
+                                                                                
+       155 Dates                Lion                                            
+30.76543                               205 1                                    
+                                                                                
+
+6 rows selected.
+
+SQL> select round(measurement,2) from product;
+
+ROUND(MEASUREMENT,2)                                                            
+--------------------                                                            
+             1000.23                                                            
+              250.97                                                            
+                2.98                                                            
+                1500                                                            
+              1800.9                                                            
+               30.77                                                            
+
+6 rows selected.
+
+SQL> select round(measurement,-2) from product;
+
+ROUND(MEASUREMENT,-2)                                                           
+---------------------                                                           
+                 1000                                                           
+                  300                                                           
+                    0                                                           
+                 1500                                                           
+                 1800                                                           
+                    0                                                           
+
+6 rows selected.
+
+SQL> select trunc(measurement,1) from product;
+
+TRUNC(MEASUREMENT,1)                                                            
+--------------------                                                            
+              1000.2                                                            
+               250.9                                                            
+                 2.9                                                            
+                1500                                                            
+              1800.9                                                            
+                30.7                                                            
+
+6 rows selected.
+
+SQL> select trunc(measurement,-2) from product;
+
+TRUNC(MEASUREMENT,-2)                                                           
+---------------------                                                           
+                 1000                                                           
+                  200                                                           
+                    0                                                           
+                 1500                                                           
+                 1800                                                           
+                    0                                                           
+
+6 rows selected.
+
+SQL> select mod(measurement,12) from product;
+
+MOD(MEASUREMENT,12)                                                             
+-------------------                                                             
+            4.23467                                                             
+             10.972                                                             
+              2.982                                                             
+                  0                                                             
+                 .9                                                             
+            6.76543                                                             
+
+6 rows selected.
+
+SQL> select abs(-0.60) from dual;
+
+ABS(-0.60)                                                                      
+----------                                                                      
+        .6                                                                      
+
+SQL> select ceil(measurement) from product;
+
+CEIL(MEASUREMENT)                                                               
+-----------------                                                               
+             1001                                                               
+              251                                                               
+                3                                                               
+             1500                                                               
+             1801                                                               
+               31                                                               
+
+6 rows selected.
+
+SQL> select floor(measurement) from product;
+
+FLOOR(MEASUREMENT)                                                              
+------------------                                                              
+              1000                                                              
+               250                                                              
+                 2                                                              
+              1500                                                              
+              1800                                                              
+                30                                                              
+
+6 rows selected.
+
+SQL> select power(2,3) from dual;
+
+POWER(2,3)                                                                      
+----------                                                                      
+         8                                                                      
+
+SQL> select sqrt(16) from dual;
+
+  SQRT(16)                                                                      
+----------                                                                      
+         4                                                                      
+
+SQL> select sign(-23) from dual;
+
+ SIGN(-23)                                                                      
+----------                                                                      
+        -1                                                                      
+
+SQL> select ln(20) from dual;
+
+    LN(20)                                                                      
+----------                                                                      
+2.99573227                                                                      
+
+SQL> select log(2100) from dual;
+select log(2100) from dual
+       *
+ERROR at line 1:
+ORA-00909: invalid number of arguments 
+
+
+SQL> select log(2,100) from dual;
+
+LOG(2,100)                                                                      
+----------                                                                      
+6.64385619                                                                      
+
+SQL> select exp(3) from dual;
+
+    EXP(3)                                                                      
+----------                                                                      
+20.0855369                                                                      
+
+SQL> select greatest(25,18,2) from dual;
+
+GREATEST(25,18,2)                                                               
+-----------------                                                               
+               25                                                               
+
+SQL> select least(25,18,2) from dual;
+
+LEAST(25,18,2)                                                                  
+--------------                                                                  
+             2                                                                  
+
+SQL> select dbms_random.value from dual;
+
+     VALUE                                                                      
+----------                                                                      
+.539122473                                                                      
+
+SQL> select dbms_random.value from dual;
+
+     VALUE                                                                      
+----------                                                                      
+.538882313                                                                      
+
+SQL> select dbms_random.value from dual;
+
+     VALUE                                                                      
+----------                                                                      
+.664175581                                                                      
+
+SQL> select dbms_random value from dual;
+select dbms_random value from dual
+       *
+ERROR at line 1:
+ORA-06553: PLS-221: 'DBMS_RANDOM' is not a procedure or is undefined 
+
+
+SQL> select dbms_random.value from dual;
+
+     VALUE                                                                      
+----------                                                                      
+.584466006                                                                      
+
+SQL> select sysdate from dual;
+
+SYSDATE                                                                         
+---------                                                                       
+13-FEB-26                                                                       
+
+SQL> select current_date from dual;
+
+CURRENT_D                                                                       
+---------                                                                       
+13-FEB-26                                                                       
+
+SQL> select current_timestamp from dual;
+
+CURRENT_TIMESTAMP                                                               
+---------------------------------------------------------------------------     
+13-FEB-26 09.36.46.498000 PM +05:30                                             
+
+SQL> select sysdate+5 from dual;
+
+SYSDATE+5                                                                       
+---------                                                                       
+18-FEB-26                                                                       
+
+SQL> select sysdate-13 from dual;
+
+SYSDATE-1                                                                       
+---------                                                                       
+31-JAN-26                                                                       
+
+SQL> select sysdate*2 from dual;
+select sysdate*2 from dual
+       *
+ERROR at line 1:
+ORA-00932: inconsistent datatypes: expected NUMBER got DATE 
+
+
+SQL> select sysdate/2 from dual;
+select sysdate/2 from dual
+       *
+ERROR at line 1:
+ORA-00932: inconsistent datatypes: expected NUMBER got DATE 
+
+
+SQL> select to_date('16-feb-26','dd-mm-yyyy')as day_difference from dual;
+
+DAY_DIFFE                                                                       
+---------                                                                       
+16-FEB-26                                                                       
+
+SQL> select to_char(sysdate,'yyyy-mm-dd hh24:mi:ss') from dual;
+
+TO_CHAR(SYSDATE,'YY                                                             
+-------------------                                                             
+2026-02-13 22:10:36                                                             
+
+SQL> select add_months(sysdate,3) from dual;
+
+ADD_MONTH                                                                       
+---------                                                                       
+13-MAY-26                                                                       
+
+SQL> select add_months(sysdate,-3) from dual;
+
+ADD_MONTH                                                                       
+---------                                                                       
+13-NOV-25                                                                       
+
+SQL> select trunc(months_between('16-feb-26','20-jun-26')) from dual;
+
+TRUNC(MONTHS_BETWEEN('16-FEB-26','20-JUN-26'))                                  
+----------------------------------------------                                  
+                                            -4                                  
+
+SQL> select trunc(months_between(sysdate,sysdate+300)) from dual;
+
+TRUNC(MONTHS_BETWEEN(SYSDATE,SYSDATE+300))                                      
+------------------------------------------                                      
+                                        -9                                      
+
+SQL> select next_day(sysdate,'friday') from dual;
+
+NEXT_DAY(                                                                       
+---------                                                                       
+20-FEB-26                                                                       
+
+SQL> select last_day(sysdate) from dual;
+
+LAST_DAY(                                                                       
+---------                                                                       
+28-FEB-26                                                                       
+
+SQL> select trunc(sysdate,'mon') from dual;
+
+TRUNC(SYS                                                                       
+---------                                                                       
+01-FEB-26                                                                       
+
+SQL> select extract(day from sysdate) from dual;
+
+EXTRACT(DAYFROMSYSDATE)                                                         
+-----------------------                                                         
+                     13                                                         
+
+SQL> select extract(month from sysdate) from dual;
+
+EXTRACT(MONTHFROMSYSDATE)                                                       
+-------------------------                                                       
+                        2                                                       
+
+SQL> select extract(year from sysdate) from dual;
+
+EXTRACT(YEARFROMSYSDATE)                                                        
+------------------------                                                        
+                    2026                                                        
+
+SQL> select round(sysdate,'yyyy') from dual;
+
+ROUND(SYS                                                                       
+---------                                                                       
+01-JAN-26                                                                       
+
+SQL> select to_number('416') from dual;
+
+TO_NUMBER('416')                                                                
+----------------                                                                
+             416                                                                
+
+SQL> select to_char(sysdate,'yyyy') from dual;
+
+TO_C                                                                            
+----                                                                            
+2026                                                                            
+
+SQL> select branch_name,branch_location,decode(branch_location,'Madurai','Kalavasal','Sivakasi','other')as decode from branch;
+
+BRANCH_NAME          BRANCH_LOCATION      DECODE                                
+-------------------- -------------------- ---------                             
+Sivakasi             Near Sivan Temple                                          
+Thiruthangal         Near Senthil Bakery                                        
+Madurai              Kalavasal                                                  
+Sivakasi             Near Market                                                
+Madurai              AnnaNagar                                                  
+
+SQL> select count(*) from branch;
+
+  COUNT(*)                                                                      
+----------                                                                      
+         5                                                                      
+
+SQL> select count(branch_name) from branch;
+
+COUNT(BRANCH_NAME)                                                              
+------------------                                                              
+                 5                                                              
+
+SQL> select avg(total_purchase_amt) from branch;
+select avg(total_purchase_amt) from branch
+           *
+ERROR at line 1:
+ORA-00904: "TOTAL_PURCHASE_AMT": invalid identifier 
+
+
+SQL> select avg(total_purchase_amt) from purchase;
+
+AVG(TOTAL_PURCHASE_AMT)                                                         
+-----------------------                                                         
+                  10625                                                         
+
+SQL> select sum(total_purchase_amt) from purchase;
+
+SUM(TOTAL_PURCHASE_AMT)                                                         
+-----------------------                                                         
+                  42500                                                         
+
+SQL> select min(total_purchase_amt) from purchase;
+
+MIN(TOTAL_PURCHASE_A                                                            
+--------------------                                                            
+10000                                                                           
+
+SQL> select max(total_purchase_amt) from purchase;
+
+MAX(TOTAL_PURCHASE_A                                                            
+--------------------                                                            
+9000                                                                            
+
+SQL> select branch_name from braanch group by branch_name;
+select branch_name from braanch group by branch_name
+                        *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> select branch_name from branch group by branch_name;
+
+BRANCH_NAME                                                                     
+--------------------                                                            
+Sivakasi                                                                        
+Thiruthangal                                                                    
+Madurai                                                                         
+
+SQL> select product_name,sum(measurement) as total measurement from product group by product_name having sum(mesurement)>=1000;
+
+SQL> select * from product;
+
+PRODUCT_ID PRODUCT_NAME         BRAND                                           
+---------- -------------------- ------------------------------                  
+MEASUREMENT                    CATEGORY_ID PERSON_ID                            
+------------------------------ ----------- ----------                           
+       150 Curd                 Hatsun                                          
+1000.23467                             201 1                                    
+                                                                                
+       151 Ice Cream            Vennila                                         
+250.972                                201 1                                    
+                                                                                
+       152 Cabbage              green leaf                                      
+2.982                                  202 1                                    
+                                                                                
+
+PRODUCT_ID PRODUCT_NAME         BRAND                                           
+---------- -------------------- ------------------------------                  
+MEASUREMENT                    CATEGORY_ID PERSON_ID                            
+------------------------------ ----------- ----------                           
+       153 Mixture              daisy                                           
+1500                                   203 1                                    
+                                                                                
+       154 Mango                Slice                                           
+1800.9                                 204 1                                    
+                                                                                
+       155 Dates                Lion                                            
+30.76543                               205 1                                    
+                                                                                
+
+6 rows selected.
+
+SQL> select product_name,sum(measurement) as total_measurement from product group by product_name having sum(measurement)>=1000;
+
+PRODUCT_NAME         TOTAL_MEASUREMENT                                          
+-------------------- -----------------                                          
+Curd                        1000.23467                                          
+Mixture                           1500                                          
+Mango                           1800.9                                          
+
+SQL> select * from product group by product_name ,measurement having brand='Hatsun';
+select * from product group by product_name ,measurement having brand='Hatsun'
+                                                                *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> commit;
+
+Commit complete.
+
+SQL> spool off;
+SQL> select median(total_purchase_amt) from purchase;
+select median(total_purchase_amt) from purchase
+              *
+ERROR at line 1:
+ORA-30495: The argument should be of numeric or date/datetime type. 
+
+
+SQL> desc purchase;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ PURCHASE_ID                               NOT NULL NUMBER
+ PURCHASE_DATE                                      DATE
+ PERSON_ID                                          NUMBER
+ BRANCH_ID                                          NUMBER
+ TOTAL_PURCHASE_AMT                                 VARCHAR2(20)
+
+SQL> select median(branch_id) from branch;
+
+MEDIAN(BRANCH_ID)                                                               
+-----------------                                                               
+              103                                                               
+
+SQL> select stddev(branch_id) from branch;
+
+STDDEV(BRANCH_ID)                                                               
+-----------------                                                               
+       1.58113883                                                               
+
+SQL> select sum(branch_id) from branch;
+
+SUM(BRANCH_ID)                                                                  
+--------------                                                                  
+           515                                                                  
+
+SQL> select nvl(brand,0)from product;
+
+NVL(BRAND,0)                                                                    
+------------------------------                                                  
+Hatsun                                                                          
+Vennila                                                                         
+green leaf                                                                      
+daisy                                                                           
+Slice                                                                           
+Lion                                                                            
+
+6 rows selected.
+
+
+SQL> select SYSDATE+10 from dual;
+
+SYSDATE+1                                                                       
+---------                                                                       
+26-FEB-26                                                                       
+
+SQL> select SYSDATE-10 from dual;
+
+SYSDATE-1                                                                       
+---------                                                                       
+06-FEB-26                                                                       
+
+SQL> select ADD_MONTHS (SYSDATE,6) from dual;
+
+ADD_MONTH                                                                       
+---------                                                                       
+16-AUG-26                                                                       
+
+SQL> select ADD_MONTHS (SYSDATE,-6) from dual;
+
+ADD_MONTH                                                                       
+---------                                                                       
+16-AUG-25                                                                       
+
+SQL> select ADD_MONTHS (SYSDATE,0) from dual;
+
+ADD_MONTH                                                                       
+---------                                                                       
+16-FEB-26                                                                       
+
+SQL> select TRUNC (SYSDATE,'DD') from dual;
+
+TRUNC(SYS                                                                       
+---------                                                                       
+16-FEB-26                                                                       
+
+SQL> select TRUNC (SYSDATE,'MM') from dual;
+
+TRUNC(SYS                                                                       
+---------                                                                       
+01-FEB-26                                                                       
+
+SQL> select TRUNC (SYSDATE,'YYYY') from dual;
+
+TRUNC(SYS                                                                       
+---------                                                                       
+01-JAN-26                                                                       
+
+SQL> select EXTRACT(MINUTE FROM CURRENT_TIMESTAMP) from dual;
+
+EXTRACT(MINUTEFROMCURRENT_TIMESTAMP)                                            
+------------------------------------                                            
+                                   4                                            
+
+SQL> select EXTRACT(HOUR FROM CURRENT_TIMESTAMP) from dual;
+
+EXTRACT(HOURFROMCURRENT_TIMESTAMP)                                              
+----------------------------------                                              
+                                 0                                              
+
+SQL> select EXTRACT(SECOND FROM CURRENT_TIMESTAMP) from dual;
+
+EXTRACT(SECONDFROMCURRENT_TIMESTAMP)                                            
+------------------------------------                                            
+                              32.683                                            
+
+SQL> select ROUND (SYSDATE,'MON') from dual;
+
+ROUND(SYS                                                                       
+---------                                                                       
+01-MAR-26                                                                       
+
+SQL> select ROUND (SYSDATE,'DD') from dual;
+
+ROUND(SYS                                                                       
+---------                                                                       
+16-FEB-26                                                                       
+
+SQL> select ROUND (SYSDATE,'HH') from dual;
+
+ROUND(SYS                                                                       
+---------                                                                       
+16-FEB-26                                                                       
+
+SQL> select ROUND (SYSDATE,'M7') from dual;
+select ROUND (SYSDATE,'M7') from dual
+                      *
+ERROR at line 1:
+ORA-01821: date format not recognized 
+
+
+SQL> select ROUND (SYSDATE,'MM') from dual;
+
+ROUND(SYS                                                                       
+---------                                                                       
+01-MAR-26                                                                       
+
+SQL> SPOOL OFF;
+SQL> select trunc(sysdate_to_date('10-jan-2026','dd-mm-yyyy'))/7 as week_difference from dual;
+select trunc(sysdate_to_date('10-jan-2026','dd-mm-yyyy'))/7 as week_difference from dual
+             *
+ERROR at line 1:
+ORA-00904: "SYSDATE_TO_DATE": invalid identifier 
+
+
+SQL> SELECT TRUNC((SYSDATE - TO_DATE('10-JAN-2026','DD-MON-YYYY')) / 7) AS week_difference FROM dual;
+
+WEEK_DIFFERENCE                                                                 
+---------------                                                                 
+              5                                                                 
+
+SQL> select * from product group by product_name,measurement having brand='hatsun';
+select * from product group by product_name,measurement having brand='hatsun'
+                                                               *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> SELECT product_name, measurement, brand FROM product WHERE brand = 'hatsun' GROUP BY product_name, measurement, brand;
+
+no rows selected
+
+SQL> select * from product;
+
+PRODUCT_ID PRODUCT_NAME         BRAND                                           
+---------- -------------------- ------------------------------                  
+MEASUREMENT                    CATEGORY_ID PERSON_ID                            
+------------------------------ ----------- ----------                           
+       150 Curd                 Hatsun                                          
+2000.23467                             201 1                                    
+                                                                                
+       151 Ice Cream            Vennila                                         
+1250.972                               201 1                                    
+                                                                                
+       152 Cabbage              green leaf                                      
+1002.982                               202 1                                    
+                                                                                
+
+PRODUCT_ID PRODUCT_NAME         BRAND                                           
+---------- -------------------- ------------------------------                  
+MEASUREMENT                    CATEGORY_ID PERSON_ID                            
+------------------------------ ----------- ----------                           
+       153 Mixture              daisy                                           
+1500                                   203 1                                    
+                                                                                
+       154 Mango                Slice                                           
+1800.9                                 204 1                                    
+                                                                                
+       155 Dates                Lion                                            
+30.76543                               205 1                                    
+                                                                                
+
+6 rows selected.
+
+SQL> SELECT product_name, measurement, brand FROM product WHERE brand = 'Hatsun' GROUP BY product_name, measurement, brand;
+
+PRODUCT_NAME         MEASUREMENT                    BRAND                       
+-------------------- ------------------------------ ------                      
+Curd                 2000.23467                     Hatsun                      
+
+SQL> SELECT product_name, measurement, brand FROM product WHERE brand = 'daisy' GROUP BY product_name, measurement, brand;
+
+PRODUCT_NAME         MEASUREMENT                    BRAND                       
+-------------------- ------------------------------ -----                       
+Mixture              1500                           daisy                       
+
+SQL> spool off;
+SQL> select '&amp,person_name' as entered_name from person;
+Enter value for amp: Kavi
+old   1: select '&amp,person_name' as entered_name from person
+new   1: select 'Kavi,person_name' as entered_name from person
+
+ENTERED_NAME                                                                    
+----------------                                                                
+Kavi,person_name                                                                
+Kavi,person_name                                                                
+Kavi,person_name                                                                
+Kavi,person_name                                                                
+Kavi,person_name                                                                
+
+
+SQL> insert all into stock values(1005,152,104,'5Kg','10-feb-2025',1001)into stock values(1004,151,101,'1000g','11-jan-2024',1010)into stock values(1003,150,103,'101kg','15-may-2023',1005)select * from dual;
+
+3 rows created.
+
+SQL> select * from stock;
+
+  STOCK_ID PRODUCT_ID  BRANCH_ID AVAILABLE_QTY        LAST_UPDA
+---------- ---------- ---------- -------------------- ---------
+MEASUREMENT
+------------------------------
+      1002        152        103 1kg                  09-APR-25
+1000
+
+      1001        151        102 500g                 03-NOV-25
+1000
+
+      1000        150        101 10l                  03-JAN-26
+1000
+
+
+  STOCK_ID PRODUCT_ID  BRANCH_ID AVAILABLE_QTY        LAST_UPDA
+---------- ---------- ---------- -------------------- ---------
+MEASUREMENT
+------------------------------
+      1005        152        104 5Kg                  10-FEB-25
+1001
+
+      1004        151        101 1000g                11-JAN-24
+1010
+
+      1003        150        103 101kg                15-MAY-23
+1005
+
+
+6 rows selected.
+
+SQL> select * from stock order by product_id,branch_id desc;
+
+  STOCK_ID PRODUCT_ID  BRANCH_ID AVAILABLE_QTY        LAST_UPDA
+---------- ---------- ---------- -------------------- ---------
+MEASUREMENT
+------------------------------
+      1003        150        103 101kg                15-MAY-23
+1005
+
+      1000        150        101 10l                  03-JAN-26
+1000
+
+      1001        151        102 500g                 03-NOV-25
+1000
+
+
+  STOCK_ID PRODUCT_ID  BRANCH_ID AVAILABLE_QTY        LAST_UPDA
+---------- ---------- ---------- -------------------- ---------
+MEASUREMENT
+------------------------------
+      1004        151        101 1000g                11-JAN-24
+1010
+
+      1005        152        104 5Kg                  10-FEB-25
+1001
+
+      1002        152        103 1kg                  09-APR-25
+1000
+
+
+6 rows selected.
+
+SQL> select * from stock order by product_id,branch_id;
+
+  STOCK_ID PRODUCT_ID  BRANCH_ID AVAILABLE_QTY        LAST_UPDA
+---------- ---------- ---------- -------------------- ---------
+MEASUREMENT
+------------------------------
+      1000        150        101 10l                  03-JAN-26
+1000
+
+      1003        150        103 101kg                15-MAY-23
+1005
+
+      1004        151        101 1000g                11-JAN-24
+1010
+
+
+  STOCK_ID PRODUCT_ID  BRANCH_ID AVAILABLE_QTY        LAST_UPDA
+---------- ---------- ---------- -------------------- ---------
+MEASUREMENT
+------------------------------
+      1001        151        102 500g                 03-NOV-25
+1000
+
+      1002        152        103 1kg                  09-APR-25
+1000
+
+      1005        152        104 5Kg                  10-FEB-25
+1001
+
+
+6 rows selected.
+
+SQL> select * from branch;
+
+     BR_ID BRANCH_NAME          BRANCH_LOCATION
+---------- -------------------- --------------------
+       101 Sivakasi             Near Sivan Temple
+       102 Thiruthangal         Near Senthil Bakery
+       103 Madurai              Kalavasal
+       104 Sivakasi             Near Market
+       105 Madurai              AnnaNagar
+
+SQL> select * from branch where branch_name like '%M';
+
+no rows selected
+
+SQL> select * from branch where branch_name like 'M%';
+
+     BR_ID BRANCH_NAME          BRANCH_LOCATION
+---------- -------------------- --------------------
+       103 Madurai              Kalavasal
+       105 Madurai              AnnaNagar
+
+SQL> select * from branch where branch_name like '_i%';
+
+     BR_ID BRANCH_NAME          BRANCH_LOCATION
+---------- -------------------- --------------------
+       101 Sivakasi             Near Sivan Temple
+       104 Sivakasi             Near Market
+
+SQL> select * from branch where branch_name like '__i%';
+
+     BR_ID BRANCH_NAME          BRANCH_LOCATION
+---------- -------------------- --------------------
+       102 Thiruthangal         Near Senthil Bakery
+
+SQL> select to_number('456') from dual;
+
+TO_NUMBER('456')
+----------------
+             456
+
+
+SQL> select product_name,sum(measurement) as total_measurement from product group by product_name having sum(measurement)>=1000;
+
+PRODUCT_NAME         TOTAL_MEASUREMENT
+-------------------- -----------------
+Curd                        2000.23467
+Ice Cream                     1250.972
+Cabbage                       1002.982
+Mixture                           1500
+Mango                           1800.9
+
+SQL> select product_name,sum(measurement) as total_measurement from product group by product_name;
+
+PRODUCT_NAME         TOTAL_MEASUREMENT
+-------------------- -----------------
+Curd                        2000.23467
+Ice Cream                     1250.972
+Cabbage                       1002.982
+Mixture                           1500
+Mango                           1800.9
+Dates                         30.76543
+
+
