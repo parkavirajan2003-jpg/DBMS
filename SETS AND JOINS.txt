@@ -1,0 +1,583 @@
+EX NO:4=====>SETS AND JOINS:
+NAME:A.PARKAVI
+*********************************************************************************************************************************************************************
+
+SQL> select branch_name from branch union select person_id from supplier;
+select branch_name from branch union select person_id from supplier
+       *
+ERROR at line 1:
+ORA-01790: expression must have same datatype as corresponding expression 
+
+
+SQL> select branch_id from branch union select person_id from supplier;
+
+ BRANCH_ID                                                                      
+----------                                                                      
+       101                                                                      
+       102                                                                      
+       103                                                                      
+       104                                                                      
+       105                                                                      
+         1                                                                      
+         2                                                                      
+         3                                                                      
+         4                                                                      
+         5                                                                      
+
+10 rows selected.
+
+SQL> select branch_id from expense union all select branch_id from branch;
+
+ BRANCH_ID                                                                      
+----------                                                                      
+       102                                                                      
+       104                                                                      
+       105                                                                      
+       101                                                                      
+       101                                                                      
+       102                                                                      
+       103                                                                      
+       104                                                                      
+       105                                                                      
+
+9 rows selected.
+
+SQL> select branch_id from expense intersect select branch_id from branch;
+
+ BRANCH_ID                                                                      
+----------                                                                      
+       102                                                                      
+       104                                                                      
+       105                                                                      
+       101                                                                      
+
+SQL> select branch_id from expense intersect all select branch_id from branch;
+
+ BRANCH_ID                                                                      
+----------                                                                      
+       102                                                                      
+       104                                                                      
+       105                                                                      
+       101                                                                      
+
+SQL> select branch_id from expense minus select branch_id from branch;
+
+no rows selected
+
+SQL> select branch_id from branch minus select branch_id from expense;
+
+ BRANCH_ID                                                                      
+----------                                                                      
+       103                                                                      
+
+SQL> select category_id from product minus select category_id from category;
+
+no rows selected
+
+SQL> select branch_id from branch except select branch_id from expense;
+
+ BRANCH_ID                                                                      
+----------                                                                      
+       103                                                                      
+
+SQL> select * from branch,expense;
+
+ BRANCH_ID BRANCH_NAME          BRANCH_LOCATION      EXPENSE_ID  BRANCH_ID      
+---------- -------------------- -------------------- ---------- ----------      
+EXPENSE_D EXPENSE_TYPE         EXPENSE_AM                                       
+--------- -------------------- ----------                                       
+       101 Sivakasi             Near Sivan Temple          2000        102      
+18-MAR-24 Daily wages          Rs.8900                                          
+                                                                                
+       102 Thiruthangal         Near Senthil Bakery        2000        102      
+18-MAR-24 Daily wages          Rs.8900                                          
+                                                                                
+       103 Madurai              Kalavasal                  2000        102      
+18-MAR-24 Daily wages          Rs.8900                                          
+                                                                                
+
+ BRANCH_ID BRANCH_NAME          BRANCH_LOCATION      EXPENSE_ID  BRANCH_ID      
+---------- -------------------- -------------------- ---------- ----------      
+EXPENSE_D EXPENSE_TYPE         EXPENSE_AM                                       
+--------- -------------------- ----------                                       
+       104 Sivakasi             Near Market                2000        102      
+18-MAR-24 Daily wages          Rs.8900                                          
+                                                                                
+       105 Madurai              AnnaNagar                  2000        102      
+18-MAR-24 Daily wages          Rs.8900                                          
+                                                                                
+       101 Sivakasi             Near Sivan Temple          2001        104      
+23-JUN-23 Monthly Wages        Rs.10000                                         
+                                                                                
+
+ BRANCH_ID BRANCH_NAME          BRANCH_LOCATION      EXPENSE_ID  BRANCH_ID      
+---------- -------------------- -------------------- ---------- ----------      
+EXPENSE_D EXPENSE_TYPE         EXPENSE_AM                                       
+--------- -------------------- ----------                                       
+       102 Thiruthangal         Near Senthil Bakery        2001        104      
+23-JUN-23 Monthly Wages        Rs.10000                                         
+                                                                                
+       103 Madurai              Kalavasal                  2001        104      
+23-JUN-23 Monthly Wages        Rs.10000                                         
+                                                                                
+       104 Sivakasi             Near Market                2001        104      
+23-JUN-23 Monthly Wages        Rs.10000                                         
+                                                                                
+
+ BRANCH_ID BRANCH_NAME          BRANCH_LOCATION      EXPENSE_ID  BRANCH_ID      
+---------- -------------------- -------------------- ---------- ----------      
+EXPENSE_D EXPENSE_TYPE         EXPENSE_AM                                       
+--------- -------------------- ----------                                       
+       105 Madurai              AnnaNagar                  2001        104      
+23-JUN-23 Monthly Wages        Rs.10000                                         
+                                                                                
+       101 Sivakasi             Near Sivan Temple          2002        105      
+28-JUL-25 Weekly Wages         Rs.20000                                         
+                                                                                
+       102 Thiruthangal         Near Senthil Bakery        2002        105      
+28-JUL-25 Weekly Wages         Rs.20000                                         
+                                                                                
+
+ BRANCH_ID BRANCH_NAME          BRANCH_LOCATION      EXPENSE_ID  BRANCH_ID      
+---------- -------------------- -------------------- ---------- ----------      
+EXPENSE_D EXPENSE_TYPE         EXPENSE_AM                                       
+--------- -------------------- ----------                                       
+       103 Madurai              Kalavasal                  2002        105      
+28-JUL-25 Weekly Wages         Rs.20000                                         
+                                                                                
+       104 Sivakasi             Near Market                2002        105      
+28-JUL-25 Weekly Wages         Rs.20000                                         
+                                                                                
+       105 Madurai              AnnaNagar                  2002        105      
+28-JUL-25 Weekly Wages         Rs.20000                                         
+                                                                                
+
+ BRANCH_ID BRANCH_NAME          BRANCH_LOCATION      EXPENSE_ID  BRANCH_ID      
+---------- -------------------- -------------------- ---------- ----------      
+EXPENSE_D EXPENSE_TYPE         EXPENSE_AM                                       
+--------- -------------------- ----------                                       
+       101 Sivakasi             Near Sivan Temple          2003        101      
+19-MAY-24 Daily Wages          Rs.19000                                         
+                                                                                
+       102 Thiruthangal         Near Senthil Bakery        2003        101      
+19-MAY-24 Daily Wages          Rs.19000                                         
+                                                                                
+       103 Madurai              Kalavasal                  2003        101      
+19-MAY-24 Daily Wages          Rs.19000                                         
+                                                                                
+
+ BRANCH_ID BRANCH_NAME          BRANCH_LOCATION      EXPENSE_ID  BRANCH_ID      
+---------- -------------------- -------------------- ---------- ----------      
+EXPENSE_D EXPENSE_TYPE         EXPENSE_AM                                       
+--------- -------------------- ----------                                       
+       104 Sivakasi             Near Market                2003        101      
+19-MAY-24 Daily Wages          Rs.19000                                         
+                                                                                
+       105 Madurai              AnnaNagar                  2003        101      
+19-MAY-24 Daily Wages          Rs.19000                                         
+                                                                                
+
+20 rows selected.
+
+SQL> select * from branch cross join expense;
+
+ BRANCH_ID BRANCH_NAME          BRANCH_LOCATION      EXPENSE_ID  BRANCH_ID      
+---------- -------------------- -------------------- ---------- ----------      
+EXPENSE_D EXPENSE_TYPE         EXPENSE_AM                                       
+--------- -------------------- ----------                                       
+       101 Sivakasi             Near Sivan Temple          2000        102      
+18-MAR-24 Daily wages          Rs.8900                                          
+                                                                                
+       102 Thiruthangal         Near Senthil Bakery        2000        102      
+18-MAR-24 Daily wages          Rs.8900                                          
+                                                                                
+       103 Madurai              Kalavasal                  2000        102      
+18-MAR-24 Daily wages          Rs.8900                                          
+                                                                                
+
+ BRANCH_ID BRANCH_NAME          BRANCH_LOCATION      EXPENSE_ID  BRANCH_ID      
+---------- -------------------- -------------------- ---------- ----------      
+EXPENSE_D EXPENSE_TYPE         EXPENSE_AM                                       
+--------- -------------------- ----------                                       
+       104 Sivakasi             Near Market                2000        102      
+18-MAR-24 Daily wages          Rs.8900                                          
+                                                                                
+       105 Madurai              AnnaNagar                  2000        102      
+18-MAR-24 Daily wages          Rs.8900                                          
+                                                                                
+       101 Sivakasi             Near Sivan Temple          2001        104      
+23-JUN-23 Monthly Wages        Rs.10000                                         
+                                                                                
+
+ BRANCH_ID BRANCH_NAME          BRANCH_LOCATION      EXPENSE_ID  BRANCH_ID      
+---------- -------------------- -------------------- ---------- ----------      
+EXPENSE_D EXPENSE_TYPE         EXPENSE_AM                                       
+--------- -------------------- ----------                                       
+       102 Thiruthangal         Near Senthil Bakery        2001        104      
+23-JUN-23 Monthly Wages        Rs.10000                                         
+                                                                                
+       103 Madurai              Kalavasal                  2001        104      
+23-JUN-23 Monthly Wages        Rs.10000                                         
+                                                                                
+       104 Sivakasi             Near Market                2001        104      
+23-JUN-23 Monthly Wages        Rs.10000                                         
+                                                                                
+
+ BRANCH_ID BRANCH_NAME          BRANCH_LOCATION      EXPENSE_ID  BRANCH_ID      
+---------- -------------------- -------------------- ---------- ----------      
+EXPENSE_D EXPENSE_TYPE         EXPENSE_AM                                       
+--------- -------------------- ----------                                       
+       105 Madurai              AnnaNagar                  2001        104      
+23-JUN-23 Monthly Wages        Rs.10000                                         
+                                                                                
+       101 Sivakasi             Near Sivan Temple          2002        105      
+28-JUL-25 Weekly Wages         Rs.20000                                         
+                                                                                
+       102 Thiruthangal         Near Senthil Bakery        2002        105      
+28-JUL-25 Weekly Wages         Rs.20000                                         
+                                                                                
+
+ BRANCH_ID BRANCH_NAME          BRANCH_LOCATION      EXPENSE_ID  BRANCH_ID      
+---------- -------------------- -------------------- ---------- ----------      
+EXPENSE_D EXPENSE_TYPE         EXPENSE_AM                                       
+--------- -------------------- ----------                                       
+       103 Madurai              Kalavasal                  2002        105      
+28-JUL-25 Weekly Wages         Rs.20000                                         
+                                                                                
+       104 Sivakasi             Near Market                2002        105      
+28-JUL-25 Weekly Wages         Rs.20000                                         
+                                                                                
+       105 Madurai              AnnaNagar                  2002        105      
+28-JUL-25 Weekly Wages         Rs.20000                                         
+                                                                                
+
+ BRANCH_ID BRANCH_NAME          BRANCH_LOCATION      EXPENSE_ID  BRANCH_ID      
+---------- -------------------- -------------------- ---------- ----------      
+EXPENSE_D EXPENSE_TYPE         EXPENSE_AM                                       
+--------- -------------------- ----------                                       
+       101 Sivakasi             Near Sivan Temple          2003        101      
+19-MAY-24 Daily Wages          Rs.19000                                         
+                                                                                
+       102 Thiruthangal         Near Senthil Bakery        2003        101      
+19-MAY-24 Daily Wages          Rs.19000                                         
+                                                                                
+       103 Madurai              Kalavasal                  2003        101      
+19-MAY-24 Daily Wages          Rs.19000                                         
+                                                                                
+
+ BRANCH_ID BRANCH_NAME          BRANCH_LOCATION      EXPENSE_ID  BRANCH_ID      
+---------- -------------------- -------------------- ---------- ----------      
+EXPENSE_D EXPENSE_TYPE         EXPENSE_AM                                       
+--------- -------------------- ----------                                       
+       104 Sivakasi             Near Market                2003        101      
+19-MAY-24 Daily Wages          Rs.19000                                         
+                                                                                
+       105 Madurai              AnnaNagar                  2003        101      
+19-MAY-24 Daily Wages          Rs.19000                                         
+                                                                                
+
+20 rows selected.
+
+SQL> select * from branch br,expense ex where br.branch_id=ex.branch_id;
+
+ BRANCH_ID BRANCH_NAME          BRANCH_LOCATION      EXPENSE_ID  BRANCH_ID      
+---------- -------------------- -------------------- ---------- ----------      
+EXPENSE_D EXPENSE_TYPE         EXPENSE_AM                                       
+--------- -------------------- ----------                                       
+       101 Sivakasi             Near Sivan Temple          2003        101      
+19-MAY-24 Daily Wages          Rs.19000                                         
+                                                                                
+       102 Thiruthangal         Near Senthil Bakery        2000        102      
+18-MAR-24 Daily wages          Rs.8900                                          
+                                                                                
+       104 Sivakasi             Near Market                2001        104      
+23-JUN-23 Monthly Wages        Rs.10000                                         
+                                                                                
+
+ BRANCH_ID BRANCH_NAME          BRANCH_LOCATION      EXPENSE_ID  BRANCH_ID      
+---------- -------------------- -------------------- ---------- ----------      
+EXPENSE_D EXPENSE_TYPE         EXPENSE_AM                                       
+--------- -------------------- ----------                                       
+       105 Madurai              AnnaNagar                  2002        105      
+28-JUL-25 Weekly Wages         Rs.20000                                         
+                                                                                
+
+SQL> select * from branch b cross join expense e on b.branch_id = e.branch_id;
+select * from branch b cross join expense e on b.branch_id = e.branch_id
+                                            *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> select * from branch b inner join expense e on b.branch_id = e.branch_id;
+
+ BRANCH_ID BRANCH_NAME          BRANCH_LOCATION      EXPENSE_ID  BRANCH_ID      
+---------- -------------------- -------------------- ---------- ----------      
+EXPENSE_D EXPENSE_TYPE         EXPENSE_AM                                       
+--------- -------------------- ----------                                       
+       101 Sivakasi             Near Sivan Temple          2003        101      
+19-MAY-24 Daily Wages          Rs.19000                                         
+                                                                                
+       102 Thiruthangal         Near Senthil Bakery        2000        102      
+18-MAR-24 Daily wages          Rs.8900                                          
+                                                                                
+       104 Sivakasi             Near Market                2001        104      
+23-JUN-23 Monthly Wages        Rs.10000                                         
+                                                                                
+
+ BRANCH_ID BRANCH_NAME          BRANCH_LOCATION      EXPENSE_ID  BRANCH_ID      
+---------- -------------------- -------------------- ---------- ----------      
+EXPENSE_D EXPENSE_TYPE         EXPENSE_AM                                       
+--------- -------------------- ----------                                       
+       105 Madurai              AnnaNagar                  2002        105      
+28-JUL-25 Weekly Wages         Rs.20000                                         
+                                                                                
+
+SQL> select * from branch b cross join expense e on b.branch_id = e.branch_id;
+select * from branch b cross join expense e on b.branch_id = e.branch_id
+                                            *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> select * from branch b  join expense e on b.branch_id = e.branch_id;
+
+ BRANCH_ID BRANCH_NAME          BRANCH_LOCATION      EXPENSE_ID  BRANCH_ID      
+---------- -------------------- -------------------- ---------- ----------      
+EXPENSE_D EXPENSE_TYPE         EXPENSE_AM                                       
+--------- -------------------- ----------                                       
+       101 Sivakasi             Near Sivan Temple          2003        101      
+19-MAY-24 Daily Wages          Rs.19000                                         
+                                                                                
+       102 Thiruthangal         Near Senthil Bakery        2000        102      
+18-MAR-24 Daily wages          Rs.8900                                          
+                                                                                
+       104 Sivakasi             Near Market                2001        104      
+23-JUN-23 Monthly Wages        Rs.10000                                         
+                                                                                
+
+ BRANCH_ID BRANCH_NAME          BRANCH_LOCATION      EXPENSE_ID  BRANCH_ID      
+---------- -------------------- -------------------- ---------- ----------      
+EXPENSE_D EXPENSE_TYPE         EXPENSE_AM                                       
+--------- -------------------- ----------                                       
+       105 Madurai              AnnaNagar                  2002        105      
+28-JUL-25 Weekly Wages         Rs.20000                                         
+                                                                                
+
+SQL> alter tble branch rename column branch_id to br_id;
+alter tble branch rename column branch_id to br_id
+      *
+ERROR at line 1:
+ORA-00940: invalid ALTER command 
+
+
+SQL> alter table branch rename column branch_id to br_id;
+
+Table altered.
+
+SQL> select * from branch;
+
+     BR_ID BRANCH_NAME          BRANCH_LOCATION                                 
+---------- -------------------- --------------------                            
+       101 Sivakasi             Near Sivan Temple                               
+       102 Thiruthangal         Near Senthil Bakery                             
+       103 Madurai              Kalavasal                                       
+       104 Sivakasi             Near Market                                     
+       105 Madurai              AnnaNagar                                       
+
+SQL> select * from purchase;
+
+PURCHASE_ID PURCHASE_  PERSON_ID  BRANCH_ID TOTAL_PURCHASE_AMT                  
+----------- --------- ---------- ---------- --------------------                
+         11 11-OCT-25          2        104 10000                               
+         12 13-JAN-24          5        102 20000                               
+         13 01-MAR-25          4        101 3500                                
+         14 10-APR-24          1        103 9000                                
+
+SQL> alter table purchase rename column branch_id to br_id;
+
+Table altered.
+
+SQL> select * from purchase;
+
+PURCHASE_ID PURCHASE_  PERSON_ID      BR_ID TOTAL_PURCHASE_AMT                  
+----------- --------- ---------- ---------- --------------------                
+         11 11-OCT-25          2        104 10000                               
+         12 13-JAN-24          5        102 20000                               
+         13 01-MAR-25          4        101 3500                                
+         14 10-APR-24          1        103 9000                                
+
+SQL> select * from branch b natural join purchase p;
+
+     BR_ID BRANCH_NAME          BRANCH_LOCATION      PURCHASE_ID PURCHASE_      
+---------- -------------------- -------------------- ----------- ---------      
+ PERSON_ID TOTAL_PURCHASE_AMT                                                   
+---------- --------------------                                                 
+       101 Sivakasi             Near Sivan Temple             13 01-MAR-25      
+         4 3500                                                                 
+                                                                                
+       102 Thiruthangal         Near Senthil Bakery           12 13-JAN-24      
+         5 20000                                                                
+                                                                                
+       103 Madurai              Kalavasal                     14 10-APR-24      
+         1 9000                                                                 
+                                                                                
+
+     BR_ID BRANCH_NAME          BRANCH_LOCATION      PURCHASE_ID PURCHASE_      
+---------- -------------------- -------------------- ----------- ---------      
+ PERSON_ID TOTAL_PURCHASE_AMT                                                   
+---------- --------------------                                                 
+       104 Sivakasi             Near Market                   11 11-OCT-25      
+         2 10000                                                                
+                                                                                
+SQL> select * from branch b left outer join purchase p on b.br_id=pbr_id;
+select * from branch b left outer join purchase p on b.br_id=pbr_id
+                                                             *
+ERROR at line 1:
+ORA-00904: "PBR_ID": invalid identifier 
+                                                                                
+SQL> select b1.branch_name as br_name,b1.location as loc,b2.expense_type as ex_type,b2.expense_id as ex_id from branch b1 join expense b2 on b1.br_id=b2.br-id;
+select b1.branch_name as br_name,b1.location as loc,b2.expense_type as ex_type,b2.expense_id as ex_id from branch b1 join expense b2 on b1.br_id=b2.br-id
+                                                                                                                                                       *
+ERROR at line 1:
+ORA-00904: "ID": invalid identifier 
+
+SQL> select b1.branch_name as br_name,b1.location as loc,b2.expense_type as ex_type,b2.expense_id as ex_id from branch b1 join expense b2 on b1.br_id=b2.branch_id;
+select b1.branch_name as br_name,b1.location as loc,b2.expense_type as ex_type,b2.expense_id as ex_id from branch b1 join expense b2 on b1.br_id=b2.branch_id
+                                 *
+ERROR at line 1:
+ORA-00904: "B1"."LOCATION": invalid identifier 
+
+SQL> select * from branch;
+
+     BR_ID BRANCH_NAME          BRANCH_LOCATION                                 
+---------- -------------------- --------------------                            
+       101 Sivakasi             Near Sivan Temple                               
+       102 Thiruthangal         Near Senthil Bakery                             
+       103 Madurai              Kalavasal                                       
+       104 Sivakasi             Near Market                                     
+       105 Madurai              AnnaNagar                                       
+
+SQL> select b1.branch_name as br_name,b1.branch_location as br_loc,b2.expense_type as ex_type,b2.expense_id as ex_id from branch b1 join expense b2 on b1.br_id=b2.branch_id;
+
+BR_NAME              BR_LOC               EX_TYPE                   EX_ID       
+-------------------- -------------------- -------------------- ----------       
+Sivakasi             Near Sivan Temple    Daily Wages                2003       
+Thiruthangal         Near Senthil Bakery  Daily wages                2000       
+Sivakasi             Near Market          Monthly Wages              2001       
+Madurai              AnnaNagar            Weekly Wages               2002       
+
+SQL> select b.br_id,b.br_name,b.br_loc from branch b inner join purchase p on b.br_id=p.br_id inner join expense e on b.br_id = e.branch_id;
+select b.br_id,b.br_name,b.br_loc from branch b inner join purchase p on b.br_id=p.br_id inner join expense e on b.br_id = e.branch_id
+                         *
+ERROR at line 1:
+ORA-00904: "B"."BR_LOC": invalid identifier 
+
+
+SQL> select * from branch;
+
+     BR_ID BRANCH_NAME          BRANCH_LOCATION                                 
+---------- -------------------- --------------------                            
+       101 Sivakasi             Near Sivan Temple                               
+       102 Thiruthangal         Near Senthil Bakery                             
+       103 Madurai              Kalavasal                                       
+       104 Sivakasi             Near Market                                     
+       105 Madurai              AnnaNagar                                       
+
+SQL> select b.br_id,b.branch_name,b.branch_location from branch b inner join purchase p on b.br_id=p.br_id inner join expense e on b.br_id = e.branch_id;
+
+     BR_ID BRANCH_NAME          BRANCH_LOCATION                                 
+---------- -------------------- --------------------                            
+       102 Thiruthangal         Near Senthil Bakery                             
+       104 Sivakasi             Near Market                                     
+       101 Sivakasi             Near Sivan Temple                               
+
+SQL> select * from branch b cross join expense e where b.br_id = e.branch_id;
+
+     BR_ID BRANCH_NAME          BRANCH_LOCATION      EXPENSE_ID  BRANCH_ID
+---------- -------------------- -------------------- ---------- ----------
+EXPENSE_D EXPENSE_TYPE         EXPENSE_AM
+--------- -------------------- ----------
+       101 Sivakasi             Near Sivan Temple          2003        101
+19-MAY-24 Daily Wages          Rs.19000
+
+       102 Thiruthangal         Near Senthil Bakery        2000        102
+18-MAR-24 Daily wages          Rs.8900
+
+       104 Sivakasi             Near Market                2001        104
+23-JUN-23 Monthly Wages        Rs.10000
+
+
+     BR_ID BRANCH_NAME          BRANCH_LOCATION      EXPENSE_ID  BRANCH_ID
+---------- -------------------- -------------------- ---------- ----------
+EXPENSE_D EXPENSE_TYPE         EXPENSE_AM
+--------- -------------------- ----------
+       105 Madurai              AnnaNagar                  2002        105
+28-JUL-25 Weekly Wages         Rs.20000
+
+SQL> select b1.branch_name as br_name,b1.branch_location as loc,b2.expense_type as ex_type,b2.expense_id as ex_id from branch b1 left join expense b2 on b1.br_id=b2.branch_id;
+
+BR_NAME              LOC                  EX_TYPE                   EX_ID
+-------------------- -------------------- -------------------- ----------
+Thiruthangal         Near Senthil Bakery  Daily wages                2000
+Sivakasi             Near Market          Monthly Wages              2001
+Madurai              AnnaNagar            Weekly Wages               2002
+Sivakasi             Near Sivan Temple    Daily Wages                2003
+Madurai              Kalavasal
+
+8 rows selected.
+
+SQL> select * from purchase;
+
+PURCHASE_ID PURCHASE_  PERSON_ID      BR_ID TOTAL_PURCHASE_AMT
+----------- --------- ---------- ---------- --------------------
+         11 11-OCT-25          2        104 10000
+         12 13-JAN-24          5        102 20000
+         13 01-MAR-25          4        101 3500
+         14 10-APR-24          1        103 9000
+         15                    3        101 8000
+         16 07-SEP-24          3        106 8000
+
+6 rows selected.
+
+SQL>  select * from branch b left outer join purchase p on b.br_id=p.br_id;
+
+     BR_ID BRANCH_NAME          BRANCH_LOCATION      PURCHASE_ID PURCHASE_  PERSON_ID      BR_ID TOTAL_PURCHASE_AMT
+---------- -------------------- -------------------- ----------- --------- ---------- ---------- --------------------
+       104 Sivakasi             Near Market                   11 11-OCT-25          2        104 10000
+       102 Thiruthangal         Near Senthil Bakery           12 13-JAN-24          5        102 20000
+       101 Sivakasi             Near Sivan Temple             13 01-MAR-25          4        101 3500
+       103 Madurai              Kalavasal                     14 10-APR-24          1        103 9000
+       101 Sivakasi             Near Sivan Temple             15                    3        101 8000
+       106 Thiruthangal                                       16 07-SEP-24          3        106 8000
+       105 Madurai              AnnaNagar
+
+7 rows selected.
+
+SQL> select * from branch b right outer join purchase p on b.br_id=p.br_id;
+
+     BR_ID BRANCH_NAME          BRANCH_LOCATION      PURCHASE_ID PURCHASE_  PERSON_ID      BR_ID TOTAL_PURCHASE_AMT
+---------- -------------------- -------------------- ----------- --------- ---------- ---------- --------------------
+       101 Sivakasi             Near Sivan Temple             13 01-MAR-25          4        101 3500
+       101 Sivakasi             Near Sivan Temple             15                    3        101 8000
+       102 Thiruthangal         Near Senthil Bakery           12 13-JAN-24          5        102 20000
+       103 Madurai              Kalavasal                     14 10-APR-24          1        103 9000
+       104 Sivakasi             Near Market                   11 11-OCT-25          2        104 10000
+       106 Thiruthangal                                       16 07-SEP-24          3        106 8000
+
+6 rows selected.
+
+SQL> select * from branch b full outer join purchase p on b.br_id=p.br_id;
+
+     BR_ID BRANCH_NAME          BRANCH_LOCATION      PURCHASE_ID PURCHASE_  PERSON_ID      BR_ID TOTAL_PURCHASE_AMT
+---------- -------------------- -------------------- ----------- --------- ---------- ---------- --------------------
+       101 Sivakasi             Near Sivan Temple             13 01-MAR-25          4        101 3500
+       101 Sivakasi             Near Sivan Temple             15                    3        101 8000
+       102 Thiruthangal         Near Senthil Bakery           12 13-JAN-24          5        102 20000
+       103 Madurai              Kalavasal                     14 10-APR-24          1        103 9000
+       104 Sivakasi             Near Market                   11 11-OCT-25          2        104 10000
+       105 Madurai              AnnaNagar
+       106 Thiruthangal                                       16 07-SEP-24          3        106 8000
+
+7 rows selected.
+
