@@ -1,0 +1,1134 @@
+EX:NO.9       
+EX NAME:FUNCTIONS AND PROCEDURES
+NAME:A.PARKAVI
+****************************************
+1.FUNCTIONS WITHOUT PARAMETERS:
+=================================
+SQL> CREATE OR REPLACE FUNCTION get_person
+  2  RETURN NUMBER
+  3  IS
+  4      v_total_person NUMBER;
+  5  BEGIN
+  6      SELECT COUNT(*) INTO v_total_person
+  7      FROM person;
+  8      RETURN v_total_person;
+  9  EXCEPTION
+ 10      WHEN OTHERS THEN
+ 11          RETURN 0;
+ 12  END get_person;
+ 13  /
+
+Function created.
+
+SQL> BEGIN
+  2      DBMS_OUTPUT.PUT_LINE('Total No.of Persons:'||get_person);
+  3  END;
+  4  /
+Total No.of Persons:11
+
+PL/SQL procedure successfully completed.
+******************************************************
+2.SIMPLE FUNCTION:
+==================
+SQL> CREATE OR REPLACE FUNCTION get_amt(p_exp_id IN NUMBER)
+  2  RETURN NUMBER
+  3  IS
+  4      v_amt NUMBER;
+  5  BEGIN
+  6      SELECT expense_amt INTO v_amt
+  7      FROM expense
+  8      WHERE expense_id = p_exp_id;
+  9      RETURN v_amt;
+ 10  EXCEPTION
+ 11      WHEN NO_DATA_FOUND THEN
+ 12          RETURN 0;
+ 13      WHEN OTHERS THEN
+ 14          RETURN NULL;
+ 15  END get_amt;
+ 16  /
+
+Function created.
+
+SQL> SELECT * FROM EXPENSE;
+
+EXPENSE_ID  BRANCH_ID EXPENSE_D EXPENSE_TYPE         PERSON_NAM EXPENSE_AMT  PERSON_ID
+---------- ---------- --------- -------------------- ---------- ----------- ----------
+      2000        102 18-MAR-24 Daily wages          Parkavi          10000          1
+      2001        104 23-JUN-23 Monthly Wages        Selva            11002          4
+      2002        105 28-JUL-25 Weekly Wages         Gautham          13000          5
+      2003        101 19-MAY-24 Daily Wages          Anu              12000          2
+
+SQL> BEGIN
+  2      DBMS_OUTPUT.PUT_LINE('EXPENSE AMOUNT:'||get_amt(2000));
+  3  END;
+  4  /
+EXPENSE AMOUNT:10000
+
+PL/SQL procedure successfully completed.
+*********************************************************
+3.FUNCTION WITH MULTIPLE PARAMETERS:
+===================================
+SQL> CREATE OR REPLACE FUNCTION get_expensive_amt(
+  2      p_per_name IN VARCHAR2,
+  3      p_amt IN NUMBER
+  4  )
+  5  RETURN NUMBER
+  6  IS
+  7      V_count NUMBER;
+  8  BEGIN
+  9      SELECT COUNT(*) INTO V_count
+ 10      FROM expense
+ 11      WHERE person_name = p_per_name AND
+ 12      expense_amt > p_amt;
+ 13      RETURN V_count;
+ 14  END get_expensive_amt;
+ 15  /
+
+Function created.
+
+SQL> SELECT get_expensive_amt('Amu', 10000) FROM DUAL;
+
+GET_EXPENSIVE_AMT('AMU',10000)
+------------------------------
+                             0
+
+SQL> SELECT get_expensive_amt('Anu', 10000) FROM DUAL;
+
+GET_EXPENSIVE_AMT('ANU',10000)
+------------------------------
+                             1
+*****************************************************************
+4.FUNCTION TO RETURN MORE THAN ONE VALUE:
+============================================
+SQL>  create or replace function get_person_record(v_perid in number)
+  2      return person%rowtype
+  3      is
+  4      v_person person%rowtype;
+  5      begin
+  6      select * into v_person
+  7      from person
+  8      where person_id = v_perid;
+  9      return v_person;
+ 10      exception
+ 11      when no_data_found then
+ 12      return null;
+ 13      when others then
+ 14      return null;
+ 15      end get_person_record;
+ 16      /
+
+Function created.
+
+SQL>  declare
+  2      v_per_record person%rowtype;
+  3      begin
+  4      v_per_record := get_person_record(4);
+  5      if v_per_record.person_id is not null then
+  6      dbms_output.put_line('Person name: ' || v_per_record.person_name);
+  7      dbms_output.put_line('Person Id: ' || v_per_record.person_id);
+  8      dbms_output.put_line('Address: ' || v_per_record.address_city);
+  9      else
+ 10      dbms_output.put_line('No record found for person id');
+ 11      end if;
+ 12      end;
+ 13      /
+Person name: Selva
+Person Id: 4
+Address: Sivakasi
+
+PL/SQL procedure successfully completed.
+
+SQL>  declare
+  2      v_per_record person%rowtype;
+  3      begin
+  4      v_per_record := get_person_record(15);
+  5      if v_per_record.person_id is not null then
+  6      dbms_output.put_line('Person name: ' || v_per_record.person_name);
+  7      dbms_output.put_line('Person Id: ' || v_per_record.person_id);
+  8      dbms_output.put_line('Address: ' || v_per_record.address_city);
+  9      else
+ 10      dbms_output.put_line('No record found for person id');
+ 11      end if;
+ 12      end;
+ 13      /
+No record found for person id
+
+PL/SQL procedure successfully completed.
+*****************************************************************
+5.RETURN TABLE IN PL/SQL FUNCTION USING CURSOR:
+================================================
+SQL> CREATE OR REPLACE FUNCTION get_product_cursor
+  2      RETURN SYS_REFCURSOR
+  3  IS
+  4      v_cursorid SYS_REFCURSOR;
+  5  BEGIN
+  6      OPEN v_cursorid FOR
+  7          SELECT * FROM product;
+  8      RETURN v_cursorid;
+  9  END get_product_cursor;
+ 10  /
+
+Function created.
+
+SQL> DECLARE
+  2      v_cursor SYS_REFCURSOR;
+  3      v_product product%ROWTYPE;
+  4  BEGIN
+  5      v_cursor := get_product_cursor();
+  6      LOOP
+  7          FETCH v_cursor INTO v_product;
+  8          EXIT WHEN v_cursor%NOTFOUND;
+  9          DBMS_OUTPUT.PUT_LINE('Product ID: ' || v_product.product_id || ', Name: ' || v_product.product_name);
+ 10      END LOOP;
+ 11      CLOSE v_cursor;
+ 12  END;
+ 13  /
+Product ID: 150, Name: Curd
+Product ID: 151, Name: Ice Cream
+Product ID: 152, Name: CABBAGE
+Product ID: 153, Name: Mixture
+Product ID: 154, Name: Mango
+Product ID: 155, Name: Dates
+Product ID: 157, Name: Fruits
+Product ID: 160, Name: Bread
+Product ID: 162, Name: Bread
+
+PL/SQL procedure successfully completed.
+*************************************************************
+6.DISPLAYING THE MEASUREMENT OF PRODUCT:
+========================================
+SQL>  create or replace function get_product(p_per_id in varchar2)
+  2      return varchar2
+  3      is
+  4      v_product varchar2(10);
+  5      begin
+  6      select product_id into v_product
+  7      from product
+  8      where person_id = p_per_id;
+  9      return v_product;
+ 10     exception
+ 11     when no_data_found then
+ 12     return 'no data';
+ 13     when others then
+ 14     return 'not found';
+ 15     end get_product;
+ 16     /
+
+Function created.
+
+SQL>  begin
+  2      dbms_output.put_line('Product id:'||get_product('&product_id'));
+  3      end;
+  4      /
+old   2:     dbms_output.put_line('Product id:'||get_product('&product_id'));
+new   2:     dbms_output.put_line('Product id:'||get_product('151'));
+Product id:no data
+
+PL/SQL procedure successfully completed.
+**************************************************************
+7.FUNCTION HAVING CALCULATION:
+=============================
+SQL>  create or replace function retrieveExpense(p_person_id in varchar2)
+  2      return number
+  3      is
+  4      v_expense number;
+  5      begin
+  6      select expense_amt into v_expense
+  7      from expense
+  8      where person_id = p_person_id;
+  9      return v_expense * 0.10;
+ 10     end retrieveExpense;
+ 11     /
+
+Function created.
+
+SQL>  accept per_if prompt 'Enter per id :';
+Enter per id :2
+SQL>  begin
+  2      dbms_output.put_line('Expense: ' || retrieveExpense(&per_if));
+  3      end;
+  4      /
+old   2:     dbms_output.put_line('Expense: ' || retrieveExpense(&per_if));
+new   2:     dbms_output.put_line('Expense: ' || retrieveExpense(2));
+Expense: 1200
+
+PL/SQL procedure successfully completed.
+
+SQL> SELECT expense_amt from expense where person_id = 2;
+
+EXPENSE_AMT
+-----------
+      12000
+
+***********************************************************
+8.FUNCTION WITH STRING PARAMETER:
+==================================
+SQL>  create or replace function find_person(p_name in varchar2)
+  2      return number
+  3      is
+  4      v_count number;
+  5      begin
+  6      select count(*) into v_count
+  7      from person
+  8      where person_name = p_name;
+  9      return v_count;
+ 10      end find_person;
+ 11      /
+
+Function created.
+
+SQL>  select person_name from person;
+
+PERSON_NAME
+--------------------
+Parkavi
+Anu
+Rajan
+Selva
+Gautham
+Viji
+Prabha
+Prabhu
+Karthi
+Priya
+Monisha
+
+11 rows selected.
+
+SQL>  accept pers_name prompt 'Enter person_name :';
+Enter person_name :Keerthana
+SQL>  begin
+  2      dbms_output.put_line('person count: ' || find_person('&pers_name'));
+  3      end;
+  4      /
+old   2:     dbms_output.put_line('person count: ' || find_person('&pers_name'));
+new   2:     dbms_output.put_line('person count: ' || find_person('Keerthana'));
+person count: 0
+
+PL/SQL procedure successfully completed.
+
+SQL>  accept pers_name prompt 'Enter person_name :';
+Enter person_name :Anu
+SQL>  begin
+  2      dbms_output.put_line('person count: ' || find_person('&pers_name'));
+  3      end;
+  4      /
+old   2:     dbms_output.put_line('person count: ' || find_person('&pers_name'));
+new   2:     dbms_output.put_line('person count: ' || find_person('Anu'));
+person count: 1
+
+PL/SQL procedure successfully completed.
+***********************************************************************
+9.Function returning max value:
+================================
+SQL> CREATE OR REPLACE FUNCTION get_measure
+  2  RETURN FLOAT
+  3  IS
+  4      v_max FLOAT;
+  5  BEGIN
+  6      SELECT MAX(measurement)
+  7      INTO v_max
+  8      FROM product;
+  9
+ 10      RETURN v_max;
+ 11  END get_measure;
+ 12  /
+
+Function created.
+
+SQL>  begin
+  2      dbms_output.put_line('max measurement: ' || get_measure);
+  3      end;
+  4      /
+max measurement: 6002.982
+
+PL/SQL procedure successfully completed.
+***************************************************************
+10.Function with group by:
+=========================
+SQL> CREATE OR REPLACE FUNCTION get_measure_product
+  2  RETURN SYS_REFCURSOR
+  3  IS
+  4      v_cur SYS_REFCURSOR;
+  5  BEGIN
+  6      OPEN v_cur FOR
+  7          SELECT person_name, AVG(measurement) AS avg_measure
+  8          FROM product
+  9          GROUP BY person_name;
+ 10
+ 11      RETURN v_cur;
+ 12  END get_measure_product;
+ 13  /
+
+Function created.
+
+SQL> declare
+  2      v_cur sys_refcursor;
+  3      v_person person.person_name%type;
+  4      v_measure number;
+  5      begin
+  6      v_cur := get_measure_product;
+  7      loop
+  8      fetch v_cur into v_person, v_measure;
+  9      exit when v_cur%notfound;
+ 10      dbms_output.put_line('Person name: ' || v_person);
+ 11      dbms_output.put_line('Avg measurement: ' || v_measure);
+ 12      end loop;
+ 13      close v_cur;
+ 14      end;
+ 15      /
+Person name: Parkavi
+Avg measurement: 7065.0949
+
+PL/SQL procedure successfully completed.
+*****************************************************************
+11.RETURN TABLE:
+================
+SQL> set linesize 200;
+SQL>  CREATE OR REPLACE TYPE product_obj AS OBJECT (
+  2          product_id NUMBER,
+  3          measurement NUMBER,
+  4          product_name VARCHAR2(20)
+  5      );
+  6      /
+
+Type created.
+
+SQL> CREATE OR REPLACE TYPE product_table AS TABLE OF product_obj;
+  2   /
+
+Type created.
+
+SQL>  CREATE OR REPLACE FUNCTION get_product_table
+  2      RETURN product_table
+  3      IS
+  4          v_table product_table := product_table();
+  5      BEGIN
+  6          FOR rec IN (SELECT PRODUCT_ID, MEASUREMENT, PRODUCT_NAME FROM PRODUCT)
+  7          LOOP
+  8              v_table.EXTEND;
+  9              v_table(v_table.LAST) := product_obj(
+ 10                 rec.PRODUCT_ID, rec.MEASUREMENT,rec.PRODUCT_NAME
+ 11             );
+ 12         END LOOP;
+ 13
+ 14         RETURN v_table;
+ 15     END;
+ 16     /
+
+Function created.
+
+SQL> SELECT * FROM TABLE(get_product_table);
+
+PRODUCT_ID MEASUREMENT PRODUCT_NAME
+---------- ----------- --------------------
+       150  3000.23467 Curd
+       151    2250.972 Ice Cream
+       152    5002.982 CABBAGE
+       153        2500 Mixture
+       154      2800.9 Mango
+       155        4000 Dates
+       170       10000 Snacks
+       157       13000 Fruits
+       160       13000 Bread
+       162       12000 Bread
+
+10 rows selected.
+****************************************************************************
+PROCEDURES:
+1.Simple procedure with no parameter :
+======================================
+SQL> create or replace procedure simple_proc
+  2      is
+  3      begin
+  4      insert into person values(13,'Moni','moni@gmail','West Street','Chennai',626189);
+  5      commit;
+  6      end simple_proc;
+  7      /
+
+Procedure created.
+
+SQL> select * from person;
+
+ PERSON_ID PERSON_NAME          MAIL            ADDRESS_STREET       ADDRESS_CITY    ADDRESS_PIN
+---------- -------------------- --------------- -------------------- --------------- -----------
+         1 Parkavi              kavi@gmail.com  South Street         Sivakasi             626130
+         2 Anu                  anu27@gmail.com T Nagar              Chennai              626123
+         3 Rajan                raj3@gmail      NGO COLONY           Madurai              626100
+         4 Selva                selva@mail      car Street           Sivakasi             626115
+         5 Gautham              gautham@mail    North street         Madurai              626124
+         6 Viji                                                      Chennai
+         7 Prabha                                                    Coimbatote
+         8 Prabhu                                                    Chennai
+         9 Karthi                                                    Chennai
+        10 Priya                                                     Coimbatote
+        11 Monisha              test@gmail.com
+
+11 rows selected.
+
+SQL> exec simple_proc;
+
+PL/SQL procedure successfully completed.
+
+SQL> select * from person;
+
+ PERSON_ID PERSON_NAME          MAIL            ADDRESS_STREET       ADDRESS_CITY    ADDRESS_PIN
+---------- -------------------- --------------- -------------------- --------------- -----------
+         1 Parkavi              kavi@gmail.com  South Street         Sivakasi             626130
+         2 Anu                  anu27@gmail.com T Nagar              Chennai              626123
+         3 Rajan                raj3@gmail      NGO COLONY           Madurai              626100
+         4 Selva                selva@mail      car Street           Sivakasi             626115
+         5 Gautham              gautham@mail    North street         Madurai              626124
+         6 Viji                                                      Chennai
+         7 Prabha                                                    Coimbatote
+         8 Prabhu                                                    Chennai
+         9 Karthi                                                    Chennai
+        10 Priya                                                     Coimbatote
+        11 Monisha              test@gmail.com
+
+ PERSON_ID PERSON_NAME          MAIL            ADDRESS_STREET       ADDRESS_CITY    ADDRESS_PIN
+---------- -------------------- --------------- -------------------- --------------- -----------
+        13 Moni                 moni@gmail      West Street          Chennai              626189
+
+12 rows selected.
+*******************************************************
+2.Procedure with IN parameter:
+=================================
+SQL> create or replace procedure proc_with_in(v_person_id in varchar,v_contact in number)
+  2      is
+  3      begin
+  4      insert into person_contact values(v_person_id,v_contact);
+  5      commit;
+  6      end proc_with_in;
+  7      /
+
+Procedure created.
+
+SQL> select * from person_contact;
+
+no rows selected
+
+SQL> exec proc_with_in(2,9442666382);
+
+PL/SQL procedure successfully completed.
+
+SQL> select * from person_contact;
+
+ PERSON_ID    CONTACT
+---------- ----------
+         2 9442666382
+**************************************************************************
+3.Procedure with OUT parameter:
+===============================
+SQL> create or replace procedure proc_with_out(v_product_id in varchar,v_measure out number)
+  2      is
+  3      begin
+  4      select measurement into v_measure from product where product_id=v_product_id;
+  5      end proc_with_out;
+  6      /
+
+Procedure created.
+
+SQL> accept pro_id prompt 'Enter Product id:';
+Enter Product id:154
+SQL>  declare
+  2      v_measure number;
+  3      begin
+  4      proc_with_out('&pro_id',v_measure);
+  5      dbms_output.put_line('Measurement:'||v_measure);
+  6      end;
+  7      /
+old   4:     proc_with_out('&pro_id',v_measure);
+new   4:     proc_with_out('154',v_measure);
+Measurement:4800.9
+
+PL/SQL procedure successfully completed.
+**********************************************************************
+4.Procedure with IN OUT parameter:
+===================================
+SQL> CREATE OR REPLACE PROCEDURE proc_with_inout(
+  2      v_product_id IN OUT VARCHAR,
+  3      v_measure    IN OUT NUMBER
+  4  )
+  5  IS
+  6  BEGIN
+  7      UPDATE product
+  8      SET measurement = v_measure + 1000
+  9      WHERE product_id = v_product_id;
+ 10
+ 11      SELECT measurement
+ 12      INTO v_measure
+ 13      FROM product
+ 14      WHERE product_id = v_product_id;
+ 15
+ 16  END proc_with_inout;
+ 17  /
+
+Procedure created.
+
+SQL> select measurement from product where product_id=155;
+
+MEASUREMENT
+------------------------------
+3030.76543
+
+SQL> declare
+  2      v_pro_id number:=155;
+  3      v_measure number:=5000;
+  4      begin
+  5      proc_with_inout(v_pro_id,v_measure);
+  6      dbms_output.put_line('Updated measurement:'||v_measure);
+  7      end;
+  8      /
+trying to do some opn on product table
+Product155updated New measurement:6000
+Updated measurement:6000
+
+PL/SQL procedure successfully completed.
+
+SQL> select measurement from product where product_id=155;
+
+MEASUREMENT
+------------------------------
+6000
+************************************************************
+5.Procedure returning refcursor:
+=================================
+SQL>  create or replace procedure proc_product_cursor(
+  2      v_cursor out sys_refcursor
+  3      )
+  4      is
+  5      begin
+  6      open v_cursor for select product_id, person_id, measurement from product;
+  7      end proc_product_cursor;
+  8      /
+
+Procedure created.
+
+SQL>  declare
+  2      v_cursor sys_refcursor;
+  3      v_proid product.product_id%type;
+  4      v_person product.person_id%type;
+  5      v_measure product.measurement%type;
+  6      begin
+  7      proc_product_cursor(v_cursor);
+  8      loop
+  9      fetch v_cursor into v_proid, v_person, v_measure;
+ 10      exit when v_cursor%notfound;
+ 11      dbms_output.put_line('Product: ' || v_proid);
+ 12      dbms_output.put_line('Person: ' || v_person );
+ 13      dbms_output.put_line('Measurement: ' ||v_measure);
+ 14      end loop;
+ 15      close v_cursor;
+ 16      end;
+ 17      /
+Product: 150
+Person: 1
+Measurement: 5000.23467
+Product: 151
+Person: 1
+Measurement: 4250.972
+Product: 152
+Person: 1
+Measurement: 7002.982
+Product: 153
+Person: 1
+Measurement: 4500
+Product: 154
+Person: 1
+Measurement: 4800.9
+Product: 155
+Person: 1
+Measurement: 6000
+Product: 157
+Person: 1
+Measurement: 15000
+Product: 160
+Person: 1
+Measurement: 15000
+Product: 162
+Person: 1
+Measurement: 14000
+
+PL/SQL procedure successfully completed.
+*****************************************************************
+6.
+SQL> create or replace procedure proc_with_excep(
+  2      v_proid in number,
+  3      v_measurement in number
+  4      )
+  5      is
+  6      begin
+  7      insert into product(product_id,product_name, person_id, measurement)
+  8      values(v_proid,'Snacks', 4, v_measurement);
+  9      commit;
+ 10      exception
+ 11      when dup_val_on_index then
+ 12      dbms_output.put_line('duplicate proid.');
+ 13      when others then
+ 14      dbms_output.put_line('error: ' || sqlerrm);
+ 15      end proc_with_excep;
+ 16      /
+
+Procedure created.
+SQL> exec proc_with_excep(155,9000);
+trying to do some opn on product table
+duplicate proid.
+
+PL/SQL procedure successfully completed.
+
+SQL> exec proc_with_excep(170,9000);
+trying to do some opn on product table
+New product :170is hired
+
+PL/SQL procedure successfully completed.
+*****************************************************************
+7.
+SQL> create or replace procedure change_name(
+  2      p_id in number,
+  3      p_new_name in varchar2
+  4      )
+  5      is
+  6      begin
+  7      update person
+  8      set person_name = p_new_name
+  9      where person_id = p_id;
+ 10      commit;
+ 11      end change_name;
+ 12      /
+
+Procedure created.
+
+SQL> select * from person where person_id=10;
+
+ PERSON_ID PERSON_NAME          MAIL            ADDRESS_STREET       ADDRESS_CITY    ADDRESS_PIN
+---------- -------------------- --------------- -------------------- --------------- -----------
+        10 Priya                                                     Coimbatote
+
+SQL>  exec change_name(10,'Muthu');
+
+PL/SQL procedure successfully completed.
+
+SQL> select * from person where person_id=10;
+
+ PERSON_ID PERSON_NAME          MAIL            ADDRESS_STREET       ADDRESS_CITY    ADDRESS_PIN
+---------- -------------------- --------------- -------------------- --------------- -----------
+        10 Muthu                                                     Coimbatote
+******************************************************************************
+8.
+SQL> create or replace procedure delete_person(
+  2      p_id in number
+  3      )
+  4      is
+  5      begin
+  6      delete from person
+  7      where person_id = p_id;
+  8      commit;
+  9      end delete_person;
+ 10      /
+
+Procedure created.
+
+SQL> select * from person;
+
+ PERSON_ID PERSON_NAME          MAIL            ADDRESS_STREET       ADDRESS_CITY    ADDRESS_PIN
+---------- -------------------- --------------- -------------------- --------------- -----------
+         1 Parkavi              kavi@gmail.com  South Street         Sivakasi             626130
+         2 Anu                  anu27@gmail.com T Nagar              Chennai              626123
+         3 Rajan                raj3@gmail      NGO COLONY           Madurai              626100
+         4 Selva                selva@mail      car Street           Sivakasi             626115
+         5 Gautham              gautham@mail    North street         Madurai              626124
+         6 Viji                                                      Chennai
+         7 Prabha                                                    Coimbatote
+         8 Prabhu                                                    Chennai
+         9 Karthi                                                    Chennai
+        10 Muthu                                                     Coimbatote
+        11 Monisha              test@gmail.com
+
+ PERSON_ID PERSON_NAME          MAIL            ADDRESS_STREET       ADDRESS_CITY    ADDRESS_PIN
+---------- -------------------- --------------- -------------------- --------------- -----------
+        13 Moni                 moni@gmail      West Street          Chennai              626189
+
+12 rows selected.
+
+SQL> exec delete_person(13);
+
+PL/SQL procedure successfully completed.
+
+SQL> select * from person;
+
+ PERSON_ID PERSON_NAME          MAIL            ADDRESS_STREET       ADDRESS_CITY    ADDRESS_PIN
+---------- -------------------- --------------- -------------------- --------------- -----------
+         1 Parkavi              kavi@gmail.com  South Street         Sivakasi             626130
+         2 Anu                  anu27@gmail.com T Nagar              Chennai              626123
+         3 Rajan                raj3@gmail      NGO COLONY           Madurai              626100
+         4 Selva                selva@mail      car Street           Sivakasi             626115
+         5 Gautham              gautham@mail    North street         Madurai              626124
+         6 Viji                                                      Chennai
+         7 Prabha                                                    Coimbatote
+         8 Prabhu                                                    Chennai
+         9 Karthi                                                    Chennai
+        10 Muthu                                                     Coimbatote
+        11 Monisha              test@gmail.com
+
+11 rows selected.
+********************************************************************
+9.
+SQL> CREATE OR REPLACE PROCEDURE print_person(
+  2      p_id IN NUMBER
+  3  )
+  4  IS
+  5      v_person person.person_name%TYPE;
+  6      v_id     person.person_id%TYPE;
+  7      v_add    person.address_city%TYPE;
+  8  BEGIN
+  9      SELECT person_name, person_id, address_city
+ 10      INTO v_person, v_id, v_add
+ 11      FROM person
+ 12      WHERE person_id = p_id;
+ 13
+ 14      DBMS_OUTPUT.PUT_LINE('Name: ' || v_person);
+ 15      DBMS_OUTPUT.PUT_LINE('Id: ' || v_id);
+ 16      DBMS_OUTPUT.PUT_LINE('Address: ' || v_add);
+ 17
+ 18  END print_person;
+ 19  /
+
+Procedure created.
+
+SQL>  exec print_person(2);
+Name: Anu
+Id: 2
+Address: Chennai
+
+PL/SQL procedure successfully completed.
+*************************************************************************
+10.
+SQL> CREATE OR REPLACE PROCEDURE avg_measure(
+  2      p_id  IN  NUMBER,
+  3      p_avg OUT NUMBER
+  4  )
+  5  IS
+  6  BEGIN
+  7      SELECT NVL(AVG(measurement), 0)
+  8      INTO p_avg
+  9      FROM product
+ 10      WHERE product_id = p_id;
+ 11
+ 12  END avg_measure;
+ 13  /
+
+Procedure created.
+
+SQL> declare
+  2      v_avg number;
+  3      begin
+
+  4      avg_measure(154, v_avg);
+  5      dbms_output.put_line('average measurement of product: ' || v_avg);
+  6      end;
+  7      /
+average measurement of product: 2800.9
+
+PL/SQL procedure successfully completed.
+*********************************************************
+Hackerrank Questions:
+========================
+Self -I:
+A)Write a PL/SQL procedure to display the person IDs, names, address street and city.
+====================================================================================
+SQL> CREATE OR REPLACE PROCEDURE display_all_person
+  2  IS
+  3      CURSOR c IS
+  4          SELECT PERSON_ID, person_name, address_street, address_city
+  5          FROM person;
+  6
+  7      v_id     person.person_ID%TYPE;
+  8      v_name   person.person_name%TYPE;
+  9      v_street person.address_street%TYPE;
+ 10      v_city   person.address_city%TYPE;
+ 11  BEGIN
+ 12      OPEN c;
+ 13      LOOP
+ 14          FETCH c INTO v_id, v_name, v_street, v_city;
+ 15          EXIT WHEN c%NOTFOUND;
+ 16
+ 17          DBMS_OUTPUT.PUT_LINE(v_id || ' ' || v_name || ' ' || v_street || ' ' || v_city);
+ 18      END LOOP;
+ 19      CLOSE c;
+ 20  END;
+ 21  /
+
+Procedure created.
+
+SQL> EXEC display_all_person;
+1 Parkavi South Street Sivakasi
+2 Anu T Nagar Chennai
+3 Rajan NGO COLONY Madurai
+4 Selva car Street Sivakasi
+5 Gautham North street Madurai
+6 Viji  Chennai
+7 Prabha  Coimbatote
+8 Prabhu  Chennai
+9 Karthi  Chennai
+10 Muthu  Coimbatote
+11 Monisha
+
+PL/SQL procedure successfully completed.
+*********************************************************************************
+B)	Write a PL/SQL function to display the distinct person names of all products. Return a heading of person name.
+==========================================================================
+SQL>  CREATE OR REPLACE FUNCTION display_PERSON
+  2          RETURN VARCHAR2
+  3          IS
+  4              v_result VARCHAR2(4000);
+  5          BEGIN
+  6              v_result := 'Person names: ';
+  7
+  8              FOR rec IN (SELECT DISTINCT PERSON_NAME  FROM PRODUCT)
+  9              LOOP
+ 10                 v_result := v_result || rec.person_name || ', ';
+ 11             END LOOP;
+ 12
+ 13             RETURN v_result;
+ 14         END;
+ 15         /
+
+Function created.
+
+SQL>  BEGIN
+  2             DBMS_OUTPUT.PUT_LINE(display_PERSON);
+  3          END;
+  4          /
+Person names: Parkavi,
+
+PL/SQL procedure successfully completed.
+***************************************************************************
+Self – II:
+A)Write a PL/SQL procedure to display the product which have the highest salary in each department using a nested while loop.
+=========================================================================
+SQL>  CREATE OR REPLACE PROCEDURE highest_salary_dept
+  2         IS
+  3              CURSOR dept_cur IS SELECT DISTINCT BRANCH_ID FROM EMPLOYEE;
+  4              CURSOR emp_cur(branch_id VARCHAR) IS
+  5                  SELECT EMP_ID, SALARY
+  6                  FROM EMPLOYEE
+  7                 WHERE BRANCH_ID = branch_id;
+  8                 v_max NUMBER;
+  9        BEGIN
+ 10            FOR d IN dept_cur LOOP
+ 11                SELECT MAX(SALARY) INTO v_max
+ 12                FROM EMPLOYEE
+ 13                WHERE BRANCH_ID = d.BRANCH_ID;
+ 14                FOR e IN emp_cur(d.BRANCH_ID) LOOP
+ 15                    IF e.SALARY = v_max THEN
+ 16                        DBMS_OUTPUT.PUT_LINE('BRANCH: ' || d.BRANCH_ID || ' EMPLOYEE ID: ' || e.EMP_ID || ' Salary: ' || e.SALARY);
+ 17                    END IF;
+ 18                END LOOP;
+ 19            END LOOP;
+ 20        END;
+ 21        /
+
+Procedure created.
+
+SQL>  EXEC highest_salary_dept;
+BRANCH: 150 EMPLOYEE ID: 500 Salary: 9000
+BRANCH: 151 EMPLOYEE ID: 501 Salary: 10000
+BRANCH: 152 EMPLOYEE ID: 502 Salary: 12000
+BRANCH: 153 EMPLOYEE ID: 503 Salary: 15000
+BRANCH: 154 EMPLOYEE ID: 504 Salary: 20000
+
+PL/SQL procedure successfully completed.
+********************************************************************************
+B)	Write a PL/SQL function to display the average salary for each job. Return job title and average salary in a row.
+=========================================================================
+SQL> CREATE OR REPLACE FUNCTION avg_salary_job
+  2          RETURN VARCHAR2
+  3          IS
+  4              v_result VARCHAR2(4000) := '';
+  5          BEGIN
+  6              FOR rec IN (
+  7                  SELECT DESIGNATION, AVG(SALARY) AS AVG_SAL
+  8                  FROM EMPLOYEE GROUP BY DESIGNATION
+  9             )
+ 10            LOOP
+ 11                v_result := v_result || rec.DESIGNATION || ' - ' || rec.AVG_SAL || CHR(10);
+ 12            END LOOP;
+ 13
+ 14            RETURN v_result;
+ 15        END;
+ 16        /
+
+Function created.
+
+SQL> BEGIN
+  2             DBMS_OUTPUT.PUT_LINE(avg_salary_job);
+  3          END;
+  4          /
+Designer - 10500
+Manager - 10000
+Senior Designer - 17500
+
+PL/SQL procedure successfully completed.
+**********************************************************************************
+Self – III: 
+A)	Write a PL/SQL procedure to return the product id with the maximum measurement.
+======================================================================================
+SQL>  CREATE OR REPLACE PROCEDURE max_meas_product
+  2          IS
+  3              v_product VARCHAR(20);
+  4         BEGIN
+  5              SELECT product_id INTO v_product
+  6              FROM (
+  7                  SELECT product_id, COUNT(*)
+  8                  FROM PRODUCT
+  9                  GROUP BY product_id
+ 10                ORDER BY COUNT(*) DESC
+ 11            )
+ 12            WHERE ROWNUM = 1;
+ 13
+ 14            DBMS_OUTPUT.PUT_LINE('Product with max measurement: ' || v_product);
+ 15        END;
+ 16        /
+
+Procedure created.
+
+SQL>  EXEC max_meas_product;
+Product with max measurement: 150
+
+PL/SQL procedure successfully completed.
+************************************************************************
+B)	Write a PL/SQL function to return the employee details whose salary is less than average salary of where ‘rocky’ is working.
+=====================================================================================
+SQL>  CREATE OR REPLACE FUNCTION get_emp_below_rocky_avg
+  2      RETURN SYS_REFCURSOR
+  3      IS
+  4          v_branch_id employee.branch_id%TYPE;
+  5          v_avg_salary NUMBER;
+  6          rc SYS_REFCURSOR;
+  7      BEGIN
+  8          SELECT branch_id
+  9          INTO v_branch_id
+ 10          FROM employee
+ 11          WHERE UPPER(emp_name) = 'ROCKY';
+ 12          SELECT AVG(salary)
+ 13          INTO v_avg_salary
+ 14          FROM employee
+ 15          WHERE branch_id = v_branch_id;
+ 16
+ 17          OPEN rc FOR
+ 18              SELECT emp_id, emp_name, designation, branch_id, salary, city
+ 19              FROM employee
+ 20              WHERE branch_id = v_branch_id
+ 21                AND salary >= v_avg_salary;
+ 22
+ 23          RETURN rc;
+ 24      END;
+ 25      /
+
+Function created.
+
+SQL> DECLARE
+  2      c SYS_REFCURSOR;
+  3      v_id employee.emp_id%TYPE;
+  4      v_name employee.emp_name%TYPE;
+  5      v_desig employee.designation%TYPE;
+  6      v_branch employee.branch_id%TYPE;
+  7      v_salary employee.salary%TYPE;
+  8      v_city employee.city%TYPE;
+  9      v_found BOOLEAN := FALSE;
+ 10  BEGIN
+ 11      c := get_emp_below_rocky_avg;
+ 12      LOOP
+ 13          FETCH c INTO v_id, v_name, v_desig, v_branch, v_salary, v_city;
+ 14          EXIT WHEN c%NOTFOUND;
+ 15          v_found := TRUE;
+ 16          DBMS_OUTPUT.PUT_LINE(
+ 17              v_id || ' - ' || v_name || ' - ' || v_desig ||
+ 18              ' - ' || v_branch || ' - ' || v_salary || ' - ' || v_city
+ 19          );
+ 20      END LOOP;
+ 21      CLOSE c;
+ 22      IF NOT v_found THEN
+ 23          DBMS_OUTPUT.PUT_LINE('No employees found below average salary');
+ 24      END IF;
+ 25  END;
+ 26  /
+501 - Rocky - Manager - 151 - 10000 - Salem
+
+PL/SQL procedure successfully completed.
+
+SQL> CREATE OR REPLACE FUNCTION get_emp_below_rocky_avg
+  2      RETURN SYS_REFCURSOR
+  3      IS
+  4          v_branch_id employee.branch_id%TYPE;
+  5          v_avg_salary NUMBER;
+  6          rc SYS_REFCURSOR;
+  7      BEGIN
+  8          SELECT branch_id
+  9          INTO v_branch_id
+ 10          FROM employee
+ 11          WHERE UPPER(emp_name) = 'ROCKY';
+ 12          SELECT AVG(salary)
+ 13          INTO v_avg_salary
+ 14          FROM employee
+ 15          WHERE branch_id = v_branch_id;
+ 16
+ 17          OPEN rc FOR
+ 18              SELECT emp_id, emp_name, designation, branch_id, salary, city
+ 19              FROM employee
+ 20              WHERE branch_id = v_branch_id
+ 21                AND salary > v_avg_salary;
+ 22
+ 23          RETURN rc;
+ 24      END;
+ 25      /
+
+Function created.
+
+SQL> SQL> DECLARE
+  2      c SYS_REFCURSOR;
+  3      v_id employee.emp_id%TYPE;
+  4      v_name employee.emp_name%TYPE;
+  5      v_desig employee.designation%TYPE;
+  6      v_branch employee.branch_id%TYPE;
+  7      v_salary employee.salary%TYPE;
+  8      v_city employee.city%TYPE;
+  9      v_found BOOLEAN := FALSE;   -- Step 1: flag
+ 10  BEGIN
+ 11      c := get_emp_below_rocky_avg;
+ 12
+ 13      LOOP
+ 14          FETCH c INTO v_id, v_name, v_desig, v_branch, v_salary, v_city;
+ 15          EXIT WHEN c%NOTFOUND;
+ 16
+ 17          v_found := TRUE;  -- Step 2: mark data found
+ 18
+ 19          DBMS_OUTPUT.PUT_LINE(
+ 20              v_id || ' - ' || v_name || ' - ' || v_desig ||
+ 21              ' - ' || v_branch || ' - ' || v_salary || ' - ' || v_city
+ 22          );
+ 23      END LOOP;
+ 24
+ 25      CLOSE c;  -- Step 3: close after loop
+ 26
+ 27      -- Step 4: check using flag (NOT cursor)
+ 28      IF NOT v_found THEN
+ 29          DBMS_OUTPUT.PUT_LINE('No employees found below average salary');
+ 30      END IF;
+ 31  END;
+ 32  /
+No employees found below average salary
+
+PL/SQL procedure successfully completed.
+************************************************************************
+
+
+
+
+
+
+
+
+
+
