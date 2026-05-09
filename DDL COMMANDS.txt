@@ -1,0 +1,473 @@
+EX2:DDL COMMANDS FOR GROCERY SHOP MANAGEMENT:
+**********************************************************************************************************************
+SQL> create table person(person_id number,person_name varchar(20),email varchar(15),address_street varchar(20),address_city varchar(15),address_pin number(20));
+
+Table created.
+
+SQL> desc person;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ PERSON_ID                                          NUMBER
+ PERSON_NAME                                        VARCHAR2(20)
+ EMAIL                                              VARCHAR2(15)
+ ADDRESS_STREET                                     VARCHAR2(20)
+ ADDRESS_CITY                                       VARCHAR2(15)
+ ADDRESS_PIN                                        NUMBER(20)
+
+SQL> alter table person add primary key(person_id);
+
+Table altered.
+
+SQL> desc person;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ PERSON_ID                                 NOT NULL NUMBER
+ PERSON_NAME                                        VARCHAR2(20)
+ EMAIL                                              VARCHAR2(15)
+ ADDRESS_STREET                                     VARCHAR2(20)
+ ADDRESS_CITY                                       VARCHAR2(15)
+ ADDRESS_PIN                                        NUMBER(20)
+
+SQL> create table category(category_id number unique,category_name varchar(20),description varchar(20));
+
+Table created.
+
+SQL> desc category;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ CATEGORY_ID                                        NUMBER
+ CATEGORY_NAME                                      VARCHAR2(20)
+ DESCRIPTION                                        VARCHAR2(20)
+
+SQL> create table payment_purchase(purchase_payment_id varchar(10) primary key,
+  2  amount_paid varchar(20),payment_mode varchar(30),purchase_date date);
+
+Table created.
+
+SQL> desc pyment_purchase;
+ERROR:
+ORA-04043: object pyment_purchase does not exist 
+
+
+SQL> desc payment_purchase;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ PURCHASE_PAYMENT_ID                       NOT NULL VARCHAR2(10)
+ AMOUNT_PAID                                        VARCHAR2(20)
+ PAYMENT_MODE                                       VARCHAR2(30)
+ PURCHASE_DATE                                      DATE
+
+SQL> create table person_contact( person_id number, foreign key(person_id) references person(person_id),contact number(20) unique);
+
+Table created.
+
+SQL> desc person_contact;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ PERSON_ID                                          NUMBER
+ CONTACT                                            NUMBER(20)
+
+SQL> create table supplier(person_id number,company_name varchar(15),supplier_license varchar(20),type varchar(20),foreign key(person_id) references person(person_id));
+
+Table created.
+
+SQL> desc supplier;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ PERSON_ID                                          NUMBER
+ COMPANY_NAME                                       VARCHAR2(15)
+ SUPPLIER_LICENSE                                   VARCHAR2(20)
+ TYPE                                               VARCHAR2(20)
+
+SQL> create table product(product_id number primary key,product_name varchar(20),brand varchar(10),measurement int,category_id number,foreign key(category_id) references category(category_id));
+
+Table created.
+
+SQL> desc product;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ PRODUCT_ID                                NOT NULL NUMBER
+ PRODUCT_NAME                                       VARCHAR2(20)
+ BRAND                                              VARCHAR2(10)
+ MEASUREMENT                                        NUMBER(38)
+ CATEGORY_ID                                        NUMBER
+
+SQL> create table stock(stock_id number primary key,product_id number,foreign key(product_id) references product(product_id), branch_id number,foreign key(branch_id) references branch(branch_id),available_qty int not null,last_updated_date date);
+create table stock(stock_id number primary key,product_id number,foreign key(product_id) references product(product_id), branch_id number,foreign key(branch_id) references branch(branch_id),available_qty int not null,last_updated_date date)
+                                                                                                                                                                            *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> create table branch(brnch_id number primary key,branch_name varchar(20),branch_location varchar(20));
+
+Table created.
+
+SQL> desc branch;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ BRNCH_ID                                  NOT NULL NUMBER
+ BRANCH_NAME                                        VARCHAR2(20)
+ BRANCH_LOCATION                                    VARCHAR2(20)
+
+SQL> create table stock(stock_id number primary key,product_id number,foreign key(product_id) references product(product_id), branch_id number,foreign key(branch_id) references branch(branch_id),available_qty int not null,last_updated_date date);
+create table stock(stock_id number primary key,product_id number,foreign key(product_id) references product(product_id), branch_id number,foreign key(branch_id) references branch(branch_id),available_qty int not null,last_updated_date date)
+                                                                                                                                                                                   *
+ERROR at line 1:
+ORA-00904: "BRANCH_ID": invalid identifier 
+
+SQL> alter table branch modify brnch_id number as branch_id number;
+alter table branch modify brnch_id number as branch_id number
+                                             *
+
+SQL> alter table branch rename column brnch_id to branch_id;
+
+Table altered.
+
+SQL> desc branch;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ BRANCH_ID                                 NOT NULL NUMBER
+ BRANCH_NAME                                        VARCHAR2(20)
+ BRANCH_LOCATION                                    VARCHAR2(20)
+
+SQL> create table stock(stock_id number primary key,product_id number,foreign key(product_id) references product(product_id), branch_id number,foreign key(branch_id) references branch(branch_id),available_qty int not null,last_updated_date date);
+
+Table created.
+
+SQL> desc stock;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ STOCK_ID                                  NOT NULL NUMBER
+ PRODUCT_ID                                         NUMBER
+ BRANCH_ID                                          NUMBER
+ AVAILABLE_QTY                             NOT NULL NUMBER(38)
+ LAST_UPDATED_DATE                                  DATE
+
+SQL> create table purchase(purchase_id number primary key,purchase_date date,person_id number,foreign key(person_id) references person(person_id),branch_id number,foreign key(branch_id) references branch(branch_id),total_purchase_amt varchar(20));
+
+Table created.
+
+SQL> desc purchase;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ PURCHASE_ID                               NOT NULL NUMBER
+ PURCHASE_DATE                                      DATE
+ PERSON_ID                                          NUMBER
+ BRANCH_ID                                          NUMBER
+ TOTAL_PURCHASE_AMT                                 VARCHAR2(20)
+
+SQL> create table login(login_id number primary key,username varchar(20),password varchar(20),person_id number,foreign key(person_id) references person(person_id));
+
+Table created.
+
+SQL> desc login;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ LOGIN_ID                                  NOT NULL NUMBER
+ USERNAME                                           VARCHAR2(20)
+ PASSWORD                                           VARCHAR2(20)
+ PERSON_ID                                          NUMBER
+
+SQL> create table expense(expense_id number primary key,branch_id number,foreign key(branch_id) references branch(branch_id),expense_date date,expense_type varchar(20),expense_amt varchar(10));
+
+Table created.
+
+SQL> desc expense;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ EXPENSE_ID                                NOT NULL NUMBER
+ BRANCH_ID                                          NUMBER
+ EXPENSE_DATE                                       DATE
+ EXPENSE_TYPE                                       VARCHAR2(20)
+ EXPENSE_AMT                                        VARCHAR2(10)
+
+SQL> create table product_supplier(product_id number,foreign key(product_id) references product(product_id),person_id number,foreign key(person_id) references person(person_id));
+
+Table created.
+
+SQL> desc product_supplier;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ PRODUCT_ID                                         NUMBER
+ PERSON_ID                                          NUMBER
+
+SQL> create table product_purchase(purchase_id number,foreign key(purchase_id) references purchase(purchase_id),product_id number,foreign key(product_id) references product(product_id),quanity varchar(20),purchase_price varchar(10) not null,expiry_date date);
+
+Table created.
+
+SQL> desc product_purchase;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ PURCHASE_ID                                        NUMBER
+ PRODUCT_ID                                         NUMBER
+ QUANITY                                            VARCHAR2(20)
+ PURCHASE_PRICE                            NOT NULL VARCHAR2(10)
+ EXPIRY_DATE                                        DATE
+
+SQL> create table purchase_payment(purchase_payment_id number primary key,amount_paid varchar(20),payment_mode varchar(30),purchase_date date);
+
+Table created.
+
+SQL> desc purchase_payment;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ PURCHASE_PAYMENT_ID                       NOT NULL NUMBER
+ AMOUNT_PAID                                        VARCHAR2(20)
+ PAYMENT_MODE                                       VARCHAR2(30)
+ PURCHASE_DATE                                      DATE
+
+SQL> create table category_copy as select * from categoy;
+create table category_copy as select * from categoy
+                                            *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> create table category_copy as select * from category;
+
+Table created.
+
+SQL> desc category_copy;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ CATEGORY_ID                                        NUMBER
+ CATEGORY_NAME                                      VARCHAR2(20)
+ DESCRIPTION                                        VARCHAR2(20)
+
+SQL> alter table person add primary key(person_name);
+alter table person add primary key(person_name)
+                       *
+ERROR at line 1:
+ORA-02260: table can have only one primary key 
+
+
+SQL> alter table person drop primary key;
+alter table person drop primary key
+*
+ERROR at line 1:
+ORA-02273: this unique/primary key is referenced by some foreign keys 
+
+
+SQL> rename person to people;
+
+Table renamed.
+
+SQL> desc person;
+ERROR:
+ORA-04043: object person does not exist 
+
+
+SQL> desc people;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ PERSON_ID                                 NOT NULL NUMBER
+ PERSON_NAME                                        VARCHAR2(20)
+ EMAIL                                              VARCHAR2(15)
+ ADDRESS_STREET                                     VARCHAR2(20)
+ ADDRESS_CITY                                       VARCHAR2(15)
+ ADDRESS_PIN                                        NUMBER(20)
+
+SQL> rename people to person;
+
+Table renamed.
+
+SQL> desc people;
+ERROR:
+ORA-04043: object people does not exist 
+
+SQL> desc person;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ PERSON_ID                                 NOT NULL NUMBER
+ PERSON_NAME                                        VARCHAR2(20)
+ EMAIL                                              VARCHAR2(15)
+ ADDRESS_STREET                                     VARCHAR2(20)
+ ADDRESS_CITY                                       VARCHAR2(15)
+ ADDRESS_PIN                                        NUMBER(20)
+
+SQL> alter table person rename column email to mail;
+
+Table altered.
+
+SQL> desc person;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ PERSON_ID                                 NOT NULL NUMBER
+ PERSON_NAME                                        VARCHAR2(20)
+ MAIL                                               VARCHAR2(15)
+ ADDRESS_STREET                                     VARCHAR2(20)
+ ADDRESS_CITY                                       VARCHAR2(15)
+ ADDRESS_PIN                                        NUMBER(20)
+
+SQL> drop table product_supplier;
+
+Table dropped.
+
+SQL> desc product_supplier;
+ERROR:
+ORA-04043: object product_supplier does not exist 
+
+
+SQL> create table product_supplier(product_id number,foreign key(product_id) references product(product_id),person_id number.foreign key(person_id) references prson(person_id));
+create table product_supplier(product_id number,foreign key(product_id) references product(product_id),person_id number.foreign key(person_id) references prson(person_id))
+                                                                                                                       *
+ERROR at line 1:
+ORA-00907: missing right parenthesis 
+
+
+SQL> create table product_supplier(product_id number,foreign key(product_id) references product(product_id),person_id number,foreign key(person_id) references prson(person_id));
+create table product_supplier(product_id number,foreign key(product_id) references product(product_id),person_id number,foreign key(person_id) references prson(person_id))
+                                                                                                                                                          *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> create table product_supplier(product_id number,foreign key(product_id) references product(product_id),person_id number,foreign key(person_id) references person(person_id));
+
+Table created.
+
+SQL> desc product_supplier;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ PRODUCT_ID                                         NUMBER
+ PERSON_ID                                          NUMBER
+
+SQL> truncate table product_supplier;
+
+Table truncated.
+
+SQL> desc product_supplier;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ PRODUCT_ID                                         NUMBER
+ PERSON_ID                                          NUMBER
+
+SQL> drop table person_contact;
+
+Table dropped.
+
+SQL> desc; person_contact;
+SP2-0565: Illegal identifier.
+SQL> desc person_contact;
+ERROR:
+ORA-04043: object person_contact does not exist 
+
+
+SQL> create table person_contact(person_id number,foreign key(person_id) references person(person_id),contact number unique check(contact between 1000000000 and 9999999999));
+
+Table created.
+
+SQL> desc person_contact;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ PERSON_ID                                          NUMBER
+ CONTACT                                            NUMBER
+SQL> alter table person_contact add constraint c1 check(contact between 1000000000 and 9999999999);
+
+Table altered.
+
+SQL> desc person_contact;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ PERSON_ID                                          NUMBER
+ CONTACT                                            NUMBER
+
+SQL> alter table person_contact drop constraint c1;
+
+Table altered.
+
+SQL> desc person_contact;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ PERSON_ID                                          NUMBER
+ CONTACT                                            NUMBER
+
+SQL> alter table product add column product_colour varchar(20);
+alter table product add column product_colour varchar(20)
+                        *
+ERROR at line 1:
+ORA-00904: : invalid identifier 
+
+
+SQL> alter table product add product_colour varchar(20);
+alter table product add product_colour varchar(20)
+                        *
+ERROR at line 1:
+ORA-01430: column being added already exists in table 
+
+
+SQL> desc product;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ PRODUCT_ID                                NOT NULL NUMBER(38)
+ PRODUCT_NAME                                       VARCHAR2(20)
+ BRAND                                              VARCHAR2(10)
+ MEASUREMENT                                        NUMBER(38)
+ CATEGORY_ID                                        NUMBER
+ PRODUCT_COLOUR                                     VARCHAR2(25)
+
+SQL> alter table product drop product_colour;
+alter table product drop product_colour
+                         *
+ERROR at line 1:
+ORA-00905: missing keyword 
+
+
+SQL> alter table product drop  column product_colour;
+
+Table altered.
+
+SQL> desc product;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ PRODUCT_ID                                NOT NULL NUMBER(38)
+ PRODUCT_NAME                                       VARCHAR2(20)
+ BRAND                                              VARCHAR2(10)
+ MEASUREMENT                                        NUMBER(38)
+ CATEGORY_ID                                        NUMBER
+
+SQL> spool off;
+SQL> alter table  product add product_quantity varchar(10);
+
+Table altered.
+
+SQL> desc product;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ PRODUCT_ID                                NOT NULL NUMBER(38)
+ PRODUCT_NAME                                       VARCHAR2(20)
+ BRAND                                              VARCHAR2(10)
+ MEASUREMENT                                        NUMBER(38)
+ CATEGORY_ID                                        NUMBER
+ PRODUCT_QUANTITY                                   VARCHAR2(10)
+
+SQL> alter table product drop column product_quantity;
+
+Table altered.
+
+SQL> desc product;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ PRODUCT_ID                                NOT NULL NUMBER(38)
+ PRODUCT_NAME                                       VARCHAR2(20)
+ BRAND                                              VARCHAR2(10)
+ MEASUREMENT                                        NUMBER(38)
+ CATEGORY_ID                                        NUMBER
+
+SQL> spool off;
+
+SQL> alter table product modify brand number;
+
+Table altered.
+
+SQL> desc product;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ PRODUCT_ID                                NOT NULL NUMBER(38)
+ PRODUCT_NAME                                       VARCHAR2(20)
+ BRAND                                              NUMBER
+ MEASUREMENT                                        NUMBER(38)
+ CATEGORY_ID                                        NUMBER
+
+SQL> spool off;
