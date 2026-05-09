@@ -1,0 +1,1200 @@
+NAME:A.PARKAVI
+EXERCISE NO:8
+EXERCISE NAME:TRIGGERS
+**************************
+1.Before Insert:
+================
+SQL> Create or Replace Trigger before_insert_person
+  2     Before Insert on Person
+  3     For each row
+  4      Begin
+  5      If: New.person_name IS NULL then
+  6      Raise_Application_Error(-20001,
+  7      'person name cannot be null');
+  8      End If;
+  9      END;
+ 10      /
+
+Trigger created.
+
+SQL> select * from person;
+
+ PERSON_ID PERSON_NAME          MAIL            ADDRESS_STREET       ADDRESS_CITY    ADDRESS_PIN                                                                                                        
+---------- -------------------- --------------- -------------------- --------------- -----------                                                                                                        
+         1 Parkavi              kavi@gmail.com  South Street         Sivakasi             626130                                                                                                        
+         2 Anu                  anu27@gmail.com T Nagar              Chennai              626123                                                                                                        
+         3 Rajan                raj3@gmail      NGO COLONY           Madurai              626100                                                                                                        
+         4 Selva                selva@mail      car Street           Sivakasi             626115                                                                                                        
+         5 Gautham              gautham@mail    North street         Madurai              626124                                                                                                        
+         6 Viji                                                      Chennai                                                                                                                            
+         7 Prabha                                                    Coimbatote                                                                                                                         
+         8 Prabhu                                                    Chennai                                                                                                                            
+         9 Karthi                                                    Chennai                                                                                                                            
+        10 Priya                                                     Coimbatote                                                                                                   10 rows selected.
+
+SQL> INSERT INTO person(person_ID,person_NAME,mail) VALUES(NULL,'Monisha','test@gmail.com');
+INSERT INTO person(person_ID,person_NAME,mail) VALUES(NULL,'Monisha','test@gmail.com')
+                                                      *
+ERROR at line 1:
+ORA-01400: cannot insert NULL into ("SYSTEM"."PERSON"."PERSON_ID") 
+
+SQL> INSERT INTO person(person_ID,person_NAME,mail) VALUES(11,'Monisha','test@gmail.com');
+
+1 row created.
+
+SQL> set serveroutput on;
+SQL> set linesize 200;
+SQL> select * from person where person_id =11;
+
+ PERSON_ID PERSON_NAME          MAIL            ADDRESS_STREET       ADDRESS_CITY    ADDRESS_PIN
+---------- -------------------- --------------- -------------------- --------------- -----------
+        11 Monisha              test@gmail.com
+******************************************************************************
+2.INSERT AFTER:
+================
+SQL>    Create or Replace trigger after_insert_product
+  2     After Insert on product
+  3     For Each row
+  4     Begin
+  5     DBMS_OUTPUT.PUT_LINE('New product :'||:new.product_id||'is hired');
+  6     End;
+  7     /
+
+Trigger created.
+
+SQL> insert into product values(159,'Cake','rollcake',10,203,2,'Anu');
+insert into product values(159,'Cake','rollcake',10,203,2,'Anu')
+*
+ERROR at line 1:
+ORA-00001: unique constraint (SYSTEM.SYS_C008320) violated
+
+SQL> insert into product values(160,'Snacks','cashew',10,204,1,'Parkavi');
+New product :160is hired
+
+1 row created.
+***************************************************************************************
+3.BEFORE DELETE:
+=================
+SQL> SELECT DISTINCT PERSON_NAME FROM PRODUCT;
+
+PERSON_NAME
+--------------------
+Anu
+Parkavi
+
+SQL> SELECT PERSON_NAME FROM PERSON WHERE PERSON_NAME NOT IN (SELECT PERSON_NAME FROM PRODUCT WHERE PERSON_NAME IS NOT NULL);
+
+PERSON_NAME
+--------------------
+Gautham
+Viji
+Prabhu
+Karthi
+Priya
+Rajan
+Monisha
+Prabha
+Selva
+
+9 rows selected.
+
+SQL> CREATE OR REPLACE TRIGGER before_delete
+  2  BEFORE DELETE ON Person
+  3  FOR EACH ROW
+  4  DECLARE
+  5      measurement_count INTEGER;
+  6  BEGIN
+  7      SELECT COUNT(*)
+  8      INTO measurement_count
+  9      FROM product
+ 10      WHERE person_name = :OLD.person_name;
+ 11      IF measurement_count > 0 THEN
+ 12          RAISE_APPLICATION_ERROR(-20003, 'Person has products. Cannot delete.');
+ 13      END IF;
+ 14  END;
+ 15  /
+
+Trigger created.
+
+SQL> delete from person where person_id=10;
+
+1 row deleted.
+
+SQL> delete from person where person_id=1;
+delete from person where person_id=1
+            *
+ERROR at line 1:
+ORA-20003: Person has products. Cannot delete.
+ORA-06512: at "SYSTEM.BEFORE_DELETE", line 9
+ORA-04088: error during execution of trigger 'SYSTEM.BEFORE_DELETE'
+*******************************************************************************
+4.AFTER DELETE:
+================
+SQL> create table delete_branch as select * from branch where 0=1;
+
+Table created.
+
+SQL>     create or replace trigger after_delete_branch
+  2      after delete on branch
+  3      for each row
+  4      begin
+  5      insert into delete_branch values(:old.br_id,:old.branch_location,:old.assets);
+  6      dbms_output.put_line('Branch '||:old.br_id||'has been deleted');
+  7      end;
+  8      /
+
+Warning: Trigger created with compilation errors.
+
+SQL> create or replace trigger after_delete_branch
+  2      after delete on branch
+  3      for each row
+  4      begin
+  5        insert into delete_branch values(:old.br_id,:old.branch_name,:old.branch_location);
+  6        dbms_output.put_line('Branch '||:old.br_id||'has been deleted');
+  7      end;
+  8      /
+
+Trigger created.
+
+
+SQL> delete from branch where br_id=106;
+Branch 106has been deleted
+
+1 row deleted.
+
+SQL> select * from delete_branch;
+
+     BR_ID BRANCH_NAME          BRANCH_LOCATION
+---------- -------------------- --------------------
+       106 Kovai                Town Hall
+*************************************************************************
+5.BEFORE UPDATE:
+================
+SQL> Create or replace trigger before_update_product
+  2  Before Update of measurement on product
+  3  For each row
+  4  Begin
+  5      If : New.measurement < 0 Then
+  6      Raise_Application_error(-20004,'Balance cannot be negative');
+  7      End If;
+  8  End;
+  9  /
+
+Trigger created.
+
+SQL> select measurement from product where product_id=152;
+
+MEASUREMENT
+------------------------------
+1002.982
+
+SQL> update product set measurement=-1000 where product_id=152;
+update product set measurement=-1000 where product_id=152
+       *
+ERROR at line 1:
+ORA-20004: Balance cannot be negative
+ORA-06512: at "SYSTEM.BEFORE_UPDATE_PRODUCT", line 3
+ORA-04088: error during execution of trigger 'SYSTEM.BEFORE_UPDATE_PRODUCT'
+
+SQL> update product set measurement=measurement+1000 where product_id=152;
+
+1 row updated.
+
+SQL> select measurement from product where product_id=152;
+
+MEASUREMENT
+------------------------------
+2002.982
+
+SQL> select product_name from product where product_id=152;
+
+PRODUCT_NAME
+--------------------
+Cabbage
+
+SQL> update product set product_name='CABBAGE' where product_id=152;
+
+1 row updated.
+
+SQL> select product_name from product where product_id=152;
+
+PRODUCT_NAME
+--------------------
+CABBAGE
+*******************************************************************
+6.AFTER UPDATE:
+================
+
+SQL> select measurement from product where product_id=152;
+
+MEASUREMENT
+------------------------------
+2002.982
+
+SQL> Create or replace trigger after_update_product
+  2  After Update on product
+  3  For each row
+  4  Begin
+  5      DBMS_OUTPUT.PUT_LINE('Product'||:Old.product_id|||'updated New measurement:'||:New.measurement);
+  6  End;
+  7  /
+
+Warning: Trigger created with compilation errors.
+
+SQL> Create or replace trigger after_update_product
+  2  After Update on product
+  3  For each row
+  4  Begin
+  5      DBMS_OUTPUT.PUT_LINE('Product'||:Old.product_id||'updated New measurement:'||:New.measurement);
+  6  End;
+  7  /
+
+Trigger created.
+
+SQL> update product set measurement=measurement+1000 where product_id=152;
+Product152updated New measurement:3002.982
+
+1 row updated.
+
+SQL> select measurement from product where product_id=152;
+
+MEASUREMENT
+------------------------------
+3002.982
+*****************************************************************
+7.ROW LEVEL:
+=============
+
+SQL> create or replace trigger before_opn_product
+  2          before insert or update or delete on product
+  3          for each row
+  4          begin
+  5              dbms_output.put_line('trying to do some opn on product table');
+  6          end;
+  7          /
+
+Trigger created.
+
+SQL> select * from product;
+
+PRODUCT_ID PRODUCT_NAME         BRAND                          MEASUREMENT                    CATEGORY_ID PERSON_ID  PERSON_NAME
+---------- -------------------- ------------------------------ ------------------------------ ----------- ---------- --------------------
+       150 Curd                 Hatsun                         2000.23467                             201 1
+       151 Ice Cream            Vennila                        1250.972                               201 1
+       152 CABBAGE              green leaf                     3002.982                               202 1
+       153 Mixture              daisy                          1500                                   203 1
+       154 Mango                Slice                          1800.9                                 204 1
+       155 Dates                Lion                           30.76543                               205 1
+       156 Vegetables           FromSupermarket                15                                     204 2          Anu
+       157 Fruits               guava                          12000                                  204 1          Parkavi
+       158 Chocolate            coffee                         12000                                  203 2          Anu
+       159 Cake                 rollcake                       12000                                  203 2          Anu
+
+10 rows selected.
+
+SQL>  insert all  into product values(160,'Bread','Cornation',3,204,1,'Parkavi')
+  2  into product values(161,'Juice','Mango',4,201,4,'Selva')
+  3  select * from dual;
+trying to do some opn on product table
+trying to do some opn on product table
+
+2 rows created.
+
+SQL> update product set measurement=measurement+1000 where product_id=152;
+trying to do some opn on product table
+Product152updated New measurement:4002.982
+
+1 row updated.
+
+SQL> update product set measurement=measurement+1000;
+trying to do some opn on product table
+Product150updated New measurement:3000.23467
+trying to do some opn on product table
+Product151updated New measurement:2250.972
+trying to do some opn on product table
+Product152updated New measurement:5002.982
+trying to do some opn on product table
+Product153updated New measurement:2500
+trying to do some opn on product table
+Product154updated New measurement:2800.9
+trying to do some opn on product table
+Product155updated New measurement:1030.76543
+trying to do some opn on product table
+Product156updated New measurement:1015
+trying to do some opn on product table
+Product157updated New measurement:13000
+trying to do some opn on product table
+Product158updated New measurement:13000
+trying to do some opn on product table
+Product159updated New measurement:13000
+trying to do some opn on product table
+Product160updated New measurement:13000
+trying to do some opn on product table
+Product161updated New measurement:13000
+
+12 rows updated.
+
+SQL> delete from product;
+delete from product
+            *
+ERROR at line 1:
+ORA-04098: trigger 'SYSTEM.AFTER_INSERT_PRODUCT' is invalid and failed re-validation
+************************************************************************
+8.STATEMENT LEVEL:
+====================
+SQL>  create or replace trigger before_opn_product
+  2          before insert or update or delete on product
+  3          begin
+  4              dbms_output.put_line('trying to do some opn on product table');
+  5          end;
+  6          /
+
+Trigger created.
+
+SQL>  insert all  into product values(162,'Bread','Cornation',3,204,1,'Parkavi')
+  2  into product values(163,'Juice','Mango',4,201,4,'Selva')
+  3  select * from dual;
+trying to do some opn on product table
+trying to do some opn on product table
+
+2 rows created.
+
+SQL> update product set measurement=measurement+1000;
+trying to do some opn on product table
+Product150updated New measurement:4000.23467
+Product151updated New measurement:3250.972
+Product152updated New measurement:6002.982
+Product153updated New measurement:3500
+Product154updated New measurement:3800.9
+Product155updated New measurement:2030.76543
+Product156updated New measurement:2015
+Product157updated New measurement:14000
+Product158updated New measurement:14000
+Product159updated New measurement:14000
+Product160updated New measurement:14000
+Product161updated New measurement:14000
+Product162updated New measurement:13000
+Product163updated New measurement:13000
+
+14 rows updated.
+
+SQL> delete from product;
+delete from product
+            *
+ERROR at line 1:
+ORA-04098: trigger 'SYSTEM.AFTER_INSERT_PRODUCT' is invalid and failed re-validation
+*****************************************************************
+9.COMPOUND TRIGGER:
+====================
+SQL> CREATE OR REPLACE TRIGGER compound_trigger_person_product
+  2  FOR INSERT OR DELETE ON person
+  3  COMPOUND TRIGGER
+  4      v_measurement NUMBER := 1000;
+  5      BEFORE EACH ROW IS
+  6      BEGIN
+  7          IF INSERTING THEN
+  8              UPDATE product
+  9              SET measurement = measurement + v_measurement
+ 10              WHERE person_id = :NEW.person_id;
+ 11              dbms_output.put_line('Product measurement is also updated');
+ 12          END IF;
+ 13      END BEFORE EACH ROW;
+ 14      AFTER EACH ROW IS
+ 15      BEGIN
+ 16          IF DELETING THEN
+ 17              UPDATE product
+ 18              SET measurement = measurement - v_measurement
+ 19              WHERE person_id = :OLD.person_id;
+ 20              dbms_output.put_line('Product measurement is also updated');
+ 21          END IF;
+ 22      END AFTER EACH ROW;
+ 23  END compound_trigger_person_product;
+ 24  /
+
+Trigger created.
+
+SQL> insert all into product values(166,'Tablet','para',12,202,2,'Anu')
+  2   into product values(167,'Fruits','Orange',7,203,4,'Selva')
+  3  select * from dual;
+trying to do some opn on product table
+trying to do some opn on product table
+Product measurement is also updated
+new product 166 is hired
+Product measurement is also updated
+new prpduct 167 is hired
+
+2 rows created.
+
+SQL> select * from product;
+
+PRODUCT_ID PRODUCT_NAME         BRAND                          MEASUREMENT                    CATEGORY_ID PERSON_ID  PERSON_NAME
+---------- -------------------- ------------------------------ ------------------------------ ----------- ---------- --------------------
+       150 Curd                 Hatsun                         4000.23467                             201 1
+       151 Ice Cream            Vennila                        3250.972                               201 1
+       152 CABBAGE              green leaf                     6002.982                               202 1
+       153 Mixture              daisy                          3500                                   203 1
+       154 Mango                Slice                          3800.9                                 204 1
+       155 Dates                Lion                           2030.76543                             205 1
+       156 Vegetables           FromSupermarket                2015                                   204 2          Anu
+       157 Fruits               guava                          14000                                  204 1          Parkavi
+       158 Chocolate            coffee                         14000                                  203 2          Anu
+       159 Cake                 rollcake                       14000                                  203 2          Anu
+       160 Bread                Cornation                      14000                                  204 1          Parkavi
+PRODUCT_ID PRODUCT_NAME         BRAND                          MEASUREMENT                    CATEGORY_ID PERSON_ID  PERSON_NAME
+---------- -------------------- ------------------------------ ------------------------------ ----------- ---------- --------------------
+       161 Juice                Mango                          14000                                  201 4          Selva
+       162 Bread                Cornation                      13000                                  204 1          Parkavi
+       163 Juice                Mango                          13000                                  201 4          Selva
+       164 Tablet               para                           12000                                  202 2          Anu
+       165 Fruits               Orange                         12000                                  203 4          Selva
+       166 Tablet               para                           12000                                  202 2          Anu
+       167 Fruits               Orange                         12000                                  203 4          Selva
+
+18 rows selected.
+
+SQL> delete from product where person_id =1;
+trying to do some opn on product table
+delete from product where person_id =1
+*
+ERROR at line 1:
+ORA-02292: integrity constraint (SYSTEM.SYS_C008325) violated - child record found
+*****************************************************************************************
+SURPRISE QUESTONS:
+HACKERRANK QUESTIONS:
+========================
+A)	Write a code in PL/SQL TO create a trigger that automatically updates a 'last_modified' timestamp whenever a row in a specific table is updated.
+SQL> create index idx_member_name on members(member_name);
+
+Index created.
+SQL>  alter table PRODUCT add last_modified timestamp;
+
+Table altered.
+SQL>  update PRODUCT set last_modified=(select current_timestamp from dual);
+trying to do some opn on product table
+Product150updated New measurement:4000.23467
+Product151updated New measurement:3250.972
+Product152updated New measurement:6002.982
+Product153updated New measurement:3500
+18 rows updated.
+
+SQL> SELECT * FROM PRODUCT;
+
+PRODUCT_ID PRODUCT_NAME         BRAND                          MEASUREMENT                    CATEGORY_ID PERSON_ID  PERSON_NAME
+---------- -------------------- ------------------------------ ------------------------------ ----------- ---------- --------------------
+LAST_MODIFIED
+---------------------------------------------------------------------------
+       150 Curd                 Hatsun                         4000.23467                             201 1          Parkavi
+27-MAR-26 08.40.54.324000 AM
+
+       151 Ice Cream            Vennila                        3250.972                               201 1          Parkavi
+27-MAR-26 08.40.54.324000 AM
+
+       152 CABBAGE              green leaf                     6002.982                               202 1          Parkavi
+27-MAR-26 08.40.54.324000 AM
+PRODUCT_ID PRODUCT_NAME         BRAND                          MEASUREMENT                    CATEGORY_ID PERSON_ID  PERSON_NAME
+---------- -------------------- ------------------------------ ------------------------------ ----------- ---------- --------------------
+LAST_MODIFIED
+---------------------------------------------------------------------------
+       162 Bread                Cornation                      13000                                  204 1          Parkavi
+27-MAR-26 08.40.54.324000 AM
+
+       163 Juice                Mango                          13000                                  201 4          Selva
+27-MAR-26 08.40.54.324000 AM
+
+       164 Tablet               para                           12000                                  202 2          Anu
+27-MAR-26 08.40.54.324000 AM
+SQL>  create or replace trigger update_last_modified_on_PRODUCT
+  2      before update on PRODUCT
+  3      for each row
+  4      begin
+  5          :new.last_modified := current_timestamp;
+  6      end;
+  7      /
+
+Trigger created.
+SQL>  update product set measurement=1300 where product_id=165;
+trying to do some opn on product table
+Product165updated New measurement:1300
+1 row updated.
+SQL> SELECT * FROM PRODUCT;
+PRODUCT_ID PRODUCT_NAME         BRAND                          MEASUREMENT                    CATEGORY_ID PERSON_ID  PERSON_NAME
+---------- -------------------- ------------------------------ ------------------------------ ----------- ---------- --------------------
+LAST_MODIFIED
+---------------------------------------------------------------------------
+       150 Curd                 Hatsun                         4000.23467                             201 1          Parkavi
+27-MAR-26 08.40.54.324000 AM
+
+       151 Ice Cream            Vennila                        3250.972                               201 1          Parkavi
+27-MAR-26 08.40.54.324000 AM
+
+       152 CABBAGE              green leaf                     6002.982                               202 1          Parkavi
+27-MAR-26 08.40.54.324000 AM
+18 rows selected.
+B)	Write a code in PL/SQL to create a trigger that prevents updates on a certain column during specific hours of the day.
+
+SQL>  select current_timestamp from dual;
+
+CURRENT_TIMESTAMP
+---------------------------------------------------------------------------
+27-MAR-26 08.45.35.920000 AM +05:30
+SQL>  create or replace trigger trg_restrict_update_time
+  2      before update of measurement on product
+  3      for each row
+  4      begin
+  5          if to_number(to_char(current_timestamp, 'HH24')) not between 8 and 18 then
+  6              raise_application_error(-20001, 'Updates not allowed during this time');
+  7          end if;
+  8      end;
+  9      /
+
+Trigger created.
+SQL>  update product set measurement=20000 where product_id=163;
+trying to do some opn on product table
+Product163updated New measurement:20000
+
+1 row updated.
+A)	Write a code in PL/SQL to develop a trigger that enforces referential integrity by preventing the deletion of a parent record if child records exist.
+SQL>  create or replace trigger trg_prevent_parent_delete
+  2      before delete on person
+  3      for each row
+  4      declare
+  5          v_count number;
+  6      begin
+  7          select count(*) into v_count
+  8          from product
+  9          where person_id = :old.person_id;
+ 10
+ 11         if v_count > 0 then
+ 12             raise_application_error(-20002, 'Cannot delete parent: child records exist');
+ 13         end if;
+ 14     end;
+ 15     /
+
+Trigger created.
+SQL> set serveroutput on;
+SQL>  delete from person where person_id=2;
+ delete from person where person_id=10
+             *
+ERROR at line 1:
+ORA-04098: trigger 'SYSTEM.COM_TRIGGER_PERSON' is invalid and failed re-validation
+SQL>  delete from product where person_id=10;
+trying to do some opn on product table
+
+0 rows deleted.
+SQL> select person_id from person minus select product_id from product minus select category_id from category;
+
+ PERSON_ID
+----------
+         1
+         2
+         3
+         4
+         5
+         6
+         7
+         8
+         9
+        10
+        11
+
+11 rows selected.
+SQL>  delete from product where person_id=2;
+trying to do some opn on product table
+
+5 rows deleted.
+
+B)	Write a code in PL/SQL to create a trigger that checks for duplicate values in a specific column and raises an exception if found.
+SQL>  create or replace trigger trg_check_duplicate_perid
+  2      before insert on person
+  3      for each row
+  4      declare
+  5          v_count number;
+  6      begin
+  7          select count(*) into v_count
+  8          from person
+  9         where person_id = :new.person_id;
+ 10         if v_count > 0 then
+ 11             raise_application_error(-20001, 'duplicate person_id not allowed');
+ 12         end if;
+ 13     end trg_check_duplicate_perid;
+ 14     /
+
+Trigger created.
+
+SQL> insert into person values(2,'Raj','raj@gmail.com'South street','Chennai',626123);
+
+ERROR at line 1:
+ORA-20001: duplicate person_id not allowed
+ORA-06512: at "system.trg_check_duplicate_perid", line 10
+ORA-04088: error during execution of trigger 'system.trg_check_duplicate_perid'
+****************************************************
+QUESTION PAPER:
+===================
+SQL> set serveroutput on;
+SQL> set linesize 200;
+SQL>  create table student (
+  2        student_id varchar2(10) primary key,
+  3        student_name varchar2(50),
+  4        city varchar2(50)
+  5     );
+ create table student (
+              *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+SQL>  create table student1 (
+  2        student_id varchar2(10) primary key,
+  3        student_name varchar2(50),
+  4        city varchar2(50)
+  5     );
+
+Table created.
+SQL>  create table course1 (
+  2        course_id varchar2(10) primary key,
+  3        course_name varchar2(50),
+  4        department varchar2(50)
+  5      );
+
+Table created.
+SQL>  create table enroll1 (
+  2        student_id varchar2(10),
+  3        course_id varchar2(10),
+  4        marks number,
+  5        primary key (student_id, course_id),
+  6        foreign key (student_id) references student(student_id),
+  7        foreign key (course_id) references course(course_id)
+  8      );
+
+Table created.
+SQL>  create table teaches1 (
+  2         instructor_name varchar2(50),
+  3         course_id varchar2(10),
+  4         primary key (instructor_name, course_id),
+  5         foreign key (course_id) references course(course_id)
+  6     );
+SQL> SELECT * FROM STUDENT1;
+
+STUDENT_ID STUDENT_NAME                                       CITY
+---------- -------------------------------------------------- --------------------------------------------------
+S201       Arun                                               Chennai
+S202       Divya                                              Madurai
+S203       Karthik                                            Coimbatore
+S204       Priya                                              Salem
+S205       Vijay                                              Trichy
+
+SQL> SELECT * FROM COURSE1;
+
+COURSE_ID  COURSE_NAME                                        DEPARTMENT
+---------- -------------------------------------------------- --------------------------------------------------
+C201       Database                                           CSE
+C202       Java                                               CSE
+C203       Maths                                              Science
+C204       Physics                                            Science
+C205       Networks                                           IT
+
+SQL> SELECT * FROM ENROLL1;
+STUDENT_ID COURSE_ID       MARKS
+---------- ---------- ----------
+S201       C201               85
+S202       C202               90
+S203       C203               78
+S204       C204               88
+S205       C205               92
+
+SQL> SELECT * FROM TEACHES1;
+
+INSTRUCTOR_NAME                                    COURSE_ID
+-------------------------------------------------- ----------
+Dr.Ravi                                            C201
+Dr.Meena                                           C202
+Dr.Kumar                                           C203
+Dr.Latha                                           C204
+Dr.Suresh                                          C205
+A)Increase marks of students enrolled in courses taught by 'Dr. Kumar' by 10%
+SQL> UPDATE enroll1 e SET marks = marks + marks * 0.10WHERE e.course_id = (    SELECT course_id    FROM teaches1    WHERE instructor_name = 'Dr.Kumar');
+
+1 row updated.
+SQL> SELECT * FROM ENROLL1;
+STUDENT_ID COURSE_ID       MARKS
+---------- ---------- ----------
+S201       C201               85
+S202       C202               90
+S203       C203             85.8
+S204       C204               88
+S205       C205               92
+B)Find the student name who has obtained the second highest marks
+SQL> SELECT * FROM ENROLL1;
+STUDENT_ID COURSE_ID       MARKS
+---------- ---------- ----------
+S201       C201               85
+S202       C202               90
+S203       C203             85.8
+S204       C204               88
+S205       C205               92
+SQL> select s.student_name from student1 s join enroll1 e on s.student_id=e.student_id  where e.marks=(select max(marks) from enroll1 where marks<(select max(marks) from enroll1));
+STUDENT_NAME
+--------------------------------------------------
+Divya
+C)Find the course names where the marks obtained by students are greater than the avg marks of all students
+
+SQL>  select c.course_name from course1 c join enroll1 e on c.course_id=e.course_id where marks>(select avg(marks) from enroll1);
+
+COURSE_NAME
+--------------------------------------------------
+Java
+Networks
+D)Display the student name and city of students who obtained the highest marks
+SQL> select s.student_name,s.city from student1 s join enroll1 e on s.student_id=e.student_id where e.marks=(select  max(marks) from enroll1);
+
+STUDENT_NAME                                       CITY
+-------------------------------------------------- --------------------------------------------------
+Vijay                                              Trichy
+
+E)Function to return course name with largest number of enrolled students
+SQL>  create or replace function max_enroll_course
+  2      return varchar2
+  3      is
+  4          v_course_name course.course_name%type;
+  5      begin
+  6          select course_name
+  7          into v_course_name
+  8          from (
+  9              select c.course_name
+ 10             from course1 c
+ 11             join enroll1 e on c.course_id = e.course_id
+ 12             group by c.course_name
+ 13             order by count(*) desc
+ 14         )
+ 15         where rownum = 1;
+ 16         return v_course_name;
+ 17     end;
+ 18     /
+
+Function created.
+SQL> select max_enroll_course from dual;
+MAX_ENROLL_COURSE
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Database
+
+*********************************************************************************
+2.SQL>  create table members (
+  2          member_id varchar2(10) primary key,
+  3          member_name varchar2(50),
+  4          dept varchar2(50),
+  5          address varchar2(100),
+  6          phone varchar2(15)
+  7      );
+
+Table created.
+
+SQL> create table books (
+  2          book_id varchar2(10) primary key,
+  3          book_title varchar2(100),
+  4          author varchar2(50),
+  5          category varchar2(50),
+  6          price number
+  7      );
+
+Table created.
+
+SQL> create table borrow (
+  2          member_id varchar2(10),
+  3          book_id varchar2(10),
+  4          issue_date date,
+  5          return_date date,
+  6          primary key (member_id, book_id, issue_date),
+  7          foreign key (member_id) references members(member_id),
+  8          foreign key (book_id) references books(book_id)
+  9      );
+
+Table created.
+SQL>  create table staff (
+  2          staff_id varchar2(10) primary key,
+  3          staff_name varchar2(50),
+  4          block varchar2(10),
+  5          building varchar2(10)
+  6      );
+
+Table created.
+SQL>  create table fine (
+  2          member_id varchar2(10),
+  3          amount number,
+  4          status varchar2(20),
+  5          foreign key (member_id) references members(member_id)
+  6      );
+
+Table created.
+SQL> INSERT ALL
+  2    INTO members VALUES ('M101', 'Arun', 'CSE', 'Chennai', '9876543210')
+  3    INTO members VALUES ('M102', 'Divya', 'IT', 'Madurai', '9876543211')
+  4    INTO members VALUES ('M103', 'Karthik', 'ECE', 'Coimbatore', '9876543212')
+  5    INTO members VALUES ('M104', 'Priya', 'EEE', 'Salem', '9876543213')
+  6    INTO members VALUES ('M105', 'Vijay', 'CSE', 'Trichy', '9876543214')
+  7  SELECT * FROM dual;
+
+5 rows created.
+SQL> INSERT ALL
+  2    INTO books VALUES ('B101', 'Database Systems', 'Korth', 'Education', 500)
+  3    INTO books VALUES ('B102', 'Java Programming', 'James Gosling', 'Education', 600)
+  4    INTO books VALUES ('B103', 'Data Structures', 'Mark Allen', 'Education', 550)
+  5    INTO books VALUES ('B104', 'Physics Basics', 'HC Verma', 'Science', 400)
+  6    INTO books VALUES ('B105', 'Digital Logic', 'Morris Mano', 'Engineering', 450)
+  7  SELECT * FROM dual;
+
+5 rows created.
+SQL> INSERT ALL
+  2    INTO borrow VALUES ('M101', 'B101', DATE '2026-03-01', DATE '2026-03-10')
+  3    INTO borrow VALUES ('M102', 'B102', DATE '2026-03-02', DATE '2026-03-12')
+  4    INTO borrow VALUES ('M103', 'B103', DATE '2026-03-03', DATE '2026-03-15')
+  5    INTO borrow VALUES ('M104', 'B104', DATE '2026-03-04', DATE '2026-03-14')
+  6    INTO borrow VALUES ('M105', 'B105', DATE '2026-03-05', DATE '2026-03-18')
+  7  SELECT * FROM dual;
+
+5 rows created.
+SQL> INSERT ALL
+  2    INTO staff VALUES ('S101', 'Ravi', 'A', 'Block1')
+  3    INTO staff VALUES ('S102', 'Meena', 'B', 'Block2')
+  4    INTO staff VALUES ('S103', 'Kumar', 'C', 'Block3')
+  5    INTO staff VALUES ('S104', 'Latha', 'D', 'Block4')
+  6    INTO staff VALUES ('S105', 'Suresh', 'E', 'Block5')
+  7  SELECT * FROM dual;
+
+5 rows created.
+SQL> INSERT ALL
+  2    INTO fine VALUES ('M101', 50, 'PAID')
+  3    INTO fine VALUES ('M102', 100, 'UNPAID')
+  4    INTO fine VALUES ('M103', 75, 'PAID')
+  5    INTO fine VALUES ('M104', 120, 'UNPAID')
+  6    INTO fine VALUES ('M105', 60, 'PAID')
+  7  SELECT * FROM dual;
+
+5 rows created.
+SQL> SELECT * FROM members;
+
+MEMBER_ID  MEMBER_NAME                                        DEPT
+---------- -------------------------------------------------- --------------------------------------------------
+ADDRESS                                                                                              PHONE
+---------------------------------------------------------------------------------------------------- ---------------
+M101       Arun                                               CSE
+Chennai                                                                                              9876543210
+
+M102       Divya                                              IT
+Madurai                                                                                              9876543211
+
+M103       Karthik                                            ECE
+Coimbatore                                                                                           9876543212
+
+
+MEMBER_ID  MEMBER_NAME                                        DEPT
+---------- -------------------------------------------------- --------------------------------------------------
+ADDRESS                                                                                              PHONE
+---------------------------------------------------------------------------------------------------- ---------------
+M104       Priya                                              EEE
+Salem                                                                                                9876543213
+
+M105       Vijay                                              CSE
+Trichy                                                                                               9876543214
+SQL> SELECT * FROM BOOKS;
+
+BOOK_ID    BOOK_TITLE                                                                                           AUTHOR
+---------- ---------------------------------------------------------------------------------------------------- --------------------------------------------------
+CATEGORY                                                PRICE
+-------------------------------------------------- ----------
+B101       Database Systems                                                                                     Korth
+Education                                                 500
+
+B102       Java Programming                                                                                     James Gosling
+Education                                                 600
+
+B103       Data Structures                                                                                      Mark Allen
+Education                                                 550
+
+
+BOOK_ID    BOOK_TITLE                                                                                           AUTHOR
+---------- ---------------------------------------------------------------------------------------------------- --------------------------------------------------
+CATEGORY                                                PRICE
+-------------------------------------------------- ----------
+B104       Physics Basics                                                                                       HC Verma
+Science                                                   400
+
+B105       Digital Logic                                                                                        Morris Mano
+Engineering                                               450
+
+
+SQL> SELECT * FROM STAFF;
+
+STAFF_ID   STAFF_NAME                                         BLOCK      BUILDING
+---------- -------------------------------------------------- ---------- ----------
+S101       Ravi                                               A          Block1
+S102       Meena                                              B          Block2
+S103       Kumar                                              C          Block3
+S104       Latha                                              D          Block4
+S105       Suresh                                             E          Block5
+
+SQL> SELECT * FROM BORROW;
+
+MEMBER_ID  BOOK_ID    ISSUE_DAT RETURN_DA
+---------- ---------- --------- ---------
+M101       B101       01-MAR-26 10-MAR-26
+M102       B102       02-MAR-26 12-MAR-26
+M103       B103       03-MAR-26 15-MAR-26
+M104       B104       04-MAR-26 14-MAR-26
+M105       B105       05-MAR-26 18-MAR-26
+
+SQL> SELECT * FROM FINE;
+
+MEMBER_ID      AMOUNT STATUS
+---------- ---------- --------------------
+M101               50 PAID
+M102              100 UNPAID
+M103               75 PAID
+M104              120 UNPAID
+M105               60 PAID
+
+A.
+
+SQL> select staff_name
+  2      from staff
+  3      where initcap(building) in ('Block1', 'Block2');
+
+STAFF_NAME
+--------------------------------------------------
+Ravi
+Meena
+
+B.
+SQL>
+SQL>  select b.*, m.*
+  2      from books b
+  3      join borrow br on b.book_id = br.book_id
+  4      join members m on br.member_id = m.member_id
+  5      join fine f on m.member_id = f.member_id
+  6      where b.category in ('Science', 'Engineering')
+  7      and f.amount > 500;
+
+no rows selected
+
+SQL>
+SQL>  select b.*, m.*
+  2      from books b
+  3      join borrow br on b.book_id = br.book_id
+  4      join members m on br.member_id = m.member_id
+  5      join fine f on m.member_id = f.member_id
+  6      where b.category in ('Science', 'Engineering')
+  7      and f.amount < 500;
+
+BOOK_ID    BOOK_TITLE                                                                                           AUTHOR
+---------- ---------------------------------------------------------------------------------------------------- --------------------------------------------------
+CATEGORY                                                PRICE MEMBER_ID  MEMBER_NAME                                        DEPT
+-------------------------------------------------- ---------- ---------- -------------------------------------------------- --------------------------------------------------
+ADDRESS                                                                                              PHONE
+---------------------------------------------------------------------------------------------------- ---------------
+B104       Physics Basics                                                                                       HC Verma
+Science                                                   400 M104       Priya                                              EEE
+Salem                                                                                                9876543213
+
+B105       Digital Logic                                                                                        Morris Mano
+Engineering                                               450 M105       Vijay                                              CSE
+Trichy                                                                                               9876543214
+
+BOOK_ID    BOOK_TITLE                                                                                           AUTHOR
+---------- ---------------------------------------------------------------------------------------------------- --------------------------------------------------
+CATEGORY                                                PRICE MEMBER_ID  MEMBER_NAME                                        DEPT
+-------------------------------------------------- ---------- ---------- -------------------------------------------------- --------------------------------------------------
+ADDRESS                                                                                              PHONE
+---------------------------------------------------------------------------------------------------- ---------------
+C.
+
+
+SQL>
+SQL>  create view member_book_view as
+  2      select m.member_id, m.member_name, b.book_title
+  3      from members m
+  4      join borrow br on m.member_id = br.member_id
+  5      join books b on br.book_id = b.book_id;
+
+View created.
+
+D.
+
+SQL>
+SQL>  create or replace procedure insert_book(
+  2          b_id varchar2,
+  3          b_title varchar2,
+  4          b_author varchar2,
+  5          b_category varchar2,
+  6          b_price number
+  7      )
+  8      is
+  9      begin
+ 10         insert into books values (b_id, b_title, b_author, b_category, b_price);
+ 11     end;
+ 12     /
+
+Procedure created.
+
+SQL>
+SQL>  exec insert_book('B302','Java','Hc VARMA','Programming',800);
+
+PL/SQL procedure successfully completed.
+
+SQL> SELECT * FROM BOOKS;
+
+BOOK_ID    BOOK_TITLE                                                                                           AUTHOR
+---------- ---------------------------------------------------------------------------------------------------- --------------------------------------------------
+CATEGORY                                                PRICE
+-------------------------------------------------- ----------
+B101       Database Systems                                                                                     Korth
+Education                                                 500
+
+B102       Java Programming                                                                                     James Gosling
+Education                                                 600
+
+B103       Data Structures                                                                                      Mark Allen
+Education                                                 550
+
+
+BOOK_ID    BOOK_TITLE                                                                                           AUTHOR
+---------- ---------------------------------------------------------------------------------------------------- --------------------------------------------------
+CATEGORY                                                PRICE
+-------------------------------------------------- ----------
+B104       Physics Basics                                                                                       HC Verma
+Science                                                   400
+
+B105       Digital Logic                                                                                        Morris Mano
+Engineering                                               450
+
+B302       Java                                                                                                 Hc VARMA
+Programming                                               800
+
+
+6 rows selected.
+
+E.
+SQL> create index idx_member_name on members(member_name);
+
+Index created.
+
+**********************************************************************************
+
+SQL> create or replace trigger trg_restrict_update_time
+  2          before update of measurement on product
+  3          for each row
+  4          begin
+  5              if to_number(to_char(current_timestamp, 'HH24'))between 8 and 18 then
+  6                  raise_application_error(-20001, 'Updates not allowed during this time');
+  7              end if;
+  8          end;
+  9          /
+
+Trigger created.
+
+SQL> update product set measurement=20000 where product_id=163;
+trying to do some opn on product table
+update product set measurement=20000 where product_id=163
+       *
+ERROR at line 1:
+ORA-20001: Updates not allowed during this time
+ORA-06512: at "SYSTEM.TRG_RESTRICT_UPDATE_TIME", line 3
+ORA-04088: error during execution of trigger 'SYSTEM.TRG_RESTRICT_UPDATE_TIME'
+
+
+SQL>  create or replace trigger trg_prevent_parent_delete
+  2          before delete on person
+  3          for each row
+  4          declare
+  5              v_count number;
+  6          begin
+  7              select count(*) into v_count
+  8              from product
+  9              where person_id = :old.person_id;
+ 10
+ 11            if v_count > 0 then
+ 12                raise_application_error(-20002, 'Cannot delete parent: child records exist');
+ 13            end if;
+ 14        end;
+ 15        /
+
+Trigger created.
+
+SQL> delete from person where person_id=4;
+delete from person where person_id=4
+*
+ERROR at line 1:
+ORA-02292: integrity constraint (SYSTEM.SYS_C008319) violated - child record
+found
+
+SQL>
+SQL>  CREATE OR REPLACE TRIGGER stmt_cmp_person
+  2      BEFORE INSERT OR DELETE ON person
+  3      DECLARE
+  4         measure_change NUMBER := 1000;
+  5      BEGIN
+  6          IF INSERTING THEN
+  7              FOR rec IN (SELECT product_id FROM product) LOOP
+  8                  UPDATE product
+  9                  SET measurement = measurement + measure_change
+ 10                 WHERE product_id = rec.product_id;
+ 11             END LOOP;
+ 12         END IF;
+ 13         IF DELETING THEN
+ 14             FOR rec IN (SELECT product_id FROM product) LOOP
+ 15                 UPDATE product
+ 16                 SET measurement = measurement - measure_change
+ 17                 WHERE product_id = rec.product_id;
+ 18             END LOOP;
+ 19         END IF;
+ 20     END stmt_cmp_person;
+ 21     /
+
+Trigger created.
+
+SQL>
+SQL>  insert into person values(15,'Roja','rajan@gmail','Stret','chennai', 76543);
+
+1 row created.
+
+SQL> select * from product;
+
+PRODUCT_ID PRODUCT_NAME         BRAND                          MEASUREMENT                    CATEGORY_ID PERSON_ID  PERSON_NAME
+---------- -------------------- ------------------------------ ------------------------------ ----------- ---------- --------------------
+LAST_MODIFIED
+---------------------------------------------------------------------------
+       150 Curd                 Hatsun                         5000.23467                             201 1          Parkavi
+27-MAR-26 02.44.57.529000 PM
+
+       151 Ice Cream            Vennila                        4250.972                               201 1          Parkavi
+27-MAR-26 02.44.57.529000 PM
+
+       152 CABBAGE              green leaf                     7002.982                               202 1          Parkavi
+27-MAR-26 02.44.57.529000 PM
+
+
+PRODUCT_ID PRODUCT_NAME         BRAND                          MEASUREMENT                    CATEGORY_ID PERSON_ID  PERSON_NAME
+---------- -------------------- ------------------------------ ------------------------------ ----------- ---------- --------------------
+LAST_MODIFIED
+---------------------------------------------------------------------------
+       153 Mixture              daisy                          4500                                   203 1          Parkavi
+27-MAR-26 02.44.57.529000 PM
+
+       154 Mango                Slice                          4800.9                                 204 1          Parkavi
+27-MAR-26 02.44.57.529000 PM
+
+       155 Dates                Lion                           3030.76543                             205 1          Parkavi
+27-MAR-26 02.44.57.529000 PM
+
+
+PRODUCT_ID PRODUCT_NAME         BRAND                          MEASUREMENT                    CATEGORY_ID PERSON_ID  PERSON_NAME
+---------- -------------------- ------------------------------ ------------------------------ ----------- ---------- --------------------
+LAST_MODIFIED
+---------------------------------------------------------------------------
+       157 Fruits               guava                          15000                                  204 1          Parkavi
+27-MAR-26 02.44.57.529000 PM
+
+       160 Bread                Cornation                      15000                                  204 1          Parkavi
+27-MAR-26 02.44.57.529000 PM
+
+       162 Bread                Cornation                      14000                                  204 1          Parkavi
+27-MAR-26 02.44.57.529000 PM
+
+
+9 rows selected.
