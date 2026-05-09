@@ -1,0 +1,1642 @@
+EX11:MongoDb Database
+Name:A.Parkavi
+===========================
+use admin
+switched to db admin
+use mydb
+db.createCollection("person")
+switched to db mydb
+db.person.insertMany([
+  {
+    person_id: 1,
+    person_name: "Parkavi",
+    mail: "kavi@gmail.com",
+    address_street: "South Street",
+    address_city: "Sivakasi",
+    address_pin: 626130
+  },
+  {
+    person_id: 2,
+    person_name: "Anu",
+    mail: "anu27@gmail.com",
+    address_street: "T Nagar",
+    address_city: "Chennai",
+    address_pin: 626123
+  },
+  {
+    person_id: 3,
+    person_name: "Rajan",
+    mail: "raj3@gmail",
+    address_street: "NGO COLONY",
+    address_city: "Madurai",
+    address_pin: 626100
+  },
+  {
+    person_id: 4,
+    person_name: "Selva",
+    mail: "selva@mail",
+    address_street: "car Street",
+    address_city: "Sivakasi",
+    address_pin: 626115
+  },
+  {
+    person_id: 5,
+    person_name: "Gautham",
+    mail: "gautham@mail",
+    address_street: "North street",
+    address_city: "Madurai",
+    address_pin: 626124
+  },
+  {
+    person_id: 6,
+    person_name: "Viji",
+    address_city: "Chennai"
+  },
+  {
+    person_id: 7,
+    person_name: "Prabha",
+    address_city: "Coimbatote"
+  },
+  {
+    person_id: 8,
+    person_name: "Prabhu",
+    address_city: "Chennai"
+  },
+  {
+    person_id: 9,
+    person_name: "Karthi",
+    address_city: "Chennai"
+  },
+  {
+    person_id: 10,
+    person_name: "Muthu",
+    address_city: "Coimbatote"
+  },
+  {
+    person_id: 11,
+    person_name: "Monisha",
+    mail: "test@gmail.com"
+  }
+])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('69edb6d514cc27b3245a332c'),
+    '1': ObjectId('69edb6d514cc27b3245a332d'),
+    '2': ObjectId('69edb6d514cc27b3245a332e'),
+    '3': ObjectId('69edb6d514cc27b3245a332f'),
+    '4': ObjectId('69edb6d514cc27b3245a3330'),
+    '5': ObjectId('69edb6d514cc27b3245a3331'),
+    '6': ObjectId('69edb6d514cc27b3245a3332'),
+    '7': ObjectId('69edb6d514cc27b3245a3333'),
+    '8': ObjectId('69edb6d514cc27b3245a3334'),
+    '9': ObjectId('69edb6d514cc27b3245a3335'),
+    '10': ObjectId('69edb6d514cc27b3245a3336')
+  }
+}
+
+db.person.find({})
+{
+  _id: ObjectId('69edb6d514cc27b3245a332c'),
+  person_id: 1,
+  person_name: 'Parkavi',
+  mail: 'kavi@gmail.com',
+  address_street: 'South Street',
+  address_city: 'Sivakasi',
+  address_pin: 626130
+}
+{
+  _id: ObjectId('69edb6d514cc27b3245a332d'),
+  person_id: 2,
+  person_name: 'Anu',
+  mail: 'anu27@gmail.com',
+  address_street: 'T Nagar',
+  address_city: 'Chennai',
+  address_pin: 626123
+}
+{
+  _id: ObjectId('69edb6d514cc27b3245a332e'),
+  person_id: 3,
+  person_name: 'Rajan',
+  mail: 'raj3@gmail',
+  address_street: 'NGO COLONY',
+  address_city: 'Madurai',
+  address_pin: 626100
+}
+{
+  _id: ObjectId('69edb6d514cc27b3245a332f'),
+  person_id: 4,
+  person_name: 'Selva',
+  mail: 'selva@mail',
+  address_street: 'car Street',
+  address_city: 'Sivakasi',
+  address_pin: 626115
+}
+{
+  _id: ObjectId('69edb6d514cc27b3245a3330'),
+  person_id: 5,
+  person_name: 'Gautham',
+  mail: 'gautham@mail',
+  address_street: 'North street',
+  address_city: 'Madurai',
+  address_pin: 626124
+}
+{
+  _id: ObjectId('69edb6d514cc27b3245a3331'),
+  person_id: 6,
+  person_name: 'Viji',
+  address_city: 'Chennai'
+}
+{
+  _id: ObjectId('69edb6d514cc27b3245a3332'),
+  person_id: 7,
+  person_name: 'Prabha',
+  address_city: 'Coimbatote'
+}
+{
+  _id: ObjectId('69edb6d514cc27b3245a3333'),
+  person_id: 8,
+  person_name: 'Prabhu',
+  address_city: 'Chennai'
+}
+{
+  _id: ObjectId('69edb6d514cc27b3245a3334'),
+  person_id: 9,
+  person_name: 'Karthi',
+  address_city: 'Chennai'
+}
+{
+  _id: ObjectId('69edb6d514cc27b3245a3335'),
+  person_id: 10,
+  person_name: 'Muthu',
+  address_city: 'Coimbatote'
+}
+{
+  _id: ObjectId('69edb6d514cc27b3245a3336'),
+  person_id: 11,
+  person_name: 'Monisha',
+  mail: 'test@gmail.com'
+}
+db.person.find({ address_city: "Chennai" })
+{
+  _id: ObjectId('69edb6d514cc27b3245a332d'),
+  person_id: 2,
+  person_name: 'Anu',
+  mail: 'anu27@gmail.com',
+  address_street: 'T Nagar',
+  address_city: 'Chennai',
+  address_pin: 626123
+}
+{
+  _id: ObjectId('69edb6d514cc27b3245a3331'),
+  person_id: 6,
+  person_name: 'Viji',
+  address_city: 'Chennai'
+}
+{
+  _id: ObjectId('69edb6d514cc27b3245a3333'),
+  person_id: 8,
+  person_name: 'Prabhu',
+  address_city: 'Chennai'
+}
+{
+  _id: ObjectId('69edb6d514cc27b3245a3334'),
+  person_id: 9,
+  person_name: 'Karthi',
+  address_city: 'Chennai'
+}
+db.person.find({ person_id: 3 })
+{
+  _id: ObjectId('69edb6d514cc27b3245a332e'),
+  person_id: 3,
+  person_name: 'Rajan',
+  mail: 'raj3@gmail',
+  address_street: 'NGO COLONY',
+  address_city: 'Madurai',
+  address_pin: 626100
+}
+db.person.find({}, { person_name: 1, mail: 1, _id: 0 })
+{
+  person_name: 'Parkavi',
+  mail: 'kavi@gmail.com'
+}
+{
+  person_name: 'Anu',
+  mail: 'anu27@gmail.com'
+}
+{
+  person_name: 'Rajan',
+  mail: 'raj3@gmail'
+}
+{
+  person_name: 'Selva',
+  mail: 'selva@mail'
+}
+{
+  person_name: 'Gautham',
+  mail: 'gautham@mail'
+}
+{
+  person_name: 'Viji'
+}
+{
+  person_name: 'Prabha'
+}
+{
+  person_name: 'Prabhu'
+}
+{
+  person_name: 'Karthi'
+}
+{
+  person_name: 'Muthu'
+}
+{
+  person_name: 'Monisha',
+  mail: 'test@gmail.com'
+}
+db.person.updateOne(
+  { person_id: 3 },
+  { $set: { mail: "newmail@gmail.com" } }
+)
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+db.person.updateMany(
+  { address_city: "Sivakasi" },
+  { $set: { address_city: "Madurai" } }
+)
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 2,
+  modifiedCount: 2,
+  upsertedCount: 0
+}
+
+db.person.find({ person_id: 3 })
+{
+  _id: ObjectId('69edb6d514cc27b3245a332e'),
+  person_id: 3,
+  person_name: 'Rajan',
+  mail: 'newmail@gmail.com',
+  address_street: 'NGO COLONY',
+  address_city: 'Madurai',
+  address_pin: 626100
+}
+db.person.find({})
+{
+  _id: ObjectId('69edb6d514cc27b3245a332c'),
+  person_id: 1,
+  person_name: 'Parkavi',
+  mail: 'kavi@gmail.com',
+  address_street: 'South Street',
+  address_city: 'Madurai',
+  address_pin: 626130
+}
+{
+  _id: ObjectId('69edb6d514cc27b3245a332d'),
+  person_id: 2,
+  person_name: 'Anu',
+  mail: 'anu27@gmail.com',
+  address_street: 'T Nagar',
+  address_city: 'Chennai',
+  address_pin: 626123
+}
+{
+  _id: ObjectId('69edb6d514cc27b3245a332e'),
+  person_id: 3,
+  person_name: 'Rajan',
+  mail: 'newmail@gmail.com',
+  address_street: 'NGO COLONY',
+  address_city: 'Madurai',
+  address_pin: 626100
+}
+{
+  _id: ObjectId('69edb6d514cc27b3245a332f'),
+  person_id: 4,
+  person_name: 'Selva',
+  mail: 'selva@mail',
+  address_street: 'car Street',
+  address_city: 'Madurai',
+  address_pin: 626115
+}
+{
+  _id: ObjectId('69edb6d514cc27b3245a3330'),
+  person_id: 5,
+  person_name: 'Gautham',
+  mail: 'gautham@mail',
+  address_street: 'North street',
+  address_city: 'Madurai',
+  address_pin: 626124
+}
+{
+  _id: ObjectId('69edb6d514cc27b3245a3331'),
+  person_id: 6,
+  person_name: 'Viji',
+  address_city: 'Chennai'
+}
+{
+  _id: ObjectId('69edb6d514cc27b3245a3332'),
+  person_id: 7,
+  person_name: 'Prabha',
+  address_city: 'Coimbatote'
+}
+{
+  _id: ObjectId('69edb6d514cc27b3245a3333'),
+  person_id: 8,
+  person_name: 'Prabhu',
+  address_city: 'Chennai'
+}
+{
+  _id: ObjectId('69edb6d514cc27b3245a3334'),
+  person_id: 9,
+  person_name: 'Karthi',
+  address_city: 'Chennai'
+}
+{
+  _id: ObjectId('69edb6d514cc27b3245a3335'),
+  person_id: 10,
+  person_name: 'Muthu',
+  address_city: 'Coimbatote'
+}
+{
+  _id: ObjectId('69edb6d514cc27b3245a3336'),
+  person_id: 11,
+  person_name: 'Monisha',
+  mail: 'test@gmail.com'
+}
+mydb
+db.person.updateOne(
+  { person_id: 2 },
+  { $set: { mail: "anu_new@gmail.com", address_pin: 600001 } }
+)
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+db.person.deleteOne({ person_id: 10 })
+{
+  acknowledged: true,
+  deletedCount: 1
+}
+mydbdb.person.find({})
+{
+  _id: ObjectId('69edb6d514cc27b3245a332c'),
+  person_id: 1,
+  person_name: 'Parkavi',
+  mail: 'kavi@gmail.com',
+  address_street: 'South Street',
+  address_city: 'Madurai',
+  address_pin: 626130
+}
+{
+  _id: ObjectId('69edb6d514cc27b3245a332d'),
+  person_id: 2,
+  person_name: 'Anu',
+  mail: 'anu_new@gmail.com',
+  address_street: 'T Nagar',
+  address_city: 'Chennai',
+  address_pin: 600001
+}
+{
+  _id: ObjectId('69edb6d514cc27b3245a332e'),
+  person_id: 3,
+  person_name: 'Rajan',
+  mail: 'newmail@gmail.com',
+  address_street: 'NGO COLONY',
+  address_city: 'Madurai',
+  address_pin: 626100
+}
+{
+  _id: ObjectId('69edb6d514cc27b3245a332f'),
+  person_id: 4,
+  person_name: 'Selva',
+  mail: 'selva@mail',
+  address_street: 'car Street',
+  address_city: 'Madurai',
+  address_pin: 626115
+}
+{
+  _id: ObjectId('69edb6d514cc27b3245a3330'),
+  person_id: 5,
+  person_name: 'Gautham',
+  mail: 'gautham@mail',
+  address_street: 'North street',
+  address_city: 'Madurai',
+  address_pin: 626124
+}
+{
+  _id: ObjectId('69edb6d514cc27b3245a3331'),
+  person_id: 6,
+  person_name: 'Viji',
+  address_city: 'Chennai'
+}
+{
+  _id: ObjectId('69edb6d514cc27b3245a3332'),
+  person_id: 7,
+  person_name: 'Prabha',
+  address_city: 'Coimbatote'
+}
+{
+  _id: ObjectId('69edb6d514cc27b3245a3333'),
+  person_id: 8,
+  person_name: 'Prabhu',
+  address_city: 'Chennai'
+}
+{
+  _id: ObjectId('69edb6d514cc27b3245a3334'),
+  person_id: 9,
+  person_name: 'Karthi',
+  address_city: 'Chennai'
+}
+{
+  _id: ObjectId('69edb6d514cc27b3245a3336'),
+  person_id: 11,
+  person_name: 'Monisha',
+  mail: 'test@gmail.com'
+}
+db.person.deleteMany({ address_city: "Chennai" })
+{
+  acknowledged: true,
+  deletedCount: 4
+}
+db.person.find({})
+{
+  _id: ObjectId('69edb6d514cc27b3245a332c'),
+  person_id: 1,
+  person_name: 'Parkavi',
+  mail: 'kavi@gmail.com',
+  address_street: 'South Street',
+  address_city: 'Madurai',
+  address_pin: 626130
+}
+{
+  _id: ObjectId('69edb6d514cc27b3245a332e'),
+  person_id: 3,
+  person_name: 'Rajan',
+  mail: 'newmail@gmail.com',
+  address_street: 'NGO COLONY',
+  address_city: 'Madurai',
+  address_pin: 626100
+}
+{
+  _id: ObjectId('69edb6d514cc27b3245a332f'),
+  person_id: 4,
+  person_name: 'Selva',
+  mail: 'selva@mail',
+  address_street: 'car Street',
+  address_city: 'Madurai',
+  address_pin: 626115
+}
+{
+  _id: ObjectId('69edb6d514cc27b3245a3330'),
+  person_id: 5,
+  person_name: 'Gautham',
+  mail: 'gautham@mail',
+  address_street: 'North street',
+  address_city: 'Madurai',
+  address_pin: 626124
+}
+{
+  _id: ObjectId('69edb6d514cc27b3245a3332'),
+  person_id: 7,
+  person_name: 'Prabha',
+  address_city: 'Coimbatote'
+}
+{
+  _id: ObjectId('69edb6d514cc27b3245a3336'),
+  person_id: 11,
+  person_name: 'Monisha',
+  mail: 'test@gmail.com'
+}
+db.person.deleteMany({})
+db.person.deleteMany({})
+{
+  acknowledged: true,
+  deletedCount: 6
+}
+db.person.find({})
+mydb
+db.person.insertMany([
+  {
+    person_id: 1,
+    person_name: "Parkavi",
+    mail: "kavi@gmail.com",
+    address_street: "South Street",
+    address_city: "Sivakasi",
+    address_pin: 626130
+  },
+  {
+    person_id: 2,
+    person_name: "Anu",
+    mail: "anu27@gmail.com",
+    address_street: "T Nagar",
+    address_city: "Chennai",
+    address_pin: 626123
+  },
+  {
+    person_id: 3,
+    person_name: "Rajan",
+    mail: "raj3@gmail",
+    address_street: "NGO COLONY",
+    address_city: "Madurai",
+    address_pin: 626100
+  },
+  {
+    person_id: 4,
+    person_name: "Selva",
+    mail: "selva@mail",
+    address_street: "car Street",
+    address_city: "Sivakasi",
+    address_pin: 626115
+  },
+  {
+    person_id: 5,
+    person_name: "Gautham",
+    mail: "gautham@mail",
+    address_street: "North street",
+    address_city: "Madurai",
+    address_pin: 626124
+  },
+  {
+    person_id: 6,
+    person_name: "Viji",
+    address_city: "Chennai"
+  },
+  {
+    person_id: 7,
+    person_name: "Prabha",
+    address_city: "Coimbatote"
+  },
+  {
+    person_id: 8,
+    person_name: "Prabhu",
+    address_city: "Chennai"
+  },
+  {
+    person_id: 9,
+    person_name: "Karthi",
+    address_city: "Chennai"
+  },
+  {
+    person_id: 10,
+    person_name: "Muthu",
+    address_city: "Coimbatote"
+  },
+  {
+    person_id: 11,
+    person_name: "Monisha",
+    mail: "test@gmail.com"
+  }
+])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('69ee447614cc27b3245a3337'),
+    '1': ObjectId('69ee447614cc27b3245a3338'),
+    '2': ObjectId('69ee447614cc27b3245a3339'),
+    '3': ObjectId('69ee447614cc27b3245a333a'),
+    '4': ObjectId('69ee447614cc27b3245a333b'),
+    '5': ObjectId('69ee447614cc27b3245a333c'),
+    '6': ObjectId('69ee447614cc27b3245a333d'),
+    '7': ObjectId('69ee447614cc27b3245a333e'),
+    '8': ObjectId('69ee447614cc27b3245a333f'),
+    '9': ObjectId('69ee447614cc27b3245a3340'),
+    '10': ObjectId('69ee447614cc27b3245a3341')
+  }
+}
+db.person.updateOne(
+  { person_id: 2 },
+  { $set: { mail: "anu_new@gmail.com", address_pin: 600001 } }
+)
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+mydb
+db.person.find({})
+{
+  _id: ObjectId('69ee447614cc27b3245a3337'),
+  person_id: 1,
+  person_name: 'Parkavi',
+  mail: 'kavi@gmail.com',
+  address_street: 'South Street',
+  address_city: 'Sivakasi',
+  address_pin: 626130
+}
+{
+  _id: ObjectId('69ee447614cc27b3245a3338'),
+  person_id: 2,
+  person_name: 'Anu',
+  mail: 'anu_new@gmail.com',
+  address_street: 'T Nagar',
+  address_city: 'Chennai',
+  address_pin: 600001
+}
+{
+  _id: ObjectId('69ee447614cc27b3245a3339'),
+  person_id: 3,
+  person_name: 'Rajan',
+  mail: 'raj3@gmail',
+  address_street: 'NGO COLONY',
+  address_city: 'Madurai',
+  address_pin: 626100
+}
+{
+  _id: ObjectId('69ee447614cc27b3245a333a'),
+  person_id: 4,
+  person_name: 'Selva',
+  mail: 'selva@mail',
+  address_street: 'car Street',
+  address_city: 'Sivakasi',
+  address_pin: 626115
+}
+{
+  _id: ObjectId('69ee447614cc27b3245a333b'),
+  person_id: 5,
+  person_name: 'Gautham',
+  mail: 'gautham@mail',
+  address_street: 'North street',
+  address_city: 'Madurai',
+  address_pin: 626124
+}
+{
+  _id: ObjectId('69ee447614cc27b3245a333c'),
+  person_id: 6,
+  person_name: 'Viji',
+  address_city: 'Chennai'
+}
+{
+  _id: ObjectId('69ee447614cc27b3245a333d'),
+  person_id: 7,
+  person_name: 'Prabha',
+  address_city: 'Coimbatote'
+}
+{
+  _id: ObjectId('69ee447614cc27b3245a333e'),
+  person_id: 8,
+  person_name: 'Prabhu',
+  address_city: 'Chennai'
+}
+{
+  _id: ObjectId('69ee447614cc27b3245a333f'),
+  person_id: 9,
+  person_name: 'Karthi',
+  address_city: 'Chennai'
+}
+{
+  _id: ObjectId('69ee447614cc27b3245a3340'),
+  person_id: 10,
+  person_name: 'Muthu',
+  address_city: 'Coimbatote'
+}
+{
+  _id: ObjectId('69ee447614cc27b3245a3341'),
+  person_id: 11,
+  person_name: 'Monisha',
+  mail: 'test@gmail.com'
+}
+mydb
+db.person.updateMany(
+  {},
+  { $set: { phone: null } }
+)
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 11,
+  modifiedCount: 11,
+  upsertedCount: 0
+}
+mydb
+db.person.updateMany(
+  {},
+  { $unset: { mail: "" } }
+)
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 11,
+  modifiedCount: 6,
+  upsertedCount: 0
+}
+mydb
+db.person.updateMany(
+  {},
+  { $unset: { mail: "" } }
+)
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 11,
+  modifiedCount: 6,
+  upsertedCount: 0
+}
+db.person.updateMany(
+  {},
+  { $rename: { "person_name": "full_name" } }
+)
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 11,
+  modifiedCount: 11,
+  upsertedCount: 0
+}
+db.person.find({})
+{
+  _id: ObjectId('69ee447614cc27b3245a3337'),
+  person_id: 1,
+  address_street: 'South Street',
+  address_city: 'Sivakasi',
+  address_pin: 626130,
+  phone: null,
+  full_name: 'Parkavi'
+}
+{
+  _id: ObjectId('69ee447614cc27b3245a3338'),
+  person_id: 2,
+  address_street: 'T Nagar',
+  address_city: 'Chennai',
+  address_pin: 600001,
+  phone: null,
+  full_name: 'Anu'
+}
+{
+  _id: ObjectId('69ee447614cc27b3245a3339'),
+  person_id: 3,
+  address_street: 'NGO COLONY',
+  address_city: 'Madurai',
+  address_pin: 626100,
+  phone: null,
+  full_name: 'Rajan'
+}
+{
+  _id: ObjectId('69ee447614cc27b3245a333a'),
+  person_id: 4,
+  address_street: 'car Street',
+  address_city: 'Sivakasi',
+  address_pin: 626115,
+  phone: null,
+  full_name: 'Selva'
+}
+{
+  _id: ObjectId('69ee447614cc27b3245a333b'),
+  person_id: 5,
+  address_street: 'North street',
+  address_city: 'Madurai',
+  address_pin: 626124,
+  phone: null,
+  full_name: 'Gautham'
+}
+{
+  _id: ObjectId('69ee447614cc27b3245a333c'),
+  person_id: 6,
+  address_city: 'Chennai',
+  phone: null,
+  full_name: 'Viji'
+}
+{
+  _id: ObjectId('69ee447614cc27b3245a333d'),
+  person_id: 7,
+  address_city: 'Coimbatote',
+  phone: null,
+  full_name: 'Prabha'
+}
+{
+  _id: ObjectId('69ee447614cc27b3245a333e'),
+  person_id: 8,
+  address_city: 'Chennai',
+  phone: null,
+  full_name: 'Prabhu'
+}
+{
+  _id: ObjectId('69ee447614cc27b3245a333f'),
+  person_id: 9,
+  address_city: 'Chennai',
+  phone: null,
+  full_name: 'Karthi'
+}
+{
+  _id: ObjectId('69ee447614cc27b3245a3340'),
+  person_id: 10,
+  address_city: 'Coimbatote',
+  phone: null,
+  full_name: 'Muthu'
+}
+{
+  _id: ObjectId('69ee447614cc27b3245a3341'),
+  person_id: 11,
+  phone: null,
+  full_name: 'Monisha'
+}
+mydb
+db.person.updateMany(
+  {},
+  [
+    { $set: { address_pin: { $toInt: "$address_pin" } } }
+  ]
+)
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 11,
+  modifiedCount: 6,
+  upsertedCount: 0
+}
+db.person.createIndex({ person_id: 1 }, { unique: true })
+person_id_1
+db.person.find({})
+{
+  _id: ObjectId('69ee447614cc27b3245a3337'),
+  person_id: 1,
+  address_street: 'South Street',
+  address_city: 'Sivakasi',
+  address_pin: 626130,
+  phone: null,
+  full_name: 'Parkavi'
+}
+{
+  _id: ObjectId('69ee447614cc27b3245a3338'),
+  person_id: 2,
+  address_street: 'T Nagar',
+  address_city: 'Chennai',
+  address_pin: 600001,
+  phone: null,
+  full_name: 'Anu'
+}
+{
+  _id: ObjectId('69ee447614cc27b3245a3339'),
+  person_id: 3,
+  address_street: 'NGO COLONY',
+  address_city: 'Madurai',
+  address_pin: 626100,
+  phone: null,
+  full_name: 'Rajan'
+}
+{
+  _id: ObjectId('69ee447614cc27b3245a333a'),
+  person_id: 4,
+  address_street: 'car Street',
+  address_city: 'Sivakasi',
+  address_pin: 626115,
+  phone: null,
+  full_name: 'Selva'
+}
+{
+  _id: ObjectId('69ee447614cc27b3245a333b'),
+  person_id: 5,
+  address_street: 'North street',
+  address_city: 'Madurai',
+  address_pin: 626124,
+  phone: null,
+  full_name: 'Gautham'
+}
+{
+  _id: ObjectId('69ee447614cc27b3245a333c'),
+  person_id: 6,
+  address_city: 'Chennai',
+  phone: null,
+  full_name: 'Viji',
+  address_pin: null
+}
+{
+  _id: ObjectId('69ee447614cc27b3245a333d'),
+  person_id: 7,
+  address_city: 'Coimbatote',
+  phone: null,
+  full_name: 'Prabha',
+  address_pin: null
+}
+{
+  _id: ObjectId('69ee447614cc27b3245a333e'),
+  person_id: 8,
+  address_city: 'Chennai',
+  phone: null,
+  full_name: 'Prabhu',
+  address_pin: null
+}
+{
+  _id: ObjectId('69ee447614cc27b3245a333f'),
+  person_id: 9,
+  address_city: 'Chennai',
+  phone: null,
+  full_name: 'Karthi',
+  address_pin: null
+}
+{
+  _id: ObjectId('69ee447614cc27b3245a3340'),
+  person_id: 10,
+  address_city: 'Coimbatote',
+  phone: null,
+  full_name: 'Muthu',
+  address_pin: null
+}
+{
+  _id: ObjectId('69ee447614cc27b3245a3341'),
+  person_id: 11,
+  phone: null,
+  full_name: 'Monisha',
+  address_pin: null
+}
+mydb
+db.createCollection('Expense')
+{ ok: 1 }
+db.expenses.insertMany([
+  {
+    EXPENSE_ID: 2000, BRANCH_ID: 102, EXPENSE_D: ISODate("2024-03-18"),
+    EXPENSE_TYPE: "Daily wages", PERSON_NAM: "Parkavi", EXPENSE_AMT: 10000, PERSON_ID: 1
+  },
+  {
+    EXPENSE_ID: 2001, BRANCH_ID: 104, EXPENSE_D: ISODate("2023-06-23"),
+    EXPENSE_TYPE: "Monthly Wages", PERSON_NAM: "Selva", EXPENSE_AMT: 11002, PERSON_ID: 4
+  },
+  {
+    EXPENSE_ID: 2002, BRANCH_ID: 105, EXPENSE_D: ISODate("2025-07-28"),
+    EXPENSE_TYPE: "Weekly Wages", PERSON_NAM: "Gautham", EXPENSE_AMT: 13000, PERSON_ID: 5
+  },
+  {
+    EXPENSE_ID: 2003, BRANCH_ID: 101, EXPENSE_D: ISODate("2024-05-19"),
+    EXPENSE_TYPE: "Daily Wages", PERSON_NAM: "Anu", EXPENSE_AMT: 12000, PERSON_ID: 2
+  },
+  {
+    EXPENSE_ID: 2005, BRANCH_ID: 103, EXPENSE_D: ISODate("2026-04-12"),
+    EXPENSE_TYPE: "Monthly", PERSON_NAM: "Prabha", EXPENSE_AMT: 8000, PERSON_ID: 7
+  },
+  {
+    EXPENSE_ID: 2004, BRANCH_ID: 104, EXPENSE_D: ISODate("2026-08-06"),
+    EXPENSE_TYPE: "Yearly", PERSON_NAM: "Rajan", EXPENSE_AMT: 6000, PERSON_ID: 3
+  },
+  {
+    EXPENSE_ID: 2006, BRANCH_ID: 103, EXPENSE_D: ISODate("2025-05-14"),
+    EXPENSE_TYPE: "Daily", PERSON_NAM: "Gautham", EXPENSE_AMT: 10000, PERSON_ID: 5
+  },
+  {
+    EXPENSE_ID: 2010, BRANCH_ID: 102, EXPENSE_D: ISODate("1991-12-19"),
+    EXPENSE_TYPE: "Monthly wages", PERSON_NAM: "Anu", EXPENSE_AMT: 12000, PERSON_ID: 2
+  },
+  {
+    EXPENSE_ID: 2007, BRANCH_ID: 104, EXPENSE_D: ISODate("2026-04-13"),
+    EXPENSE_TYPE: "Daily", PERSON_NAM: "Selva", EXPENSE_AMT: 13000, PERSON_ID: 4
+  },
+  {
+    EXPENSE_ID: 2008, BRANCH_ID: 107, EXPENSE_D: ISODate("2028-09-09"),
+    EXPENSE_TYPE: "Yearly wages", PERSON_NAM: "Parkavi", EXPENSE_AMT: 12000, PERSON_ID: 1
+  },
+  {
+    EXPENSE_ID: 2011, BRANCH_ID: 103, EXPENSE_D: ISODate("1991-02-02"),
+    EXPENSE_TYPE: "Weekly wages", PERSON_NAM: "Parkavi", EXPENSE_AMT: 9000, PERSON_ID: 1
+  },
+  {
+    EXPENSE_ID: 2012, BRANCH_ID: 102, EXPENSE_D: ISODate("2000-02-20"),
+    EXPENSE_TYPE: "Monthly wages", PERSON_NAM: "Anu", EXPENSE_AMT: 20500, PERSON_ID: 2
+  },
+  {
+    EXPENSE_ID: 2013, BRANCH_ID: 102, EXPENSE_D: ISODate("1990-02-20"),
+    EXPENSE_TYPE: "Daily wages", PERSON_NAM: "Anu", EXPENSE_AMT: 28000, PERSON_ID: 3
+  },
+  {
+    EXPENSE_ID: 2014, BRANCH_ID: 104, EXPENSE_D: ISODate("2026-04-08"),
+    EXPENSE_TYPE: "daily wags", PERSON_NAM: "Selva", EXPENSE_AMT: 12500, PERSON_ID: 4
+  },
+  {
+    EXPENSE_ID: 1, BRANCH_ID: 104, EXPENSE_D: ISODate("1989-09-09"),
+    EXPENSE_TYPE: "", PERSON_NAM: "kav", EXPENSE_AMT: 22, PERSON_ID: 22
+  },
+  {
+    EXPENSE_ID: 22, BRANCH_ID: 103, EXPENSE_D: ISODate("1989-09-09"),
+    EXPENSE_TYPE: "aiy", PERSON_NAM: "name", EXPENSE_AMT: 223, PERSON_ID: 11
+  },
+  {
+    EXPENSE_ID: 2016, BRANCH_ID: 104, EXPENSE_D: ISODate("2006-09-09"),
+    EXPENSE_TYPE: "Daily", PERSON_NAM: "Anu", EXPENSE_AMT: 10000, PERSON_ID: 2
+  }
+]);
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('69efffa514cc27b3245a3342'),
+    '1': ObjectId('69efffa514cc27b3245a3343'),
+    '2': ObjectId('69efffa514cc27b3245a3344'),
+    '3': ObjectId('69efffa514cc27b3245a3345'),
+    '4': ObjectId('69efffa514cc27b3245a3346'),
+    '5': ObjectId('69efffa514cc27b3245a3347'),
+    '6': ObjectId('69efffa514cc27b3245a3348'),
+    '7': ObjectId('69efffa514cc27b3245a3349'),
+    '8': ObjectId('69efffa514cc27b3245a334a'),
+    '9': ObjectId('69efffa514cc27b3245a334b'),
+    '10': ObjectId('69efffa514cc27b3245a334c'),
+    '11': ObjectId('69efffa514cc27b3245a334d'),
+    '12': ObjectId('69efffa514cc27b3245a334e'),
+    '13': ObjectId('69efffa514cc27b3245a334f'),
+    '14': ObjectId('69efffa514cc27b3245a3350'),
+    '15': ObjectId('69efffa514cc27b3245a3351'),
+    '16': ObjectId('69efffa514cc27b3245a3352')
+  }
+}
+mydb
+db.expenses.aggregate([
+  { $group: { _id: "$PERSON_NAM", totalExpense: { $sum: "$EXPENSE_AMT" } } }
+]);
+{
+  _id: 'Prabha',
+  totalExpense: 8000
+}
+{
+  _id: 'Selva',
+  totalExpense: 36502
+}
+{
+  _id: 'Parkavi',
+  totalExpense: 31000
+}
+{
+  _id: 'Gautham',
+  totalExpense: 23000
+}
+{
+  _id: 'Rajan',
+  totalExpense: 6000
+}
+{
+  _id: 'kav',
+  totalExpense: 22
+}
+{
+  _id: 'Anu',
+  totalExpense: 82500
+}
+{
+  _id: 'name',
+  totalExpense: 223
+}
+mydb
+db.expenses.aggregate([
+  { $group: { _id: "$BRANCH_ID", avgExpense: { $avg: "$EXPENSE_AMT" } } }
+]);
+{
+  _id: 101,
+  avgExpense: 12000
+}
+{
+  _id: 105,
+  avgExpense: 13000
+}
+{
+  _id: 102,
+  avgExpense: 17625
+}
+{
+  _id: 104,
+  avgExpense: 8754
+}
+{
+  _id: 103,
+  avgExpense: 6805.75
+}
+{
+  _id: 107,
+  avgExpense: 12000
+}
+mydb
+db.expenses.aggregate([
+  { $group: {
+      _id: "$EXPENSE_TYPE",
+      maxExpense: { $max: "$EXPENSE_AMT" },
+      minExpense: { $min: "$EXPENSE_AMT" }
+  }}
+]);
+{
+  _id: 'daily wags',
+  maxExpense: 12500,
+  minExpense: 12500
+}
+{
+  _id: 'Daily Wages',
+  maxExpense: 12000,
+  minExpense: 12000
+}
+{
+  _id: 'Weekly Wages',
+  maxExpense: 13000,
+  minExpense: 13000
+}
+{
+  _id: 'Daily wages',
+  maxExpense: 28000,
+  minExpense: 10000
+}
+{
+  _id: 'Monthly Wages',
+  maxExpense: 11002,
+  minExpense: 11002
+}
+{
+  _id: 'Monthly',
+  maxExpense: 8000,
+  minExpense: 8000
+}
+{
+  _id: 'Yearly',
+  maxExpense: 6000,
+  minExpense: 6000
+}
+{
+  _id: 'Daily',
+  maxExpense: 13000,
+  minExpense: 10000
+}
+{
+  _id: 'Yearly wages',
+  maxExpense: 12000,
+  minExpense: 12000
+}
+{
+  _id: 'Weekly wages',
+  maxExpense: 9000,
+  minExpense: 9000
+}
+{
+  _id: 'aiy',
+  maxExpense: 223,
+  minExpense: 223
+}
+{
+  _id: '',
+  maxExpense: 22,
+  minExpense: 22
+}
+{
+  _id: 'Monthly wages',
+  maxExpense: 20500,
+  minExpense: 12000
+}
+mydb
+db.expenses.find().sort({ EXPENSE_AMT: -1 });
+{
+  _id: ObjectId('69efffa514cc27b3245a334e'),
+  EXPENSE_ID: 2013,
+  BRANCH_ID: 102,
+  EXPENSE_D: 1990-02-20T00:00:00.000Z,
+  EXPENSE_TYPE: 'Daily wages',
+  PERSON_NAM: 'Anu',
+  EXPENSE_AMT: 28000,
+  PERSON_ID: 3
+}
+{
+  _id: ObjectId('69efffa514cc27b3245a334d'),
+  EXPENSE_ID: 2012,
+  BRANCH_ID: 102,
+  EXPENSE_D: 2000-02-20T00:00:00.000Z,
+  EXPENSE_TYPE: 'Monthly wages',
+  PERSON_NAM: 'Anu',
+  EXPENSE_AMT: 20500,
+  PERSON_ID: 2
+}
+{
+  _id: ObjectId('69efffa514cc27b3245a3344'),
+  EXPENSE_ID: 2002,
+  BRANCH_ID: 105,
+  EXPENSE_D: 2025-07-28T00:00:00.000Z,
+  EXPENSE_TYPE: 'Weekly Wages',
+  PERSON_NAM: 'Gautham',
+  EXPENSE_AMT: 13000,
+  PERSON_ID: 5
+}
+{
+  _id: ObjectId('69efffa514cc27b3245a334a'),
+  EXPENSE_ID: 2007,
+  BRANCH_ID: 104,
+  EXPENSE_D: 2026-04-13T00:00:00.000Z,
+  EXPENSE_TYPE: 'Daily',
+  PERSON_NAM: 'Selva',
+  EXPENSE_AMT: 13000,
+  PERSON_ID: 4
+}
+{
+  _id: ObjectId('69efffa514cc27b3245a334f'),
+  EXPENSE_ID: 2014,
+  BRANCH_ID: 104,
+  EXPENSE_D: 2026-04-08T00:00:00.000Z,
+  EXPENSE_TYPE: 'daily wags',
+  PERSON_NAM: 'Selva',
+  EXPENSE_AMT: 12500,
+  PERSON_ID: 4
+}
+{
+  _id: ObjectId('69efffa514cc27b3245a3345'),
+  EXPENSE_ID: 2003,
+  BRANCH_ID: 101,
+  EXPENSE_D: 2024-05-19T00:00:00.000Z,
+  EXPENSE_TYPE: 'Daily Wages',
+  PERSON_NAM: 'Anu',
+  EXPENSE_AMT: 12000,
+  PERSON_ID: 2
+}
+{
+  _id: ObjectId('69efffa514cc27b3245a3349'),
+  EXPENSE_ID: 2010,
+  BRANCH_ID: 102,
+  EXPENSE_D: 1991-12-19T00:00:00.000Z,
+  EXPENSE_TYPE: 'Monthly wages',
+  PERSON_NAM: 'Anu',
+  EXPENSE_AMT: 12000,
+  PERSON_ID: 2
+}
+{
+  _id: ObjectId('69efffa514cc27b3245a334b'),
+  EXPENSE_ID: 2008,
+  BRANCH_ID: 107,
+  EXPENSE_D: 2028-09-09T00:00:00.000Z,
+  EXPENSE_TYPE: 'Yearly wages',
+  PERSON_NAM: 'Parkavi',
+  EXPENSE_AMT: 12000,
+  PERSON_ID: 1
+}
+{
+  _id: ObjectId('69efffa514cc27b3245a3343'),
+  EXPENSE_ID: 2001,
+  BRANCH_ID: 104,
+  EXPENSE_D: 2023-06-23T00:00:00.000Z,
+  EXPENSE_TYPE: 'Monthly Wages',
+  PERSON_NAM: 'Selva',
+  EXPENSE_AMT: 11002,
+  PERSON_ID: 4
+}
+{
+  _id: ObjectId('69efffa514cc27b3245a3342'),
+  EXPENSE_ID: 2000,
+  BRANCH_ID: 102,
+  EXPENSE_D: 2024-03-18T00:00:00.000Z,
+  EXPENSE_TYPE: 'Daily wages',
+  PERSON_NAM: 'Parkavi',
+  EXPENSE_AMT: 10000,
+  PERSON_ID: 1
+}
+{
+  _id: ObjectId('69efffa514cc27b3245a3348'),
+  EXPENSE_ID: 2006,
+  BRANCH_ID: 103,
+  EXPENSE_D: 2025-05-14T00:00:00.000Z,
+  EXPENSE_TYPE: 'Daily',
+  PERSON_NAM: 'Gautham',
+  EXPENSE_AMT: 10000,
+  PERSON_ID: 5
+}
+{
+  _id: ObjectId('69efffa514cc27b3245a3352'),
+  EXPENSE_ID: 2016,
+  BRANCH_ID: 104,
+  EXPENSE_D: 2006-09-09T00:00:00.000Z,
+  EXPENSE_TYPE: 'Daily',
+  PERSON_NAM: 'Anu',
+  EXPENSE_AMT: 10000,
+  PERSON_ID: 2
+}
+{
+  _id: ObjectId('69efffa514cc27b3245a334c'),
+  EXPENSE_ID: 2011,
+  BRANCH_ID: 103,
+  EXPENSE_D: 1991-02-02T00:00:00.000Z,
+  EXPENSE_TYPE: 'Weekly wages',
+  PERSON_NAM: 'Parkavi',
+  EXPENSE_AMT: 9000,
+  PERSON_ID: 1
+}
+{
+  _id: ObjectId('69efffa514cc27b3245a3346'),
+  EXPENSE_ID: 2005,
+  BRANCH_ID: 103,
+  EXPENSE_D: 2026-04-12T00:00:00.000Z,
+  EXPENSE_TYPE: 'Monthly',
+  PERSON_NAM: 'Prabha',
+  EXPENSE_AMT: 8000,
+  PERSON_ID: 7
+}
+{
+  _id: ObjectId('69efffa514cc27b3245a3347'),
+  EXPENSE_ID: 2004,
+  BRANCH_ID: 104,
+  EXPENSE_D: 2026-08-06T00:00:00.000Z,
+  EXPENSE_TYPE: 'Yearly',
+  PERSON_NAM: 'Rajan',
+  EXPENSE_AMT: 6000,
+  PERSON_ID: 3
+}
+{
+  _id: ObjectId('69efffa514cc27b3245a3351'),
+  EXPENSE_ID: 22,
+  BRANCH_ID: 103,
+  EXPENSE_D: 1989-09-09T00:00:00.000Z,
+  EXPENSE_TYPE: 'aiy',
+  PERSON_NAM: 'name',
+  EXPENSE_AMT: 223,
+  PERSON_ID: 11
+}
+{
+  _id: ObjectId('69efffa514cc27b3245a3350'),
+  EXPENSE_ID: 1,
+  BRANCH_ID: 104,
+  EXPENSE_D: 1989-09-09T00:00:00.000Z,
+  EXPENSE_TYPE: '',
+  PERSON_NAM: 'kav',
+  EXPENSE_AMT: 22,
+  PERSON_ID: 22
+}
+mydb
+db.expenses.find().sort({ EXPENSE_D: 1 });
+{
+  _id: ObjectId('69efffa514cc27b3245a3350'),
+  EXPENSE_ID: 1,
+  BRANCH_ID: 104,
+  EXPENSE_D: 1989-09-09T00:00:00.000Z,
+  EXPENSE_TYPE: '',
+  PERSON_NAM: 'kav',
+  EXPENSE_AMT: 22,
+  PERSON_ID: 22
+}
+{
+  _id: ObjectId('69efffa514cc27b3245a3351'),
+  EXPENSE_ID: 22,
+  BRANCH_ID: 103,
+  EXPENSE_D: 1989-09-09T00:00:00.000Z,
+  EXPENSE_TYPE: 'aiy',
+  PERSON_NAM: 'name',
+  EXPENSE_AMT: 223,
+  PERSON_ID: 11
+}
+{
+  _id: ObjectId('69efffa514cc27b3245a334e'),
+  EXPENSE_ID: 2013,
+  BRANCH_ID: 102,
+  EXPENSE_D: 1990-02-20T00:00:00.000Z,
+  EXPENSE_TYPE: 'Daily wages',
+  PERSON_NAM: 'Anu',
+  EXPENSE_AMT: 28000,
+  PERSON_ID: 3
+}
+{
+  _id: ObjectId('69efffa514cc27b3245a334c'),
+  EXPENSE_ID: 2011,
+  BRANCH_ID: 103,
+  EXPENSE_D: 1991-02-02T00:00:00.000Z,
+  EXPENSE_TYPE: 'Weekly wages',
+  PERSON_NAM: 'Parkavi',
+  EXPENSE_AMT: 9000,
+  PERSON_ID: 1
+}
+{
+  _id: ObjectId('69efffa514cc27b3245a3349'),
+  EXPENSE_ID: 2010,
+  BRANCH_ID: 102,
+  EXPENSE_D: 1991-12-19T00:00:00.000Z,
+  EXPENSE_TYPE: 'Monthly wages',
+  PERSON_NAM: 'Anu',
+  EXPENSE_AMT: 12000,
+  PERSON_ID: 2
+}
+{
+  _id: ObjectId('69efffa514cc27b3245a334d'),
+  EXPENSE_ID: 2012,
+  BRANCH_ID: 102,
+  EXPENSE_D: 2000-02-20T00:00:00.000Z,
+  EXPENSE_TYPE: 'Monthly wages',
+  PERSON_NAM: 'Anu',
+  EXPENSE_AMT: 20500,
+  PERSON_ID: 2
+}
+{
+  _id: ObjectId('69efffa514cc27b3245a3352'),
+  EXPENSE_ID: 2016,
+  BRANCH_ID: 104,
+  EXPENSE_D: 2006-09-09T00:00:00.000Z,
+  EXPENSE_TYPE: 'Daily',
+  PERSON_NAM: 'Anu',
+  EXPENSE_AMT: 10000,
+  PERSON_ID: 2
+}
+{
+  _id: ObjectId('69efffa514cc27b3245a3343'),
+  EXPENSE_ID: 2001,
+  BRANCH_ID: 104,
+  EXPENSE_D: 2023-06-23T00:00:00.000Z,
+  EXPENSE_TYPE: 'Monthly Wages',
+  PERSON_NAM: 'Selva',
+  EXPENSE_AMT: 11002,
+  PERSON_ID: 4
+}
+{
+  _id: ObjectId('69efffa514cc27b3245a3342'),
+  EXPENSE_ID: 2000,
+  BRANCH_ID: 102,
+  EXPENSE_D: 2024-03-18T00:00:00.000Z,
+  EXPENSE_TYPE: 'Daily wages',
+  PERSON_NAM: 'Parkavi',
+  EXPENSE_AMT: 10000,
+  PERSON_ID: 1
+}
+{
+  _id: ObjectId('69efffa514cc27b3245a3345'),
+  EXPENSE_ID: 2003,
+  BRANCH_ID: 101,
+  EXPENSE_D: 2024-05-19T00:00:00.000Z,
+  EXPENSE_TYPE: 'Daily Wages',
+  PERSON_NAM: 'Anu',
+  EXPENSE_AMT: 12000,
+  PERSON_ID: 2
+}
+{
+  _id: ObjectId('69efffa514cc27b3245a3348'),
+  EXPENSE_ID: 2006,
+  BRANCH_ID: 103,
+  EXPENSE_D: 2025-05-14T00:00:00.000Z,
+  EXPENSE_TYPE: 'Daily',
+  PERSON_NAM: 'Gautham',
+  EXPENSE_AMT: 10000,
+  PERSON_ID: 5
+}
+{
+  _id: ObjectId('69efffa514cc27b3245a3344'),
+  EXPENSE_ID: 2002,
+  BRANCH_ID: 105,
+  EXPENSE_D: 2025-07-28T00:00:00.000Z,
+  EXPENSE_TYPE: 'Weekly Wages',
+  PERSON_NAM: 'Gautham',
+  EXPENSE_AMT: 13000,
+  PERSON_ID: 5
+}
+{
+  _id: ObjectId('69efffa514cc27b3245a334f'),
+  EXPENSE_ID: 2014,
+  BRANCH_ID: 104,
+  EXPENSE_D: 2026-04-08T00:00:00.000Z,
+  EXPENSE_TYPE: 'daily wags',
+  PERSON_NAM: 'Selva',
+  EXPENSE_AMT: 12500,
+  PERSON_ID: 4
+}
+{
+  _id: ObjectId('69efffa514cc27b3245a3346'),
+  EXPENSE_ID: 2005,
+  BRANCH_ID: 103,
+  EXPENSE_D: 2026-04-12T00:00:00.000Z,
+  EXPENSE_TYPE: 'Monthly',
+  PERSON_NAM: 'Prabha',
+  EXPENSE_AMT: 8000,
+  PERSON_ID: 7
+}
+{
+  _id: ObjectId('69efffa514cc27b3245a334a'),
+  EXPENSE_ID: 2007,
+  BRANCH_ID: 104,
+  EXPENSE_D: 2026-04-13T00:00:00.000Z,
+  EXPENSE_TYPE: 'Daily',
+  PERSON_NAM: 'Selva',
+  EXPENSE_AMT: 13000,
+  PERSON_ID: 4
+}
+{
+  _id: ObjectId('69efffa514cc27b3245a3347'),
+  EXPENSE_ID: 2004,
+  BRANCH_ID: 104,
+  EXPENSE_D: 2026-08-06T00:00:00.000Z,
+  EXPENSE_TYPE: 'Yearly',
+  PERSON_NAM: 'Rajan',
+  EXPENSE_AMT: 6000,
+  PERSON_ID: 3
+}
+{
+  _id: ObjectId('69efffa514cc27b3245a334b'),
+  EXPENSE_ID: 2008,
+  BRANCH_ID: 107,
+  EXPENSE_D: 2028-09-09T00:00:00.000Z,
+  EXPENSE_TYPE: 'Yearly wages',
+  PERSON_NAM: 'Parkavi',
+  EXPENSE_AMT: 12000,
+  PERSON_ID: 1
+}
+mydb
+db.expenses.aggregate([
+  { $group: {
+      _id: { branch: "$BRANCH_ID", person: "$PERSON_NAM" },
+      totalExpense: { $sum: "$EXPENSE_AMT" }
+  }}
+]);
+{
+  _id: {
+    branch: 102,
+    person: 'Anu'
+  },
+  totalExpense: 60500
+}
+{
+  _id: {
+    branch: 103,
+    person: 'Prabha'
+  },
+  totalExpense: 8000
+}
+{
+  _id: {
+    branch: 104,
+    person: 'Selva'
+  },
+  totalExpense: 36502
+}
+{
+  _id: {
+    branch: 102,
+    person: 'Parkavi'
+  },
+  totalExpense: 10000
+}
+{
+  _id: {
+    branch: 105,
+    person: 'Gautham'
+  },
+  totalExpense: 13000
+}
+{
+  _id: {
+    branch: 104,
+    person: 'Rajan'
+  },
+  totalExpense: 6000
+}
+{
+  _id: {
+    branch: 103,
+    person: 'Gautham'
+  },
+  totalExpense: 10000
+}
+{
+  _id: {
+    branch: 101,
+    person: 'Anu'
+  },
+  totalExpense: 12000
+}
+{
+  _id: {
+    branch: 107,
+    person: 'Parkavi'
+  },
+  totalExpense: 12000
+}
+{
+  _id: {
+    branch: 103,
+    person: 'Parkavi'
+  },
+  totalExpense: 9000
+}
+{
+  _id: {
+    branch: 103,
+    person: 'name'
+  },
+  totalExpense: 223
+}
+{
+  _id: {
+    branch: 104,
+    person: 'Anu'
+  },
+  totalExpense: 10000
+}
+{
+  _id: {
+    branch: 104,
+    person: 'kav'
+  },
+  totalExpense: 22
+}
+mydb
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
